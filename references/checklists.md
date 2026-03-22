@@ -2,6 +2,29 @@
 
 ---
 
+## 🚨 Phase Completion (MUST-1 Enforcement)
+
+**MUST check before declaring Phase complete:**
+
+### Documentation Updates
+- [ ] README.md checklist for current Phase updated (all tasks marked [x])
+- [ ] README.md next phase status updated (🟡 In Progress / ⏳ Pending)
+- [ ] `docs/notes/YYYY-MM-DD-phaseN-completion.md` created
+- [ ] Completion report includes: objectives, completed work, verification results, next steps
+
+### Verification Execution
+- [ ] Code syntax check passed (if applicable)
+- [ ] Test results passed (if applicable)
+- [ ] Tool/function count correct (if applicable)
+
+### User Communication
+- [ ] Explicitly asked: "Phase N completed. Continue to Phase N+1?"
+- [ ] ⛔ Stopped and waiting for confirmation, no next phase code executed
+
+**Violation Recovery**: If any of the above is violated, stop immediately and roll back to last valid state.
+
+---
+
 ## Pre-Review (Claw Self-Check)
 
 **Code**:
@@ -87,4 +110,4 @@
 
 ---
 
-**Version**: 0.4.0
+**Version**: 0.5.0

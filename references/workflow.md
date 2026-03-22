@@ -2,6 +2,64 @@
 
 **Documentation-First**: No implementation without approved spec/ADR.
 
+---
+
+## 🚨 Phase Completion Protocol (MUST-1)
+
+**After each Phase completes, MUST execute the following, then STOP and wait for confirmation:**
+
+### Step 1: Update README.md
+
+```markdown
+### Phase N: {phase_name} (✅ Completed - YYYY-MM-DD)
+- [x] Task 1
+- [x] Task 2
+
+### Phase N+1: {next_phase} (🟡 In Progress / ⏳ Pending)
+- [ ] Task 1
+```
+
+### Step 2: Write Completion Report
+
+**File**: `docs/notes/YYYY-MM-DD-phaseN-completion.md`
+
+**Template**:
+```markdown
+# YYYY-MM-DD Phase N Completion Report
+
+**Session**: Date-time range
+**Executor**: claw
+**Phase**: Phase N - Phase Name
+
+## Task Objectives
+{List objectives for this Phase}
+
+## Completed Work
+{Detailed list of completed tasks}
+
+## Verification Results
+{Command output, test results, etc.}
+
+## Next: Phase N+1
+{Next phase tasks}
+
+**Status**: ✅ Phase N completed, waiting confirmation to proceed to Phase N+1
+```
+
+### Step 3: Ask User
+
+**Must explicitly ask**:
+> "Phase N completed (verification passed). Continue to Phase N+1?"
+
+### Step 4: ⛔ Wait for Confirmation
+
+**Forbidden behaviors**:
+- ❌ Execute Phase N+1 code while waiting
+- ❌ Assume "continue is default behavior"
+- ❌ Skip confirmation step
+
+---
+
 ## Phase Overview
 
 ```
@@ -157,4 +215,4 @@ Break feature into sessions (1-3 tasks per session):
 
 ---
 
-**Version**: 0.4.0 | **See also**: [SKILL.md](../SKILL.md), [checklists.md](checklists.md)
+**Version**: 0.5.0 | **See also**: [SKILL.md](../SKILL.md), [checklists.md](checklists.md)

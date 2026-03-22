@@ -30,21 +30,68 @@ Follow corresponding template in `project-types/`.
 
 ## Step 2: Initialize README.md
 
+**README.md is the single source of truth for project status (MUST-4)**
+
 ```markdown
 # {Project Name}
 
-**Version**: 0.1.0 | **Status**: 🟡 Development
+> {One-sentence description}
+
+**Version**: 0.1.0  
+**Status**: 🟡 Development  
+**Last Updated**: YYYY-MM-DD
+
+---
 
 ## 🎯 Problem
 {2-3 sentences}
 
-## 📋 Current Iteration (YYYY-MM-DD ~ )
-### In Progress
-- [ ] {First task}
+## ✨ Solution
+{2-3 sentences}
 
-### Done
-- [x] Project initialization
+---
+
+## 📋 Current Iteration (YYYY-MM-DD ~ )
+
+### Design Phase (✅ Completed)
+- [x] Initial design
+- [x] Architecture decisions
+
+### Phase 1-4: Implementation
+
+#### Phase 1: {phase_name} (🟡 In Progress / ⏳ Pending / ✅ Completed - YYYY-MM-DD)
+- [ ] Task 1
+- [ ] Task 2
+
+#### Phase 2: {phase_name} (⏳ Pending)
+- [ ] Task 1
+
+### Phase 5-7: {stage_name} (⏳ Pending)
+- [ ] Phase 5: {name}
+- [ ] Phase 6: {name}
+
+---
+
+## 📚 Documentation
+
+| Directory | Content |
+|-----------|---------|
+| [docs/architecture/](docs/architecture/) | System design |
+| [docs/specs/](docs/specs/) | Feature specs |
+| [docs/decisions/](docs/decisions/) | ADRs |
+| [docs/notes/](docs/notes/) | Session logs |
+
+---
+
+**Project Type**: {type}  
+**Tech Stack**: {stack}  
+**Maintainer**: {name}
 ```
+
+**Key sections**:
+- Current Phase clearly labeled with emoji (🟡/⏳/✅)
+- Date-stamped completion
+- Task checkboxes for transparency
 
 ---
 

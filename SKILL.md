@@ -1,270 +1,87 @@
 ---
 name: project-pilot
-description: Project management system for single human + claw collaboration. Use when starting or managing a development project where human provides design guidance and oversight while claw handles implementation, testing, and documentation. Provides workflows for project initialization, iterative development, decision tracking, and release management.
+description: Project management for single human + claw collaboration. Human = Commander (design/oversight), Claw = Pilot (implementation/testing/docs).
 ---
 
 # Project Pilot
 
-Project management for single human + claw collaboration.
+**Human = Commander, Claw = Pilot** — Lightweight project management for single human + claw teams.
 
 ## Core Principles
 
-1. **Human = Commander, Claw = Pilot** — Human sets direction and approves key decisions; claw executes details
+1. **Documentation-First** — No code without approved spec/ADR
 2. **State Transparency** — Project status always visible in README.md
-3. **Decision Traceability** — All significant decisions recorded with rationale
-4. **Documentation as Code** — Docs live in version control, updated incrementally
-5. **Automation First** — Claw auto-maintains checklists, status boards, and changelogs
-6. **Flexible Structure** — Adapt directory layout to project type
+3. **Decision Traceability** — All significant decisions recorded
+4. **Session Discipline** — Keep sessions lightweight, split aggressively
 
 ## Quick Start
 
-### New Project Initialization
-
 ```bash
-# 1. Identify project type (see Project Types below)
-# 2. Create project structure per type template
-# 3. Initialize README.md with project board
-# 4. Create first decision record (architecture choice)
-# 5. Set up iteration tracker
+# 1. Identify project type
+# 2. Run initialization checklist
+# 3. Start Phase 1 (Specification)
 ```
 
-See [references/project-init.md](references/project-init.md) for complete initialization checklist.
+📋 **Full checklist**: [references/project-init.md](references/project-init.md)
 
 ## Project Types
 
-Select the appropriate structure based on project type:
-
 | Type | Template | Use Case |
 |------|----------|----------|
-| **OpenClaw Plugin** | [openclaw-plugin.md](references/project-types/openclaw-plugin.md) | OpenClaw 插件、MCP 桥接 |
-| **Python Package** | [python-package.md](references/project-types/python-package.md) | Python 库、CLI、MCP Server |
-| **Web App** | [web-app.md](references/project-types/web-app.md) | 前端/全栈 Web 应用 |
-| **CLI Tool** | [cli-tool.md](references/project-types/cli-tool.md) | 命令行工具 |
-| **Generic** | (default below) | 其他软件项目 |
+| OpenClaw Plugin | [openclaw-plugin.md](references/project-types/openclaw-plugin.md) | OpenClaw 插件、MCP 桥接 |
+| Python Package | [python-package.md](references/project-types/python-package.md) | Python 库、CLI、MCP Server |
+| Web App | [web-app.md](references/project-types/web-app.md) | 前端/全栈 Web 应用 |
+| CLI Tool | [cli-tool.md](references/project-types/cli-tool.md) | 命令行工具 |
+| Generic | (default) | 其他软件项目 |
 
-### Generic Project Structure (Default)
+## Workflow Overview
 
 ```
-{project-root}/
-├── README.md                 # Entry point + project board (REQUIRED)
-├── CHANGELOG.md              # Auto-maintained by claw
-│
-├── docs/
-│   ├── README.md             # Doc navigation + naming conventions
-│   ├── architecture/         # System architecture
-│   │   ├── overview.md       # High-level system design
-│   │   └── {module}.md       # Module-level architecture
-│   ├── specs/                # Feature specifications
-│   │   └── {feature-name}.md
-│   ├── decisions/            # Decision records (ADRs)
-│   │   └── ADR-{NNN}-{topic}.md
-│   └── notes/                # Session logs
-│       └── YYYY-MM-DD-{topic}.md
-│
-├── src/                      # Source code
-├── tests/                    # Tests
-└── scripts/                  # Automation scripts
+Phase 1: Specification → Phase 2: Implementation → Phase 3: Review → Phase 4: Release
+     ↓                        ↓                        ↓                   ↓
+  Human directs           Claw executes           Human approves      Human releases
 ```
 
-### File Naming Rules
-
-| Type | Pattern | Example |
-|------|---------|---------|
-| Specs | `kebab-case.md` | `warmup-system.md` |
-| ADRs | `ADR-{NNN}-{topic}.md` | `ADR-001-use-mcp.md` |
-| Notes | `YYYY-MM-DD-{topic}.md` | `2026-03-22-kickoff.md` |
-| Architecture | `{module}.md` or `overview.md` | `memory-engine.md` |
-
-**Prohibited:**
-- ❌ Chinese filenames (except notes)
-- ❌ Spaces in filenames
-- ❌ >2 `.md` files in root directory
-
-### Naming Conventions
-
-At project start, create `docs/naming-conventions.md` to track:
-- **Code naming**: variables, functions, classes, modules
-- **API naming**: endpoints, parameters, response fields
-- **File naming**: beyond the rules above
-- **Version naming**: tags, releases, branches
-
-Claw checks naming consistency during self-review (Phase 3).
-See [templates/naming-conventions.md](references/templates/naming-conventions.md) for template.
-
-## Development Workflow
-
-### Core Principle: Documentation-First
-
-**Rule**: No implementation without approved documentation.
-
-- Spec/ADR must exist and be approved before coding begins
-- Exception: hotfixes can document post-facto
-- This ensures clarity, reduces rework, and maintains traceability
-
-### Phase 1: Specification
-
-1. Human provides high-level goal
-2. Claw drafts spec → `docs/specs/{feature}.md` (or ADR for architecture decisions)
-3. Human reviews + approves (or requests changes)
-4. Spec marked "Approved" → **documentation gate passed** → ready for implementation
-
-### Phase 2: Implementation
-
-1. Claw creates feature branch (if using git)
-2. Implement + write tests (following naming conventions)
-3. Update docs incrementally
-4. Mark spec as "Implemented"
-
-### Phase 3: Review
-
-1. Claw self-reviews against checklist (including naming conventions)
-2. Human inspects (spot check or full review)
-3. Human approves → merge to main
-
-### Phase 4: Release (if applicable)
-
-1. Update CHANGELOG.md
-2. Bump version (SemVer)
-3. Create git tag
-4. Release notes
-
-See [references/workflow.md](references/workflow.md) for detailed phase descriptions.
-
-## Decision Recording
-
-Record decisions when:
-- Choosing between multiple viable approaches
-- Architecture changes
-- API design choices
-- Dependency selection
-
-**Lightweight ADR format** (single human + claw):
-
-```markdown
-# ADR-001: {Decision Topic}
-
-**Date**: YYYY-MM-DD  
-**Decision**: {Chosen option}  
-**Rationale**: {Why this over alternatives}
-
-## Context
-{Brief background}
-
-## Alternatives Considered
-- Option A: {Why rejected}
-- Option B: {Why rejected}
-
-## Consequences
-- {Positive/negative outcomes}
-```
-
-Full template: [references/templates/adr.md](references/templates/adr.md)
-
-## Project Board (README.md)
-
-Maintain a simple kanban in README.md:
-
-```markdown
-## 📋 Current Iteration (YYYY-MM-DD ~ YYYY-MM-DD)
-
-### In Progress
-- [ ] Feature A (Spec: ✅ Approved | Dev: 🟡 50% | Test: ⏳ Pending)
-
-### Next Up
-- [ ] Feature B (Spec: 🟡 Draft)
-
-### Done
-- [x] Feature X (YYYY-MM-DD)
-```
-
-Claw auto-updates this board at end of each session.
+📖 **Detailed workflow**: [references/workflow.md](references/workflow.md)
 
 ## Session Discipline
 
-### Start of Session
+**Context Budget**:
+- Files/session: ≤7 writes
+- Response tokens: ≤1500
+- Tool calls: ≤12
+- Duration: ≤30 min
 
-1. Read project README.md for current state
-2. Check `docs/notes/` for last session's log
-3. Update iteration board if needed
+**When to `/new`**: Phase completion, context heavy, task switching, model degradation
 
-### End of Session
+**When to use subagent**: Parallel work, isolated tasks, heavy computation, research
 
-1. Commit work with descriptive message
-2. Update project board status
-3. Write session log → `docs/notes/YYYY-MM-DD-{topic}.md`
-4. If spec completed: update CHANGELOG.md
+📖 **Full guide**: [references/guides/session-tasks.md](references/guides/session-tasks.md)
+
+## Key Templates
+
+| Document | Template |
+|----------|----------|
+| ADR | [templates/adr.md](references/templates/adr.md) |
+| Spec | [templates/spec.md](references/templates/spec.md) |
+| Session Log | [templates/session-log.md](references/templates/session-log.md) |
+| Naming Conventions | [templates/naming-conventions.md](references/templates/naming-conventions.md) |
 
 ## Quality Gates
 
-### Before Human Review
+**Before Human Review**: Tests pass, no lint errors, docs updated, ADRs created, naming consistent
 
-Claw self-checks:
-- [ ] Tests pass
-- [ ] No linting errors
-- [ ] Docs updated
-- [ ] Decision records created (if applicable)
-- [ ] Naming conventions followed
+**Before Release**: All tests pass, CHANGELOG updated, version bumped, git tag created, human approval
 
-### Before Release
+📋 **Full checklists**: [references/checklists.md](references/checklists.md)
 
-- [ ] All tests pass
-- [ ] CHANGELOG.md updated
-- [ ] Version bumped
-- [ ] Git tag created
-- [ ] Human approval obtained
+## When to Use
 
-See [references/checklists.md](references/checklists.md) for complete checklists.
+✅ **Use for**: Development projects with human oversight, structured iteration tracking, decision traceability
 
-## Version Management
-
-Follow SemVer (`MAJOR.MINOR.PATCH`):
-
-- **MAJOR**: Breaking changes
-- **MINOR**: New features (backward compatible)
-- **PATCH**: Bug fixes
-
-CHANGELOG.md format:
-```markdown
-# Changelog
-
-## [1.2.0] - 2026-03-22
-
-### Added
-- Feature X (#1)
-
-### Changed
-- API improvement for Y
-
-### Fixed
-- Bug Z (#2)
-```
-
-## When to Use This Skill
-
-Use project-pilot when:
-- Starting a new development project with human oversight
-- Need structured iteration tracking
-- Want decision traceability without heavy process
-- Managing complex multi-session projects
-
-Do NOT use for:
-- One-off scripts or trivial tasks
-- Multi-team coordination (use full PROJECT_STEWARD instead)
-- Projects without human involvement
-
-## References
-
-- [Project Initialization](references/project-init.md) — Complete startup checklist
-- [Workflow Details](references/workflow.md) — Phase-by-phase breakdown
-- [Checklists](references/checklists.md) — Quality gates and release prep
-- [Templates](references/templates/) — ADR, spec, session log, naming conventions templates
-- **Project Types**:
-  - [OpenClaw Plugin](references/project-types/openclaw-plugin.md)
-  - [Python Package](references/project-types/python-package.md)
-  - [Web App](references/project-types/web-app.md)
-  - [CLI Tool](references/project-types/cli-tool.md)
+❌ **Don't use for**: One-off scripts, multi-team coordination, projects without human involvement
 
 ---
 
-**Skill Version**: 0.3.0  
+**Version**: 0.4.0  
 **Last Updated**: 2026-03-22

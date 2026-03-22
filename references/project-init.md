@@ -1,83 +1,52 @@
-# Project Initialization Checklist
+# Project Initialization
 
-Complete this checklist when starting a new project.
+**Time**: 15-30 min | **Owner**: Claw (automated)
+
+---
 
 ## Step 0: Identify Project Type
 
-Before creating structure, determine project type:
+| Type | Template |
+|------|----------|
+| OpenClaw Plugin | [openclaw-plugin.md](project-types/openclaw-plugin.md) |
+| Python Package | [python-package.md](project-types/python-package.md) |
+| Web App | [web-app.md](project-types/web-app.md) |
+| CLI Tool | [cli-tool.md](project-types/cli-tool.md) |
+| Generic | (default structure below) |
 
-| Type | When to Use | Template |
-|------|-------------|----------|
-| **OpenClaw Plugin** | OpenClaw 插件开发 | [project-types/openclaw-plugin.md](project-types/openclaw-plugin.md) |
-| **Python Package** | Python 库、CLI、MCP Server | [project-types/python-package.md](project-types/python-package.md) |
-| **Web App** | 前端/全栈 Web 应用 | [project-types/web-app.md](project-types/web-app.md) |
-| **CLI Tool** | 命令行工具 | [project-types/cli-tool.md](project-types/cli-tool.md) |
-| **Generic** | 其他软件项目 | Use default structure below |
-
-**Human specifies project type** → Claw loads corresponding template.
+---
 
 ## Step 1: Create Directory Structure
 
-### For Generic Projects
-
+### Generic Project
 ```bash
-mkdir -p {project-name}/{docs/{specs,decisions,notes},src,tests,scripts}
-cd {project-name}
+mkdir -p {project}/{docs/{specs,decisions,notes,architecture},src,tests,scripts}
 ```
 
-### For Type-Specific Projects
+### Type-Specific
+Follow corresponding template in `project-types/`.
 
-Follow the structure in the corresponding template:
-- OpenClaw Plugin → See `project-types/openclaw-plugin.md`
-- Python Package → See `project-types/python-package.md`
-- Web App → See `project-types/web-app.md`
-- CLI Tool → See `project-types/cli-tool.md`
+---
 
 ## Step 2: Initialize README.md
-
-Create root `README.md` with:
 
 ```markdown
 # {Project Name}
 
-> One-line value proposition
-
-**Version**: 0.1.0  
-**Status**: 🟡 Development  
-**Last Updated**: YYYY-MM-DD
-
----
+**Version**: 0.1.0 | **Status**: 🟡 Development
 
 ## 🎯 Problem
+{2-3 sentences}
 
-{2-3 sentences on what problem this solves}
-
-## ✨ Core Features
-
-- Feature 1
-- Feature 2
-
-## 📋 Current Iteration (YYYY-MM-DD ~ YYYY-MM-DD)
-
+## 📋 Current Iteration (YYYY-MM-DD ~ )
 ### In Progress
 - [ ] {First task}
 
-### Next Up
-- [ ] {Planned task}
-
 ### Done
 - [x] Project initialization
-
-## 📚 Documentation
-
-- [[Specifications]](docs/specs/) - Feature specs
-- [[Decisions]](docs/decisions/) - Architecture decisions
-- [[Session Logs]](docs/notes/) - Development diary
-
-## 🔗 Links
-
-- [Repository](URL)
 ```
+
+---
 
 ## Step 3: Create docs/README.md
 
@@ -86,60 +55,41 @@ Create root `README.md` with:
 
 | Directory | Purpose |
 |-----------|---------|
-| [architecture/](architecture/) | System architecture design |
-| [specs/](specs/) | Feature specifications |
-| [decisions/](decisions/) | Architecture decision records (ADRs) |
-| [notes/](notes/) | Session logs and temporary notes |
+| [architecture/](architecture/) | System design |
+| [specs/](specs/) | Feature specs |
+| [decisions/](decisions/) | ADRs |
+| [notes/](notes/) | Session logs |
 
-## Naming Conventions
-
-See [naming-conventions.md](naming-conventions.md) for project-specific naming rules.
+**Naming**: [naming-conventions.md](naming-conventions.md)
 ```
 
-## Step 3.5: Create Naming Conventions
+---
 
-Create `docs/naming-conventions.md` to track project-specific naming rules:
+## Step 4: Create Naming Conventions
 
+Copy template:
 ```bash
-# Copy from template
-cp references/templates/naming-conventions.md docs/naming-conventions.md
+cp ../templates/naming-conventions.md docs/naming-conventions.md
 ```
 
-Edit to reflect your project's conventions (variables, functions, APIs, etc.).
+Edit for project-specific rules.
 
-See [templates/naming-conventions.md](templates/naming-conventions.md) for template.
+---
 
-## Step 4: Create First ADR
+## Step 5: Create First ADR
 
-Document the foundational architecture choice:
-
-```bash
-mkdir -p docs/decisions
-```
-
-Create `docs/decisions/ADR-001-project-init.md`:
+`docs/decisions/ADR-001-project-init.md`:
 
 ```markdown
 # ADR-001: Project Initialization
-
-**Date**: YYYY-MM-DD  
-**Decision**: Use project-pilot skill for project management  
-**Rationale**: Single human + claw collaboration requires lightweight but structured process
-
-## Context
-New project requires disciplined development without overhead of multi-team processes.
-
-## Alternatives Considered
-- Full PROJECT_STEWARD: Overkill for single human + claw
-- No formal process: Risk of chaos during iteration
-
-## Consequences
-- ✅ Lightweight overhead
-- ✅ Decision traceability maintained
-- ⚠️ Requires discipline to maintain logs
+**Date**: YYYY-MM-DD
+**Decision**: Use project-pilot skill
+**Rationale**: Lightweight but structured process for human+claw
 ```
 
-## Step 5: Initialize CHANGELOG.md
+---
+
+## Step 6: Initialize CHANGELOG.md
 
 ```markdown
 # Changelog
@@ -150,87 +100,38 @@ New project requires disciplined development without overhead of multi-team proc
 - Project initialization
 ```
 
-## Step 6: Create .gitignore (if using git)
+---
 
-```
-# Dependencies
-node_modules/
-__pycache__/
-*.pyc
+## Step 7: Create First Session Log
 
-# Build outputs
-dist/
-build/
-*.egg-info/
-
-# Environment
-.env
-.venv/
-
-# IDE
-.vscode/
-.idea/
-
-# OS
-.DS_Store
-Thumbs.db
-```
-
-## Step 7: Initialize Git (optional)
-
-```bash
-git init
-git add .
-git commit -m "chore: project initialization"
-```
-
-## Step 8: Create First Session Log
-
-```bash
-mkdir -p docs/notes
-```
-
-Create `docs/notes/YYYY-MM-DD-kickoff.md`:
+`docs/notes/YYYY-MM-DD-kickoff.md`:
 
 ```markdown
 # Project Kickoff
-
-**Date**: YYYY-MM-DD HH:MM  
-**Session**: 1  
-**Attendees**: Human (企鹅), Claw
+**Date**: YYYY-MM-DD
+**Goals**: [x] Init structure, [ ] Define milestone
+**Next**: {next task}
+```
 
 ---
 
-## Goals
+## Step 8: Initialize Git (optional)
 
-- [x] Initialize project structure
-- [ ] Define first milestone
-
-## Decisions Made
-
-1. Project management approach: project-pilot skill
-2. Initial architecture: {brief description}
-
-## Next Session
-
-- Continue with: {next task}
-- Blockers: {none / list any}
+```bash
+git init && git add . && git commit -m "chore: init"
 ```
+
+---
 
 ## Verification
 
-Before marking initialization complete:
-
-- [ ] README.md exists with project board
-- [ ] docs/ directory structure created (including `architecture/`)
-- [ ] Naming conventions documented (`docs/naming-conventions.md`)
-- [ ] First ADR recorded
+- [ ] README.md with project board
+- [ ] docs/ structure (including `architecture/`)
+- [ ] naming-conventions.md
+- [ ] ADR-001 created
 - [ ] CHANGELOG.md initialized
 - [ ] Session log created
-- [ ] (Optional) Git repo initialized
 
 ---
 
-**Estimated Time**: 15-30 minutes  
-**Owner**: Claw (automated)  
-**Version**: 0.3.0
+**Version**: 0.4.0 | **See also**: [guides/session-tasks.md](guides/session-tasks.md)

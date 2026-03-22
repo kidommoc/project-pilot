@@ -1,11 +1,13 @@
 ---
 name: project-pilot
-description: Project management for single human + claw collaboration. Human = Commander (design/oversight), Claw = Pilot (implementation/testing/docs).
+description: Project management for single human + claw collaboration. Claw drives progress, human confirms or requests changes.
 ---
 
 # Project Pilot
 
-**Human = Commander, Claw = Pilot** — Lightweight project management for single human + claw teams.
+**Claw-Led, Human-Confirmed** — Lightweight project management for single human + claw teams.
+
+**Philosophy**: Claw proposes, plans, and executes. Human reviews, confirms, or requests modifications.
 
 ## 🚨 MUST Constraints (Non-Negotiable)
 
@@ -16,9 +18,13 @@ description: Project management for single human + claw collaboration. Human = C
 **After each Phase completes, MUST execute the following steps, then STOP and wait for confirmation:**
 
 ```
+0. Execute test verification (Quality Gate)
+   - Code: unit tests + functional tests
+   - Docs: syntax check + link validation
+   - Config: validation command + rollback test
 1. Update checklists in project README.md
 2. Write completion report to docs/notes/YYYY-MM-DD-phaseN-completion.md
-3. Explicitly ask user: "Phase N completed. Continue to Phase N+1?"
+3. Explicitly ask user: "Phase N completed (tests passed). Continue to Phase N+1?"
 4. ⛔ Before user confirmation, FORBIDDEN to execute any code for next phase
 ```
 
@@ -28,6 +34,7 @@ description: Project management for single human + claw collaboration. Human = C
 - ❌ Starting Phase 2 coding immediately after Phase 1 completion
 - ❌ Continuing without updating README status
 - ❌ Continuing without writing completion report
+- ❌ Declaring Phase complete without tests passing
 
 ### MUST-2: Session Startup Check
 
@@ -92,8 +99,11 @@ description: Project management for single human + claw collaboration. Human = C
 ```
 Phase 1: Specification → Phase 2: Implementation → Phase 3: Review → Phase 4: Release
      ↓                        ↓                        ↓                   ↓
-  Human directs           Claw executes           Human approves      Human releases
+  Claw proposes           Claw executes           Claw self-reviews   Claw packages
+  Human confirms          Human confirms          Human validates     Human confirms
 ```
+
+**Claw drives progress. Human confirms or requests changes.**
 
 📖 **Detailed workflow**: [references/workflow.md](references/workflow.md)
 
@@ -110,7 +120,8 @@ Phase 1: Specification → Phase 2: Implementation → Phase 3: Review → Phase
 **When to use subagent**: Parallel work, isolated tasks, heavy computation, research
 
 📖 **Session Startup**: [references/guides/session-startup.md](references/guides/session-startup.md)  
-📖 **Session Tasks**: [references/guides/session-tasks.md](references/guides/session-tasks.md)
+📖 **Session Tasks**: [references/guides/session-tasks.md](references/guides/session-tasks.md)  
+📖 **Test Verification**: [references/guides/test-verification.md](references/guides/test-verification.md)
 
 ## Key Templates
 
@@ -137,60 +148,15 @@ Phase 1: Specification → Phase 2: Implementation → Phase 3: Review → Phase
 
 ---
 
-## 🔍 Skill Activation & Invocation
+## ℹ️ Usage Notes
 
-### When This Skill Is Activated
+**When to follow this skill**:
+- Working in a development project with `README.md` tracking phases
+- User mentions "project-pilot" or "follow the workflow"
+- Starting a new session in an ongoing project
 
-This skill **auto-activates** in these situations:
-
-| Trigger | Description |
-|---------|-------------|
-| **User explicitly mentions** | "Use project-pilot", "Follow project-pilot workflow" |
-| **Project directory detection** | Working directory contains `README.md` + dev project structure |
-| **User specifies project type** | "OpenClaw plugin", "Python package", "Web app", etc. |
-| **Phase completion event** | Phase completion protocol triggers, forces pause for confirmation |
-
-### Behavior After Activation
-
-```
-1. Session start → Read README.md to determine current Phase
-2. Task execution → Follow MUST constraints
-3. Phase completion → Trigger completion protocol, stop and wait for confirmation
-4. User confirmation → Continue to next phase
-```
-
-### Attention Retention Mechanisms
-
-**Reinforcement to prevent attention drift:**
-
-| Mechanism | Implementation |
-|-----------|----------------|
-| **Forced checkpoints** | MUST stop after Phase completion (MUST-1) |
-| **State anchors** | Check README current Phase before each response |
-| **Session boundaries** | Use `/new` at Phase completion |
-| **Docs-first** | Must update docs before coding (MUST-3) |
-
-### Failure Recovery
-
-**If MUST constraint violation is detected:**
-
-```
-1. Stop current operation immediately
-2. Acknowledge violation and explain cause
-3. Roll back to last valid state
-4. Re-execute following MUST constraints
-```
+**Key reminder**: Check `README.md` at session start to find current Phase.
 
 ---
 
-## Version & Changelog
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 0.5.0 | 2026-03-22 | Added MUST constraints, Phase Completion Protocol, invocation mechanism docs |
-| 0.4.0 | 2026-03-22 | Session Discipline, Quality Gates |
-
----
-
-**Version**: 0.5.0  
-**Last Updated**: 2026-03-22
+**Version**: 0.7.0 (2026-03-22) — Claw-led model

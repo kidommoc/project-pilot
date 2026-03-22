@@ -8,6 +8,26 @@
 
 **After each Phase completes, MUST execute the following, then STOP and wait for confirmation:**
 
+### Step 0: Test Verification (Quality Gate)
+
+**Before declaring Phase complete, MUST verify with tests:**
+
+| Phase Type | Required Tests |
+|------------|----------------|
+| Code development | Unit tests + Functional tests |
+| Documentation | Syntax check + Link validation |
+| Configuration changes | Validation command + Rollback test |
+
+**Test Pass Criteria**:
+- [ ] New features have corresponding tests
+- [ ] Edge cases covered
+- [ ] Error handling verified
+- [ ] Test results documented in completion report
+
+**If tests fail**: ⛔ STOP, fix issues, re-run tests before proceeding.
+
+---
+
 ### Step 1: Update README.md
 
 ```markdown
@@ -65,21 +85,28 @@
 ```
 Phase 1: Specification → Phase 2: Implementation → Phase 3: Review → Phase 4: Release
      ↓                        ↓                        ↓                   ↓
-  Human directs           Claw executes           Human approves      Human releases
+  Claw proposes           Claw executes           Claw self-reviews   Claw packages
+  Human confirms          Human confirms          Human validates     Human confirms
 ```
+
+**Claw drives progress. Human confirms or requests changes.**
 
 ---
 
 ## Phase 1: Specification
 
-**Goal**: Define what to build + decompose into session-sized tasks.
+**Goal**: Claw drafts spec + decomposes tasks, human confirms or requests changes.
 
 ### Steps
 
-1. Human provides goal
-2. Claw drafts: spec + ADRs (if needed) + task decomposition
-3. Human reviews + approves
-4. **Documentation gate passed** → Phase 2
+1. Human provides high-level goal
+2. Claw drafts: spec + ADRs (if needed) + task decomposition + effort estimate
+3. Claw presents plan to human
+4. Human confirms OR requests modifications
+5. **Documentation gate passed** → Phase 2
+
+**Claw responsibility**: Propose complete, actionable plan  
+**Human role**: Confirm or request changes (not design details)
 
 ### Task Decomposition
 
@@ -105,16 +132,17 @@ Break feature into sessions (1-3 tasks per session):
 
 ## Phase 2: Implementation
 
-**Goal**: Build per spec, one session = 1-3 tasks.
+**Goal**: Claw executes per spec, human confirms progress at Phase end.
 
 ### Steps
 
-1. Create branch (`feature/{name}`)
-2. Implement incrementally (small commits)
-3. Use subagents for parallel work (docs/tests)
-4. Write tests alongside
-5. Update docs
-6. Mark spec "Implemented"
+1. Claw creates branch (`feature/{name}`)
+2. Claw implements incrementally (small commits)
+3. **Claw writes tests alongside code** (test-first or test-during, never test-after)
+4. Claw uses subagents for parallel work (docs/tests)
+5. Claw updates docs
+6. Claw marks spec "Implemented"
+7. Claw proceeds to Phase 3 (no human confirmation needed during Phase 2)
 
 ### Session Discipline
 
@@ -127,22 +155,26 @@ Break feature into sessions (1-3 tasks per session):
 ### Exit Criteria
 
 - [ ] All requirements implemented
-- [ ] Tests passing
+- [ ] Tests passing (unit + functional)
 - [ ] Code self-reviewed
 - [ ] Spec marked "Implemented"
+
+**Claw responsibility**: Execute plan, maintain quality  
+**Human role**: Available for questions, confirms at Phase end
 
 ---
 
 ## Phase 3: Review
 
-**Goal**: Human validates implementation.
+**Goal**: Claw self-reviews, human validates and confirms.
 
 ### Steps
 
-1. Claw self-review (checklist below)
-2. Human inspection (spot/full/delegated)
-3. Address feedback (if any)
-4. Human approves
+1. Claw performs self-review (checklist below)
+2. Claw presents results to human: test results, changes summary, known issues
+3. Human inspects (spot/full/delegated — human chooses depth)
+4. Claw addresses feedback (if any)
+5. Human confirms
 
 ### Self-Review Checklist
 
@@ -154,21 +186,26 @@ Break feature into sessions (1-3 tasks per session):
 
 ### Exit Criteria
 
-- [ ] Human approval obtained
-- [ ] Feedback addressed
+- [ ] Human confirmation obtained
+- [ ] Feedback addressed (if any)
+
+**Claw responsibility**: Self-review thoroughly, present clearly  
+**Human role**: Validate, confirm, or request changes
 
 ---
 
 ## Phase 4: Release
 
-**Goal**: Package and deliver.
+**Goal**: Claw packages, human confirms release.
 
 ### Steps
 
-1. Update CHANGELOG.md
-2. Bump version (SemVer)
-3. Create git tag (`v{version}`)
-4. Release notes (if external)
+1. Claw updates CHANGELOG.md
+2. Claw bumps version (SemVer)
+3. Claw creates git tag (`v{version}`)
+4. Claw prepares release notes (if external)
+5. Claw presents release summary to human
+6. Human confirms release
 
 ### Version Bumping
 
@@ -183,7 +220,10 @@ Break feature into sessions (1-3 tasks per session):
 - [ ] CHANGELOG updated
 - [ ] Version bumped
 - [ ] Git tag created
-- [ ] Human approval
+- [ ] Human confirmation obtained
+
+**Claw responsibility**: Package correctly, follow SemVer  
+**Human role**: Confirm release or request changes
 
 ---
 

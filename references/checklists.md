@@ -6,6 +6,13 @@
 
 **MUST check before declaring Phase complete:**
 
+### Test Verification (Quality Gate)
+- [ ] Unit tests written for new features
+- [ ] Functional tests executed
+- [ ] Edge cases covered
+- [ ] Error handling verified
+- [ ] Test results documented
+
 ### Documentation Updates
 - [ ] README.md checklist for current Phase updated (all tasks marked [x])
 - [ ] README.md next phase status updated (🟡 In Progress / ⏳ Pending)
@@ -18,7 +25,7 @@
 - [ ] Tool/function count correct (if applicable)
 
 ### User Communication
-- [ ] Explicitly asked: "Phase N completed. Continue to Phase N+1?"
+- [ ] Explicitly asked: "Phase N completed (tests passed). Continue to Phase N+1?"
 - [ ] ⛔ Stopped and waiting for confirmation, no next phase code executed
 
 **Violation Recovery**: If any of the above is violated, stop immediately and roll back to last valid state.

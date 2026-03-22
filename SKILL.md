@@ -50,7 +50,10 @@ Select the appropriate structure based on project type:
 ├── CHANGELOG.md              # Auto-maintained by claw
 │
 ├── docs/
-│   ├── README.md             # Doc navigation
+│   ├── README.md             # Doc navigation + naming conventions
+│   ├── architecture/         # System architecture
+│   │   ├── overview.md       # High-level system design
+│   │   └── {module}.md       # Module-level architecture
 │   ├── specs/                # Feature specifications
 │   │   └── {feature-name}.md
 │   ├── decisions/            # Decision records (ADRs)
@@ -70,31 +73,51 @@ Select the appropriate structure based on project type:
 | Specs | `kebab-case.md` | `warmup-system.md` |
 | ADRs | `ADR-{NNN}-{topic}.md` | `ADR-001-use-mcp.md` |
 | Notes | `YYYY-MM-DD-{topic}.md` | `2026-03-22-kickoff.md` |
+| Architecture | `{module}.md` or `overview.md` | `memory-engine.md` |
 
 **Prohibited:**
 - ❌ Chinese filenames (except notes)
 - ❌ Spaces in filenames
 - ❌ >2 `.md` files in root directory
 
+### Naming Conventions
+
+At project start, create `docs/naming-conventions.md` to track:
+- **Code naming**: variables, functions, classes, modules
+- **API naming**: endpoints, parameters, response fields
+- **File naming**: beyond the rules above
+- **Version naming**: tags, releases, branches
+
+Claw checks naming consistency during self-review (Phase 3).
+See [templates/naming-conventions.md](references/templates/naming-conventions.md) for template.
+
 ## Development Workflow
+
+### Core Principle: Documentation-First
+
+**Rule**: No implementation without approved documentation.
+
+- Spec/ADR must exist and be approved before coding begins
+- Exception: hotfixes can document post-facto
+- This ensures clarity, reduces rework, and maintains traceability
 
 ### Phase 1: Specification
 
 1. Human provides high-level goal
-2. Claw drafts spec → `docs/specs/{feature}.md`
+2. Claw drafts spec → `docs/specs/{feature}.md` (or ADR for architecture decisions)
 3. Human reviews + approves (or requests changes)
-4. Spec marked "Approved" → ready for implementation
+4. Spec marked "Approved" → **documentation gate passed** → ready for implementation
 
 ### Phase 2: Implementation
 
 1. Claw creates feature branch (if using git)
-2. Implement + write tests
+2. Implement + write tests (following naming conventions)
 3. Update docs incrementally
 4. Mark spec as "Implemented"
 
 ### Phase 3: Review
 
-1. Claw self-reviews against checklist
+1. Claw self-reviews against checklist (including naming conventions)
 2. Human inspects (spot check or full review)
 3. Human approves → merge to main
 
@@ -180,6 +203,7 @@ Claw self-checks:
 - [ ] No linting errors
 - [ ] Docs updated
 - [ ] Decision records created (if applicable)
+- [ ] Naming conventions followed
 
 ### Before Release
 
@@ -233,7 +257,7 @@ Do NOT use for:
 - [Project Initialization](references/project-init.md) — Complete startup checklist
 - [Workflow Details](references/workflow.md) — Phase-by-phase breakdown
 - [Checklists](references/checklists.md) — Quality gates and release prep
-- [Templates](references/templates/) — ADR, spec, session log templates
+- [Templates](references/templates/) — ADR, spec, session log, naming conventions templates
 - **Project Types**:
   - [OpenClaw Plugin](references/project-types/openclaw-plugin.md)
   - [Python Package](references/project-types/python-package.md)
@@ -242,5 +266,5 @@ Do NOT use for:
 
 ---
 
-**Skill Version**: 0.2.0  
+**Skill Version**: 0.3.0  
 **Last Updated**: 2026-03-22

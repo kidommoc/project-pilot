@@ -86,10 +86,28 @@ Create root `README.md` with:
 
 | Directory | Purpose |
 |-----------|---------|
+| [architecture/](architecture/) | System architecture design |
 | [specs/](specs/) | Feature specifications |
 | [decisions/](decisions/) | Architecture decision records (ADRs) |
 | [notes/](notes/) | Session logs and temporary notes |
+
+## Naming Conventions
+
+See [naming-conventions.md](naming-conventions.md) for project-specific naming rules.
 ```
+
+## Step 3.5: Create Naming Conventions
+
+Create `docs/naming-conventions.md` to track project-specific naming rules:
+
+```bash
+# Copy from template
+cp references/templates/naming-conventions.md docs/naming-conventions.md
+```
+
+Edit to reflect your project's conventions (variables, functions, APIs, etc.).
+
+See [templates/naming-conventions.md](templates/naming-conventions.md) for template.
 
 ## Step 4: Create First ADR
 
@@ -204,7 +222,8 @@ Create `docs/notes/YYYY-MM-DD-kickoff.md`:
 Before marking initialization complete:
 
 - [ ] README.md exists with project board
-- [ ] docs/ directory structure created
+- [ ] docs/ directory structure created (including `architecture/`)
+- [ ] Naming conventions documented (`docs/naming-conventions.md`)
 - [ ] First ADR recorded
 - [ ] CHANGELOG.md initialized
 - [ ] Session log created
@@ -213,4 +232,5 @@ Before marking initialization complete:
 ---
 
 **Estimated Time**: 15-30 minutes  
-**Owner**: Claw (automated)
+**Owner**: Claw (automated)  
+**Version**: 0.3.0

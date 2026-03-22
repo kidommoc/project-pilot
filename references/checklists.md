@@ -14,6 +14,7 @@ Complete before requesting human review.
 - [ ] No linting errors
 - [ ] No TypeScript/Python type errors
 - [ ] Code follows project style guide
+- [ ] Naming conventions followed (see `docs/naming-conventions.md`)
 - [ ] No TODO comments left in critical paths
 - [ ] No debug/logging statements in production code
 
@@ -131,6 +132,7 @@ Use when reviewing implementation.
 - [ ] Code is readable and well-organized
 - [ ] No obvious bugs or logic errors
 - [ ] Tests cover key scenarios
+- [ ] Naming conventions followed
 
 ### Documentation
 
@@ -198,4 +200,4 @@ Run weekly or at milestone boundaries.
 
 ---
 
-**Last Updated**: 2026-03-22
+**Last Updated**: 2026-03-22 (v0.3.0)

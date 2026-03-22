@@ -12,7 +12,23 @@ Detailed breakdown of each development phase.
        │                   │                   │                   │
    Human               Claw                Human              Human
    directs            executes            approves           releases
+       │
+       └─── 📋 Documentation Gate: No code without approved spec/ADR
 ```
+
+## Core Principle: Documentation-First
+
+**Rule**: Implementation cannot begin without approved documentation.
+
+- Spec documents (`docs/specs/`) for feature behavior
+- ADRs (`docs/decisions/`) for architecture decisions
+- Architecture docs (`docs/architecture/`) for system design
+- Exception: hotfixes may document post-facto
+
+This ensures:
+- Clarity before investment
+- Reduced rework from misunderstandings
+- Traceable decision history
 
 ---
 
@@ -20,12 +36,17 @@ Detailed breakdown of each development phase.
 
 **Goal**: Define what to build before building it.
 
+**Documentation Gate**: Phase 2 cannot start until Phase 1 deliverables are approved.
+
 ### Steps
 
 1. **Human provides goal** — High-level description of desired feature
-2. **Claw drafts spec** — Create `docs/specs/{feature-name}.md`
+2. **Claw drafts documentation**:
+   - Feature spec → `docs/specs/{feature-name}.md`
+   - Architecture changes → `docs/architecture/{module}.md` or ADR
+   - Naming decisions → Update `docs/naming-conventions.md` if needed
 3. **Human reviews** — Approves or requests changes
-4. **Spec approved** — Mark status as "Approved", ready for implementation
+4. **Spec approved** — Mark status as "Approved" → **documentation gate passed**
 
 ### Spec Document Structure
 
@@ -83,10 +104,12 @@ As a {user}, I want {capability}, so that {benefit}.
 
 ### Exit Criteria
 
-- [ ] Spec document created
+- [ ] Spec document created (or ADR for architecture decisions)
 - [ ] Human approval obtained (explicit or implicit)
 - [ ] Dependencies identified
 - [ ] Test plan outlined
+- [ ] Naming conventions considered/updated
+- [ ] **Documentation gate passed** → ready for Phase 2
 
 ---
 
@@ -99,8 +122,9 @@ As a {user}, I want {capability}, so that {benefit}.
 1. **Create branch** (if using git) — `feature/{feature-name}`
 2. **Implement incrementally** — Small commits, frequent checkpoints
 3. **Write tests alongside** — Test-driven or test-adjacent
-4. **Update docs** — Keep docs in sync with code
-5. **Mark spec as implemented** — Update status in spec doc
+4. **Follow naming conventions** — Check `docs/naming-conventions.md`
+5. **Update docs** — Keep docs in sync with code
+6. **Mark spec as implemented** — Update status in spec doc
 
 ### Implementation Discipline
 
@@ -108,6 +132,7 @@ As a {user}, I want {capability}, so that {benefit}.
 - Run tests after each significant change
 - Update project board in README.md at end of session
 - Log significant decisions as ADRs (if architecture changes)
+- Verify naming consistency before committing
 
 ### Session End Checklist
 
@@ -308,4 +333,4 @@ At end of each session, create/update `docs/notes/YYYY-MM-DD-{topic}.md`:
 
 ---
 
-**Last Updated**: 2026-03-22
+**Last Updated**: 2026-03-22 (v0.3.0)

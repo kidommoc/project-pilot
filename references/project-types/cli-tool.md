@@ -1,22 +1,22 @@
-# CLI Tool 项目结构
+# CLI Tool Project Structure
 
-适用于命令行工具开发（Node.js 或 Python）。
+For command-line tool development (Node.js or Python).
 
-## Node.js CLI 结构
+## Node.js CLI Structure
 
 ```
 {cli-name}/
 ├── package.json
-├── tsconfig.json             # 如使用 TypeScript
+├── tsconfig.json             # If using TypeScript
 ├── src/
-│   ├── index.ts              # CLI 入口
-│   ├── commands/             # 命令实现
+│   ├── index.ts              # CLI entry
+│   ├── commands/             # Command implementations
 │   │   ├── command-a.ts
 │   │   └── command-b.ts
-│   └── utils/                # 工具函数
+│   └── utils/                # Utility functions
 ├── tests/
 │   └── {test-file}.test.ts
-└── bin/                      # 可执行文件（可选）
+└── bin/                      # Executable (optional)
     └── cli.js
 ```
 
@@ -43,7 +43,7 @@
 }
 ```
 
-### src/index.ts (Commander 示例)
+### src/index.ts (Commander Example)
 
 ```typescript
 #!/usr/bin/env node
@@ -56,17 +56,17 @@ const program = new Command();
 program
   .name('{cli-name}')
   .version('0.1.0')
-  .description('CLI 描述');
+  .description('CLI description');
 
 program
   .command('command-a')
-  .description('命令 A 描述')
+  .description('Command A description')
   .action(commandA);
 
 program
   .command('command-b')
-  .description('命令 B 描述')
-  .option('-f, --file <path>', '输入文件')
+  .description('Command B description')
+  .option('-f, --file <path>', 'Input file')
   .action(commandB);
 
 program.parse();
@@ -74,7 +74,7 @@ program.parse();
 
 ---
 
-## Python CLI 结构
+## Python CLI Structure
 
 ```
 {cli-name}/
@@ -82,8 +82,8 @@ program.parse();
 ├── src/
 │   └── {package_name}/
 │       ├── __init__.py
-│       ├── cli.py              # CLI 入口
-│       └── commands/           # 命令实现
+│       ├── cli.py              # CLI entry
+│       └── commands/           # Command implementations
 │           ├── __init__.py
 │           ├── command_a.py
 │           └── command_b.py
@@ -96,7 +96,7 @@ program.parse();
 [tool.poetry]
 name = "{cli-name}"
 version = "0.1.0"
-description = "CLI 描述"
+description = "CLI description"
 
 [tool.poetry.scripts]
 {cli-command} = "{package_name}.cli:main"
@@ -107,7 +107,7 @@ click = "^8.0"
 rich = "^13.0"
 ```
 
-### src/{package_name}/cli.py (Click 示例)
+### src/{package_name}/cli.py (Click Example)
 
 ```python
 #!/usr/bin/env python3
@@ -119,19 +119,19 @@ console = Console()
 @click.group()
 @click.version_option(version="0.1.0")
 def main():
-    """CLI 描述"""
+    """CLI description"""
     pass
 
 @main.command()
 @click.option('--name', '-n', default='World', help='Name to greet')
 def command_a(name):
-    """命令 A 描述"""
+    """Command A description"""
     console.print(f"Hello, {name}!")
 
 @main.command()
 @click.argument('file', type=click.Path(exists=True))
 def command_b(file):
-    """命令 B 描述"""
+    """Command B description"""
     console.print(f"Processing {file}")
 
 if __name__ == '__main__':
@@ -140,46 +140,63 @@ if __name__ == '__main__':
 
 ---
 
-## 开发流程调整
+## Development Process Adjustments
 
 ### Phase 1: Specification
 
-额外明确：
-- [ ] 目标平台（跨平台 / 特定 OS）
-- [ ] 命令列表及功能
-- [ ] 是否需要交互式输入
+Additional clarifications:
+- [ ] Target platform (cross-platform / specific OS)
+- [ ] Command list and functionality
+- [ ] Is interactive input needed?
 
 ### Phase 2: Implementation
 
-- [ ] 命令解析库（Commander/Click/Argparse）
-- [ ] 输出格式化（颜色/表格/进度条）
-- [ ] 错误处理友好
+- [ ] Command parsing library (Commander/Click/Argparse)
+- [ ] Output formatting (colors/tables/progress bars)
+- [ ] User-friendly error handling
 
-### Phase 3: Review
+### Phase 3: Audit
 
-额外检查：
-- [ ] `--help` 输出正确
-- [ ] 错误输入有清晰提示
-- [ ] 退出码正确（0=成功，非 0=失败）
+Additional checks:
+- [ ] `--help` output is correct
+- [ ] Clear prompts for invalid input
+- [ ] Exit codes are correct (0=success, non-0=failure)
 
 ### Phase 4: Release
 
-- [ ] 发布到 npm/PyPI
-- [ ] 全局安装测试
-- [ ] README 包含安装和使用说明
+- [ ] Publish to npm/PyPI
+- [ ] Test global installation
+- [ ] README includes installation and usage instructions
 
-## 用户体验建议
+## User Experience Recommendations
 
-- ✅ 彩色输出（使用 chalk/rich）
-- ✅ 进度指示（使用 ora/rich）
-- ✅ 清晰的错误信息
-- ✅ `--help` 包含示例
-- ✅ 合理的默认值
+- ✅ Colored output (use chalk/rich)
+- ✅ Progress indicators (use ora/rich)
+- ✅ Clear error messages
+- ✅ `--help` includes examples
+- ✅ Reasonable defaults
 
 ---
 
-**参考**:
+## Project Pilot Integration
+
+**Use project-pilot for structured development**:
+
+1. **Activation**: Say "Use project-pilot for this CLI tool"
+2. **Contract**: Create Contract for each command/feature
+3. **Interface Docs**: Document CLI commands in `references/interfaces/`
+4. **ADRs**: Record architectural decisions (e.g., CLI framework choice)
+
+**Documentation** (AI-First):
+- **Required**: Contract files, Interface docs (CLI commands), ADRs
+- **Optional**: `docs/` for user manual
+- **Not needed**: Completion reports, architecture docs
+
+---
+
+**Reference**:
 - [Commander.js](https://github.com/tj/commander.js)
 - [Click](https://click.palletsprojects.com/)
+- [project-pilot SKILL.md](../SKILL.md)
 
-**Last Updated**: 2026-03-22
+**Last Updated**: 2026-03-26 (project-pilot 1.1.0)

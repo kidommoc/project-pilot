@@ -7,7 +7,7 @@ description: Project management for single human + claw collaboration. Claw driv
 
 **Claw-Led, Human-Confirmed** — Lightweight project management for single human + claw teams.
 
-**Philosophy**: Claw proposes, plans, and executes. Human reviews, confirms, or requests modifications.
+**Philosophy**: Contract-first, acceptance-driven. Claw proposes, plans, and executes. Human confirms or requests changes.
 
 ## 🚨 MUST Constraints (Non-Negotiable)
 
@@ -19,11 +19,11 @@ description: Project management for single human + claw collaboration. Claw driv
 
 ```
 0. Execute test verification (Quality Gate)
-   - Code: unit tests + functional tests
+   - Code: unit tests + functional tests + contract item verification
    - Docs: syntax check + link validation
    - Config: validation command + rollback test
-1. Update checklists in project README.md
-2. Write completion report to docs/notes/YYYY-MM-DD-phaseN-completion.md
+1. Update interface docs (if interfaces changed)
+2. Update README.md phase status
 3. Explicitly ask user: "Phase N completed (tests passed). Continue to Phase N+1?"
 4. ⛔ Before user confirmation, FORBIDDEN to execute any code for next phase
 ```
@@ -32,54 +32,142 @@ description: Project management for single human + claw collaboration. Claw driv
 
 **Violation Examples**:
 - ❌ Starting Phase 2 coding immediately after Phase 1 completion
-- ❌ Continuing without updating README status
-- ❌ Continuing without writing completion report
+- ❌ Continuing without updating interface docs (if interfaces changed)
 - ❌ Declaring Phase complete without tests passing
 
-### MUST-2: Session Startup Check
+### MUST-2: Activation Check
 
-**At the beginning of each Session, MUST check:**
+**Do NOT auto-apply project-pilot. Wait for explicit trigger:**
 
+1. Human explicitly requests project-pilot → Apply immediately
+2. Human says "continue project {name}" → Check project structure first
+3. No trigger → Do NOT apply
+
+**Project structure check** (for case 2):
+```bash
+ls README.md contracts/ references/interfaces docs/decisions
 ```
-1. Is current project using project-pilot? → If yes, load this skill
-2. What is the current Phase in README.md?
-3. Is previous Phase completed and waiting for confirmation?
-4. Are there any unfinished Quality Gates?
-```
+- All exist → Apply project-pilot
+- Missing → Prompt for initialization
 
-### MUST-3: Documentation-First Enforcement
+### MUST-3: Contract-First Enforcement
 
-**MUST write documentation before code in these situations:**
+**MUST have an approved Contract before writing any implementation code:**
 
-- New Phase starts → Update README status first
-- Before new feature implementation → Spec/ADR required
-- Before architecture changes → ADR required
-- After Phase completion → Write completion report first
+- Before new feature implementation → Mini-Contract or full Contract required
+- Before architecture changes → Full Contract + ADR required
+- ⛔ No code before Implementation Brief (Phase 2 Step 1) is written
 
-### MUST-4: State Transparency
+**Contract Selection**:
+- Default: **Mini-Contract** (≤ 8 contract items, single module, no complex deps)
+- Upgrade to **Full Contract** when: items > 8, multi-module scope, architectural impact, complex dependency graph
 
-**Project state MUST always be findable in README.md:**
+### MUST-4: Interface Docs Enforcement
 
-- Current Phase (explicitly labeled)
-- Completed task checklist
-- Blocking issues (if any)
-- Next step plan
+**MUST update interface docs when modifying module interfaces:**
+
+- Read interface docs before modifying (understand callers, deps, invariants)
+- Update interface docs after modifying (reflect current state)
+- Interface docs = Single Source of Truth (always reflects current code)
+
+**Violation Examples**:
+- ❌ Modifying function signature without updating interface docs
+- ❌ Changing module behavior without documenting invariants
+- ❌ Adding callers without updating "Called by" section
+
+### MUST-5: State Transparency
+
+**Project state MUST always be findable:**
+
+- Active Contract → `contracts/active/` (temporary progress)
+- Interface docs → `references/interfaces/` (permanent state)
+- Phase status → `README.md` (high-level overview)
 
 ---
 
 ## Core Principles
 
-1. **Documentation-First** — No code without approved spec/ADR
-2. **State Transparency** — Project status always visible in README.md
-3. **Decision Traceability** — All significant decisions recorded
-4. **Session Discipline** — Keep sessions lightweight, split aggressively
+1. **Contract-First** — No code without an approved Contract (Mini or Full)
+2. **Acceptance-Driven** — Success = all Contract items pass, not "code written"
+3. **Interface Docs as Truth** — Interface docs always reflect current code state
+4. **Temporary vs Permanent State** — Contract progress is temporary, interface docs are permanent
+5. **No Session History Dependency** — Project state is in files, not conversation history
+6. **Decision Traceability** — All significant decisions recorded in ADRs
+
+## Contract Definition
+
+**Contract = Development action atomic unit + Interface contract**
+
+A Contract is not a project specification. It is:
+- The intent, scope, interfaces, and verification of **this modification**
+- Contains temporary progress tracking (Status section)
+- Closed when: verification passed + interface docs updated + human confirmed
+- After closing: progress cleared (marked completed), interface docs remain updated
+
+### Contract vs Phase
+
+| Level | Concept | Definition | Contains |
+|-------|---------|------------|----------|
+| **L2** | **Phase** | Development stage (human view) | Multiple Contracts |
+| **L3** | **Contract** | Atomic development action (AI view) | Tasks + Interface Contract |
+
+**Relationship**:
+- **Phase 1** (Contract Definition): 1 Contract (project specification)
+- **Phase 2** (Implementation): N Contracts (one per feature/module)
+- **Phase 3** (Audit): 0 Contracts (audit all completed Contracts)
+- **Phase 4** (Release): 0 Contracts (package and ship)
+
+**Contract closes independently** — each Contract is verified and closed on its own, not waiting for Phase completion.
+
+### Contract Structure
+
+```markdown
+## Status
+**Opened**: YYYY-MM-DDTHH:MM
+**Current**: draft | in_progress | completed | pending-confirmation
+**Modified Files**:
+- `file.py` (description - done)
+
+**Pending**:
+- [ ] Task 1
+- [ ] Interface docs updated
+
+## Goal
+...
+
+## Interface Contract
+...
+```
+
+### Contract Lifecycle
+
+```
+contracts/
+├── active/                  # In-progress Contract (max 1)
+├── pending-confirmation/    # Completed, waiting human confirmation
+└── archive/                 # Closed Contracts
+
+Session Recovery:
+1. Check contracts/active/ → find in-progress Contract
+2. Read Status section → understand progress
+3. Continue work
+```
+
+### Temporary Progress vs Permanent State
+
+| Type | Location | Lifecycle |
+|------|----------|-----------|
+| **Temporary Progress** | Contract Status section | Contract lifecycle |
+| **Permanent State** | Interface docs | Project lifecycle |
+
+---
 
 ## Quick Start
 
 ```bash
 # 1. Identify project type
 # 2. Run initialization checklist
-# 3. Start Phase 1 (Specification)
+# 3. Start Phase 1 (Contract Definition)
 ```
 
 📋 **Full checklist**: [references/project-init.md](references/project-init.md)
@@ -97,46 +185,61 @@ description: Project management for single human + claw collaboration. Claw driv
 ## Workflow Overview
 
 ```
-Phase 1: Specification → Phase 2: Implementation → Phase 3: Review → Phase 4: Release
-     ↓                        ↓                        ↓                   ↓
-  Claw proposes           Claw executes           Claw self-reviews   Claw packages
-  Human confirms          Human confirms          Human validates     Human confirms
+Human Goal
+  ↓
+Phase 1: Contract       — Define WHAT + HOW to verify + Interface Contract
+  ↓ (human confirms)
+Phase 2: Implementation — Brief → Implement+Verify per item → Update interface docs
+  ↓ (auto)
+Phase 3: Audit          — Adversarial audit against Contract
+  ↓ (human confirms)
+Phase 4: Release        — Package and ship
 ```
 
 **Claw drives progress. Human confirms or requests changes.**
 
+**Key change from traditional**: Interface docs updated during implementation, not after.
+
 📖 **Detailed workflow**: [references/workflow.md](references/workflow.md)
 
-## Session Discipline
+## Related Guides
 
-**Context Budget**:
-- Files/session: ≤7 writes
-- Response tokens: ≤1500
-- Tool calls: ≤12
-- Duration: ≤30 min
+📖 **Workflow**: [references/workflow.md](references/workflow.md)  
+📖 **Checklists**: [references/checklists.md](references/checklists.md)  
+📖 **Interface Docs**: [references/guides/interface-docs.md](references/guides/interface-docs.md)  
+📖 **Test Verification**: [references/guides/test-verification.md](references/guides/test-verification.md)  
+📖 **Task Decomposition**: [references/guides/session-tasks.md](references/guides/session-tasks.md)
 
-**When to `/new`**: Phase completion, context heavy, task switching, model degradation
+## Tools
 
-**When to use subagent**: Parallel work, isolated tasks, heavy computation, research
+**Dependency Analysis**:
+```bash
+# Source code dependencies
+python scripts/extract-dependencies.py --src . --output .project-graph.json
+python scripts/query-deps.py --graph .project-graph.json --impact module_name
 
-📖 **Session Startup**: [references/guides/session-startup.md](references/guides/session-startup.md)  
-📖 **Session Tasks**: [references/guides/session-tasks.md](references/guides/session-tasks.md)  
-📖 **Test Verification**: [references/guides/test-verification.md](references/guides/test-verification.md)
+# Documentation dependencies
+python scripts/extract-doc-deps.py --src . --output .doc-graph.json
+python scripts/query-doc-deps.py --graph .doc-graph.json --impact references/file.md
+```
+
+**Use in Contract Impact Analysis** (see templates/mini-contract.md).
 
 ## Key Templates
 
-| Document | Template |
-|----------|----------|
-| ADR | [templates/adr.md](references/templates/adr.md) |
-| Spec | [templates/spec.md](references/templates/spec.md) |
-| Session Log | [templates/session-log.md](references/templates/session-log.md) |
-| Naming Conventions | [templates/naming-conventions.md](references/templates/naming-conventions.md) |
+| Document | Template | When to Use |
+|----------|----------|-------------|
+| Mini-Contract | [templates/mini-contract.md](references/templates/mini-contract.md) | Default for most changes (≤ 8 contract items, single module) |
+| Contract | [templates/contract.md](references/templates/contract.md) | Multi-module features, architectural changes, complex deps |
+| Interface Contract | [templates/interface-contract.md](references/templates/interface-contract.md) | Supplement when modifying module interfaces |
+| ADR | [templates/adr.md](references/templates/adr.md) | Significant architectural decisions |
+| Naming Conventions | [templates/naming-conventions.md](references/templates/naming-conventions.md) | Reference |
 
 ## Quality Gates
 
-**Before Human Review**: Tests pass, no lint errors, docs updated, ADRs created, naming consistent
+**Before Phase 3**: All Contract items pass, tests pass, Implementation Brief written, Contract marked "Done"
 
-**Before Release**: All tests pass, CHANGELOG updated, version bumped, git tag created, human approval
+**Before Release**: All tests pass, Audit Summary approved by human, CHANGELOG updated, version bumped, git tag created
 
 📋 **Full checklists**: [references/checklists.md](references/checklists.md)
 
@@ -148,15 +251,79 @@ Phase 1: Specification → Phase 2: Implementation → Phase 3: Review → Phase
 
 ---
 
-## ℹ️ Usage Notes
+## ℹ️ Activation
 
-**When to follow this skill**:
-- Working in a development project with `README.md` tracking phases
-- User mentions "project-pilot" or "follow the workflow"
-- Starting a new session in an ongoing project
+**Explicit trigger required** — Do NOT auto-apply.
 
-**Key reminder**: Check `README.md` at session start to find current Phase.
+### Triggers
+
+**Apply project-pilot when**:
+
+1. **Explicit request**: Human says "Use project-pilot" or "Follow the workflow"
+2. **Project continuation**: Human says "Continue project {name}" AND project structure exists
+3. **New development**: Human says "Start development" AND agrees to use structured process
+
+### Project Structure Check
+
+**If triggered by "continue project"**, verify:
+
+```bash
+# Required structure
+ls README.md contracts/ references/interfaces docs/decisions
+```
+
+| Result | Action |
+|--------|--------|
+| All exist | → Apply project-pilot |
+| Missing | → Prompt: "Project structure incomplete. Run initialization?" |
+
+### Key Principle
+
+**Project state = Contract files + Interface docs, not conversation history**
+
+- Check `contracts/active/` for in-progress work
+- Read interface docs for current system state
+- Do NOT rely on session history
+
+### Session Startup After Contract Closed
+
+**If `contracts/active/` is empty**:
+
+1. Read README.md → Find last completed Phase
+2. Check last archived Contract → Find "Next Session" suggestion
+3. Determine context:
+   - **Same Phase** (more Contracts to do):
+     ```
+     Last Contract suggested: {task}
+     Create new Contract for this?
+     ```
+   - **Phase completed** (all Contracts done):
+     ```
+     Phase N completed (all Contracts done).
+     Continue to Phase N+1?
+     ```
+4. Human confirms → Create new Contract or start Phase N+1
 
 ---
 
-**Version**: 0.7.0 (2026-03-22) — Claw-led model
+## Documentation Philosophy
+
+**AI-First, Human-Summary**
+
+| Document | Purpose | Reader | When Created |
+|----------|---------|--------|--------------|
+| **Contract** | Development action tracking | AI | Every modification |
+| **Interface Docs** | Single source of truth | AI | When interfaces change |
+| **ADR** | Major decision rationale | AI + Human | Architectural decisions |
+| **README** | Project status summary | Human | Phase completion |
+
+**Not needed**:
+- ❌ Completion reports (Contract Status covers it)
+- ❌ Architecture docs (in ADR + interface docs)
+- ❌ Specs (in Contract + interface docs)
+
+**Human-readable summary**: 1 sentence at Phase completion, not long reports.
+
+---
+
+**Version**: 1.1.1 (2026-03-26) — Next Session tracking for session continuity

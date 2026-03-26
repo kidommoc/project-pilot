@@ -1,183 +1,197 @@
 # Development Workflow
 
-**Documentation-First**: No implementation without approved spec/ADR.
+**Contract-First, Acceptance-Driven.**
+
+No code without an approved Contract. Success is defined by Contract items passing, not by code being written.
+
+---
+
+## Contract Close vs Phase Completion
+
+**Two different concepts**:
+
+| Concept | When | What |
+|---------|------|------|
+| **Contract Close** | Each Contract completes | Verify Contract items, update interface docs, record Next Session |
+| **Phase Completion** | All Contracts in Phase complete | Verify all Contracts done, update README, ask human to continue |
+
+---
+
+## 🚨 Contract Close Protocol
+
+**When a Contract completes** (all items implemented and verified):
+
+### Step 1: Verify Contract Items
+
+- [ ] All Contract items pass (Given/When/Then)
+- [ ] Tests written and passing
+- [ ] Edge cases covered
+
+### Step 2: Update Interface Docs (If Interfaces Changed)
+
+- [ ] Update `references/interfaces/{module}.md`
+- [ ] Regenerate dependency graph (if structure changed)
+
+### Step 3: Record Next Session
+
+**Fill in the Contract's "Next Session" section**:
+
+```markdown
+## Next Session
+
+**Suggested**: {Next Contract topic or Phase N+1}
+**First Contract**: {specific task}
+**Context**: {ADRs or docs to read}
+```
+
+### Step 4: Human Confirmation
+
+> "Contract '{name}' completed. Next: {suggested task}. Continue?"
+
+**⛔ Wait for confirmation** before starting next Contract.
+
+### Step 5: Archive Contract
+
+- Move to `contracts/archive/`
+- Mark Status as `completed`
 
 ---
 
 ## 🚨 Phase Completion Protocol (MUST-1)
 
-**After each Phase completes, MUST execute the following, then STOP and wait for confirmation:**
+**When all Contracts in a Phase are completed**:
 
-### Step 0: Test Verification (Quality Gate)
+### Step 0: Verify All Contracts Done
 
-**Before declaring Phase complete, MUST verify with tests:**
-
-| Phase Type | Required Tests |
-|------------|----------------|
-| Code development | Unit tests + Functional tests |
-| Documentation | Syntax check + Link validation |
-| Configuration changes | Validation command + Rollback test |
-
-**Test Pass Criteria**:
-- [ ] New features have corresponding tests
-- [ ] Edge cases covered
-- [ ] Error handling verified
-- [ ] Test results documented in completion report
-
-**If tests fail**: ⛔ STOP, fix issues, re-run tests before proceeding.
-
----
+- [ ] All Contracts in Phase closed (check `contracts/archive/`)
+- [ ] No pending Contracts in `contracts/active/` or `pending-confirmation/`
 
 ### Step 1: Update README.md
 
 ```markdown
 ### Phase N: {phase_name} (✅ Completed - YYYY-MM-DD)
-- [x] Task 1
-- [x] Task 2
 
-### Phase N+1: {next_phase} (🟡 In Progress / ⏳ Pending)
-- [ ] Task 1
+### Phase N+1: {next_phase} (⏳ Pending)
 ```
 
-### Step 2: Write Completion Report
+### Step 2: Ask User
 
-**File**: `docs/notes/YYYY-MM-DD-phaseN-completion.md`
+> "Phase N completed (all Contracts done). Continue to Phase N+1?"
 
-**Template**:
-```markdown
-# YYYY-MM-DD Phase N Completion Report
-
-**Session**: Date-time range
-**Executor**: claw
-**Phase**: Phase N - Phase Name
-
-## Task Objectives
-{List objectives for this Phase}
-
-## Completed Work
-{Detailed list of completed tasks}
-
-## Verification Results
-{Command output, test results, etc.}
-
-## Next: Phase N+1
-{Next phase tasks}
-
-**Status**: ✅ Phase N completed, waiting confirmation to proceed to Phase N+1
-```
-
-### Step 3: Ask User
-
-**Must explicitly ask**:
-> "Phase N completed (verification passed). Continue to Phase N+1?"
-
-### Step 4: ⛔ Wait for Confirmation
-
-**Forbidden behaviors**:
-- ❌ Execute Phase N+1 code while waiting
-- ❌ Assume "continue is default behavior"
-- ❌ Skip confirmation step
+**⛔ Wait for confirmation** before starting Phase N+1.
 
 ---
 
-## Phase Overview
+## Phase 1: Contract Definition
 
-```
-Phase 1: Specification → Phase 2: Implementation → Phase 3: Review → Phase 4: Release
-     ↓                        ↓                        ↓                   ↓
-  Claw proposes           Claw executes           Claw self-reviews   Claw packages
-  Human confirms          Human confirms          Human validates     Human confirms
-```
+**Goal**: Define WHAT to build and HOW to verify it.  
+**Hat**: Product + Architect
 
-**Claw drives progress. Human confirms or requests changes.**
+### Contract Selection
 
----
-
-## Phase 1: Specification
-
-**Goal**: Claw drafts spec + decomposes tasks, human confirms or requests changes.
+| Criteria | Use |
+|----------|-----|
+| ≤ 8 contract items, single module, no complex deps | **Mini-Contract** ([template](templates/mini-contract.md)) |
+| > 8 items, multi-module, architectural impact, dep graph | **Full Contract** ([template](templates/contract.md)) |
 
 ### Steps
 
 1. Human provides high-level goal
-2. Claw drafts: spec + ADRs (if needed) + task decomposition + effort estimate
-3. Claw presents plan to human
-4. Human confirms OR requests modifications
-5. **Documentation gate passed** → Phase 2
+2. Claw selects Contract type (Mini or Full) based on scope
+3. Claw drafts: Contract + ADRs (if needed)
+4. **If interfaces modified**: Include Interface Contract section or separate interface-contract.md
+5. Claw presents to human, highlighting Boundary, Contract items, and Interface changes
+6. Human confirms OR requests modifications
+7. **Contract approved** → Phase 2
 
-**Claw responsibility**: Propose complete, actionable plan  
-**Human role**: Confirm or request changes (not design details)
-
-### Task Decomposition
-
-Break feature into sessions (1-3 tasks per session):
-
-```markdown
-## Implementation Plan
-### Session 1: Task 1.1, 1.2
-### Session 2: Task 2.1
-### Subagents: docs, tests
-```
-
-📖 **Techniques**: [guides/session-tasks.md](guides/session-tasks.md)
+**Claw responsibility**: Propose complete, actionable Contract with testable acceptance criteria  
+**Human role**: Audit Contract items (especially edge cases and boundaries), confirm or request changes
 
 ### Exit Criteria
 
-- [ ] Spec/ADR created
+- [ ] Contract created (Mini or Full, with testable acceptance items)
 - [ ] Human approval obtained
-- [ ] Task decomposition complete
 - [ ] Dependencies identified
+- [ ] ADRs created (if architectural decisions involved)
 
 ---
 
 ## Phase 2: Implementation
 
-**Goal**: Claw executes per spec, human confirms progress at Phase end.
+**Goal**: Map Contract to code, execute, and verify each item as you go.
 
-### Steps
+Phase 2 enforces **thinking-stage separation** — same Claw, different hats at each step.
 
-1. Claw creates branch (`feature/{name}`)
-2. Claw implements incrementally (small commits)
-3. **Claw writes tests alongside code** (test-first or test-during, never test-after)
-4. Claw uses subagents for parallel work (docs/tests)
-5. Claw updates docs
-6. Claw marks spec "Implemented"
-7. Claw proceeds to Phase 3 (no human confirmation needed during Phase 2)
+### Step 1: Implementation Brief (Architect Hat)
 
-### Session Discipline
+**Before writing any code**, produce a Contract → Code mapping:
 
-- Files/session: ≤7
-- Tokens/response: ≤1500
-- End of session: `/new` or continue
+- Each contract item → target file(s), function(s), module(s)
+- New interfaces → define signatures first (no implementation yet)
+- Execution order → which items have dependencies, which can be parallelized (subagent-eligible)
 
-📖 **Full guide**: [guides/session-tasks.md](guides/session-tasks.md)
+**Format**: Embed in Contract file (Tasks section) or README. No separate document needed.  
+**Scale**: Mini-Contract → 5-10 bullet points. Full Contract → Implementation Plan section.
+
+⛔ **No code before the brief is written.**
+
+### Step 2: Implement + Verify (Developer Hat)
+
+Execute in the order defined by the brief:
+
+- **Per-item verification**: After completing each contract item, immediately verify it passes
+- **Interface docs update**: If interface changed, update docs immediately (not after)
+- **Regression check**: If verification breaks a previously passing item, fix before continuing
+- **Test discipline**: Test-first or test-during. Never test-after.
+- **Subagents**: Use for independent tasks (docs, test scaffolding, parallel modules)
+
+📖 **Task decomposition guide**: [guides/session-tasks.md](guides/session-tasks.md)
+
+### Step 3: Self-Check (Tester Hat)
+
+After all items are implemented, switch mindset — **pretend you don't know how the code works**:
+
+- Walk through each contract item, verify it passes independently
+- Run full test suite
+- Verify interface docs are up to date
+- If any item fails → return to Step 2, fix, re-verify
 
 ### Exit Criteria
 
-- [ ] All requirements implemented
-- [ ] Tests passing (unit + functional)
-- [ ] Code self-reviewed
-- [ ] Spec marked "Implemented"
+- [ ] Implementation Brief written
+- [ ] All Contract items implemented and individually verified
+- [ ] Full test suite passing
+- [ ] Interface docs updated (if interfaces changed)
+- [ ] Contract status updated to "Done"
 
-**Claw responsibility**: Execute plan, maintain quality  
+**Claw responsibility**: Execute plan, maintain quality, verify per item, keep interface docs current  
 **Human role**: Available for questions, confirms at Phase end
 
 ---
 
-## Phase 3: Review
+## Phase 3: Audit
 
-**Goal**: Claw self-reviews, human validates and confirms.
+**Goal**: Independent audit against the Contract, then deliver to human.  
+**Hat**: Auditor (adversarial to the Phase 2 developer)
+
+The Claw in this phase takes an **opposing stance** to its Phase 2 self. The question is not "did I implement it?" but "does it actually satisfy the Contract?"
 
 ### Steps
 
-1. Claw performs self-review (checklist below)
-2. Claw presents results to human: test results, changes summary, known issues
-3. Human inspects (spot/full/delegated — human chooses depth)
-4. Claw addresses feedback (if any)
-5. Human confirms
+1. **Contract Audit**: Walk each contract item, verify actual behavior matches the criterion
+2. **Code quality check**: Lint, naming conventions, documentation
+3. **Produce Audit Summary** for human:
+   - Contract items: per-item pass/fail
+   - Test results
+   - Changes summary (files touched, lines changed)
+   - Known risks / tech debt
+4. Human reviews (depth at human's discretion: spot / full / delegated)
+5. Claw addresses feedback (if any)
+6. Human confirms
 
-### Self-Review Checklist
+### Audit Checklist
 
+- [ ] All Contract items verified (each one individually checked against actual behavior)
 - [ ] Tests pass
 - [ ] No lint errors
 - [ ] Docs updated
@@ -186,17 +200,19 @@ Break feature into sessions (1-3 tasks per session):
 
 ### Exit Criteria
 
+- [ ] Audit Summary delivered to human
 - [ ] Human confirmation obtained
 - [ ] Feedback addressed (if any)
 
-**Claw responsibility**: Self-review thoroughly, present clearly  
+**Claw responsibility**: Audit thoroughly from an adversarial perspective, present clearly  
 **Human role**: Validate, confirm, or request changes
 
 ---
 
 ## Phase 4: Release
 
-**Goal**: Claw packages, human confirms release.
+**Goal**: Package and ship.  
+**Hat**: Release Engineer
 
 ### Steps
 
@@ -229,30 +245,13 @@ Break feature into sessions (1-3 tasks per session):
 
 ## Templates
 
-### Spec Structure
-
-```markdown
-# {Feature}
-**Status**: Draft|Approved|Implemented
-**Goal**: One sentence
-**Requirements**: FR-1, FR-2...
-**Technical Approach**: {description}
-**Test Plan**: {tests}
-**Acceptance Criteria**: [ ] C1, [ ] C2
-```
-
-### Session Log
-
-```markdown
-# {Topic}
-**Date**: YYYY-MM-DD
-**Progress**: Task A ✅, Task B 🟡
-**Decisions**: {decision} — {rationale}
-**Next**: {task}
-```
-
-📖 **Full templates**: [templates/](templates/)
+| Template | Use Case |
+|----------|----------|
+| [Mini-Contract](templates/mini-contract.md) | Default for most changes |
+| [Full Contract](templates/contract.md) | Multi-module, complex features |
+| [ADR](templates/adr.md) | Architectural decisions |
+| [Naming Conventions](templates/naming-conventions.md) | Reference |
 
 ---
 
-**Version**: 0.5.0 | **See also**: [SKILL.md](../SKILL.md), [checklists.md](checklists.md)
+**Version**: 0.7.0 | **See also**: [SKILL.md](../SKILL.md), [checklists.md](checklists.md)

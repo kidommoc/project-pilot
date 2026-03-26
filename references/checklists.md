@@ -2,52 +2,101 @@
 
 ---
 
+## 🚨 Contract Close Checklist
+
+**MUST check before closing a Contract:**
+
+### Contract Verification
+- [ ] All Contract items pass (Given/When/Then)
+- [ ] Unit tests written and passing
+- [ ] Edge cases covered
+- [ ] Error handling verified
+
+### Documentation Updates
+- [ ] Interface docs updated (if interfaces changed)
+- [ ] Dependency graph regenerated (if structure changed)
+- [ ] Documentation consistency checked (see Consistency Check below)
+
+### Consistency Check
+
+**Run impact analysis**:
+```bash
+python scripts/query-doc-deps.py --graph .doc-graph.json --impact {modified_file.md}
+```
+
+- [ ] All impacted files updated
+- [ ] Templates checked (if core workflow changed)
+
+### Next Session
+- [ ] Next Session recorded in Contract
+- [ ] Explicitly asked: "Contract '{name}' completed. Next: {task}. Continue?"
+- [ ] ⛔ Stopped and waiting for confirmation
+
+**Contract Close → Archive to `contracts/archive/`**
+
+---
+
 ## 🚨 Phase Completion (MUST-1 Enforcement)
 
 **MUST check before declaring Phase complete:**
 
-### Test Verification (Quality Gate)
-- [ ] Unit tests written for new features
-- [ ] Functional tests executed
-- [ ] Edge cases covered
-- [ ] Error handling verified
-- [ ] Test results documented
+### All Contracts Done
+- [ ] All Contracts in Phase closed (check `contracts/archive/`)
+- [ ] No pending Contracts in `contracts/active/` or `pending-confirmation/`
 
-### Documentation Updates
-- [ ] README.md checklist for current Phase updated (all tasks marked [x])
-- [ ] README.md next phase status updated (🟡 In Progress / ⏳ Pending)
-- [ ] `docs/notes/YYYY-MM-DD-phaseN-completion.md` created
-- [ ] Completion report includes: objectives, completed work, verification results, next steps
-
-### Verification Execution
-- [ ] Code syntax check passed (if applicable)
-- [ ] Test results passed (if applicable)
-- [ ] Tool/function count correct (if applicable)
+### README Update
+- [ ] README.md Phase status updated (✅ Completed)
+- [ ] README.md next Phase status updated (⏳ Pending)
 
 ### User Communication
-- [ ] Explicitly asked: "Phase N completed (tests passed). Continue to Phase N+1?"
+- [ ] Explicitly asked: "Phase N completed (all Contracts done). Continue to Phase N+1?"
 - [ ] ⛔ Stopped and waiting for confirmation, no next phase code executed
 
 **Violation Recovery**: If any of the above is violated, stop immediately and roll back to last valid state.
 
 ---
 
-## Pre-Review (Claw Self-Check)
+## Pre-Audit (Claw Self-Check — Phase 2 Step 3)
+
+**Contract Verification**:
+- [ ] Implementation Brief written before coding started
+- [ ] Each contract item individually verified as implemented
+- [ ] Full test suite passing
 
 **Code**:
-- [ ] Tests pass
 - [ ] No lint/type errors
 - [ ] Naming conventions followed
 - [ ] No debug statements
 
 **Docs**:
-- [ ] README/API docs updated
-- [ ] Spec marked "Implemented"
-- [ ] Session log written
+- [ ] Interface docs updated (if interfaces changed)
+- [ ] ADR created (if architectural decision)
+- [ ] Contract marked "Done"
 
 **Tracking**:
 - [ ] ADR created (if applicable)
 - [ ] Project board updated
+
+---
+
+## Audit Checklist (Phase 3)
+
+**Contract Audit** (adversarial — verify from Contract perspective, not code perspective):
+- [ ] Each contract item checked against actual behavior (not just code reading)
+- [ ] Edge case items verified with actual test runs
+- [ ] Boundary respected (no changes outside declared scope)
+
+**Quality**:
+- [ ] Tests pass
+- [ ] No lint errors
+- [ ] Docs updated
+- [ ] Naming conventions followed
+
+**Audit Summary produced**:
+- [ ] Per-item pass/fail status
+- [ ] Test results
+- [ ] Changes summary
+- [ ] Known risks / tech debt
 
 ---
 
@@ -60,6 +109,7 @@
 
 **Docs**:
 - [ ] CHANGELOG.md updated
+- [ ] Interface docs up to date (if interfaces changed)
 - [ ] Version bumped (package.json, README, etc.)
 
 **Git**:
@@ -73,48 +123,4 @@
 
 ---
 
-## Spec Review (Human)
-
-- [ ] Goal clear and testable
-- [ ] Requirements complete
-- [ ] Technical approach sound
-- [ ] Effort estimate reasonable
-
-**Approval**: [ ] As-is [ ] Minor changes [ ] Major revision
-
----
-
-## Code Review (Human)
-
-- [ ] Implements all requirements
-- [ ] No obvious bugs
-- [ ] Tests cover key scenarios
-- [ ] Code readable
-
-**Approval**: [ ] Merge [ ] Minor fixes [ ] Major revision
-
----
-
-## Session End
-
-- [ ] Work committed (descriptive messages)
-- [ ] Project board updated
-- [ ] Session log written
-- [ ] Next priorities noted
-
----
-
-## Project Health (Weekly)
-
-**Progress**: [ ] On track [ ] Tasks stuck [ ] Blockers
-
-**Quality**: [ ] Tests ok [ ] Docs current [ ] Debt managed
-
-**Retrospective**:
-- Went well: ...
-- Improve: ...
-- Actions: [ ] ...
-
----
-
-**Version**: 0.5.0
+**Version**: 1.1.1 (2026-03-26) — Contract Close vs Phase Completion separated

@@ -1,32 +1,32 @@
-# OpenClaw Plugin 项目结构
+# OpenClaw Plugin Project Structure
 
-适用于 OpenClaw 插件开发（TypeScript + 可选 MCP）。
+For OpenClaw plugin development (TypeScript + optional MCP).
 
-## 标准结构
+## Standard Structure
 
 ```
 {plugin-name}/
-├── package.json              # 必需 - 插件元数据 + 依赖
-├── tsconfig.json             # 必需 - TypeScript 配置
+├── package.json              # Required - Plugin metadata + dependencies
+├── tsconfig.json             # Required - TypeScript configuration
 ├── src/
-│   └── index.ts              # 必需 - 插件入口
-├── mcp/                      # 可选 - MCP Server
-│   ├── server.py             # MCP 服务器入口
-│   └── tools/                # MCP 工具实现
+│   └── index.ts              # Required - Plugin entry point
+├── mcp/                      # Optional - MCP Server
+│   ├── server.py             # MCP server entry
+│   └── tools/                # MCP tool implementations
 │       └── {tool-name}.py
-├── docs/                     # 可选 - 插件文档
+├── docs/                     # Optional - Plugin documentation
 │   └── README.md
-├── tests/                    # 推荐 - 测试
+├── tests/                    # Recommended - Tests
 │   └── {test-file}.test.ts
-└── scripts/                  # 可选 - 辅助脚本
+└── scripts/                  # Optional - Helper scripts
     └── {script-name}.ts
 ```
 
-## 关键文件说明
+## Key Files
 
 ### package.json
 
-必需字段：
+Required fields:
 ```json
 {
   "name": "@openclaw/plugin-{name}",
@@ -46,39 +46,39 @@
 
 ### src/index.ts
 
-插件入口，导出 plugin 定义：
+Plugin entry point, exports plugin definition:
 ```typescript
 import { definePlugin } from '@openclaw/sdk';
 
 export default definePlugin({
   name: '{plugin-name}',
   version: '0.1.0',
-  description: '插件描述',
+  description: 'Plugin description',
   
-  // 生命周期钩子
+  // Lifecycle hooks
   async onLoad() {
-    // 插件加载时执行
+    // Executed when plugin loads
   },
   
   async onUnload() {
-    // 插件卸载时执行
+    // Executed when plugin unloads
   }
 });
 ```
 
-### MCP Server（可选）
+### MCP Server (Optional)
 
-如需提供 MCP 工具：
+If providing MCP tools:
 
 ```
 mcp/
-├── server.py           # FastMCP 服务器
+├── server.py           # FastMCP server
 └── tools/
-    ├── tool_a.py       # 工具 A
-    └── tool_b.py       # 工具 B
+    ├── tool_a.py       # Tool A
+    └── tool_b.py       # Tool B
 ```
 
-server.py 模板：
+server.py template:
 ```python
 from mcp.server.fastmcp import FastMCP
 
@@ -86,41 +86,41 @@ mcp = FastMCP("{plugin-name}")
 
 @mcp.tool()
 def {tool_name}(...) -> str:
-    """工具描述"""
-    return "结果"
+    """Tool description"""
+    return "Result"
 
 if __name__ == "__main__":
     mcp.run()
 ```
 
-## 开发流程调整
+## Development Process Adjustments
 
 ### Phase 1: Specification
 
-除常规规格外，需明确：
-- [ ] 是否需要 MCP 工具？
-- [ ] 插件类型（gateway plugin / MCP bridge）
-- [ ] 依赖的 OpenClaw API 版本
+In addition to standard specs, clarify:
+- [ ] Are MCP tools needed?
+- [ ] Plugin type (gateway plugin / MCP bridge)
+- [ ] Required OpenClaw API version
 
 ### Phase 2: Implementation
 
-- [ ] 使用 `tsc` 编译 TypeScript
-- [ ] MCP server 使用 Python（如需要）
-- [ ] 遵循 OpenClaw 插件规范
+- [ ] Use `tsc` to compile TypeScript
+- [ ] MCP server uses Python (if needed)
+- [ ] Follow OpenClaw plugin specifications
 
-### Phase 3: Review
+### Phase 3: Audit
 
-额外检查：
-- [ ] package.json 版本正确
-- [ ] 插件能正确加载到 OpenClaw
-- [ ] MCP 工具（如有）能正常注册
+Additional checks:
+- [ ] package.json version is correct
+- [ ] Plugin loads correctly into OpenClaw
+- [ ] MCP tools (if any) register correctly
 
 ### Phase 4: Release
 
-- [ ] 构建产物放入 `dist/`
-- [ ] 发布到 npm（如适用）或本地安装
+- [ ] Build artifacts go to `dist/`
+- [ ] Publish to npm (if applicable) or install locally
 
-## 测试建议
+## Testing Recommendations
 
 ```typescript
 // tests/plugin.test.ts
@@ -134,19 +134,36 @@ describe('{plugin-name}', () => {
 });
 ```
 
-## 常见插件类型
+## Common Plugin Types
 
-| 类型 | 描述 | 示例 |
-|------|------|------|
-| **Gateway Plugin** | 扩展 Gateway 功能 | 自定义认证、日志 |
-| **MCP Bridge** | 桥接外部 MCP 服务 | 连接 Obsidian、Notion |
-| **Tool Provider** | 提供新工具 | 天气查询、代码执行 |
-| **UI Extension** | 扩展 UI（未来） | 自定义面板 |
+| Type | Description | Example |
+|------|-------------|---------|
+| **Gateway Plugin** | Extends Gateway functionality | Custom auth, logging |
+| **MCP Bridge** | Bridges external MCP services | Connect to Obsidian, Notion |
+| **Tool Provider** | Provides new tools | Weather query, code execution |
+| **UI Extension** | Extends UI (future) | Custom panels |
 
 ---
 
-**参考**:
+## Project Pilot Integration
+
+**Use project-pilot for structured development**:
+
+1. **Activation**: Say "Use project-pilot for this plugin"
+2. **Contract**: Create Contract for each feature/modification
+3. **Interface Docs**: Document plugin APIs in `references/interfaces/`
+4. **ADRs**: Record architectural decisions (e.g., MCP integration approach)
+
+**Documentation** (AI-First):
+- **Required**: Contract files, Interface docs, ADRs
+- **Optional**: `docs/README.md` for human users
+- **Not needed**: Completion reports, architecture docs
+
+---
+
+**Reference**:
 - [OpenClaw Plugin API](https://docs.openclaw.ai/plugins/api)
 - [MCP Protocol](https://modelcontextprotocol.io/)
+- [project-pilot SKILL.md](../SKILL.md)
 
-**Last Updated**: 2026-03-22
+**Last Updated**: 2026-03-26 (project-pilot 1.1.0)

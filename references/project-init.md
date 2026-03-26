@@ -74,12 +74,11 @@ Follow corresponding template in `project-types/`.
 
 ## 📚 Documentation
 
-| Directory | Content |
-|-----------|---------|
-| [docs/architecture/](docs/architecture/) | System design |
-| [docs/specs/](docs/specs/) | Feature specs |
-| [docs/decisions/](docs/decisions/) | ADRs |
-| [docs/notes/](docs/notes/) | Session logs |
+| Directory | Content | Reader |
+|-----------|---------|--------|
+| [docs/decisions/](docs/decisions/) | ADRs (major decisions) | AI + Human |
+| [references/interfaces/](references/interfaces/) | Interface docs | AI |
+| [contracts/](contracts/) | Contracts | AI |
 
 ---
 
@@ -95,19 +94,22 @@ Follow corresponding template in `project-types/`.
 
 ---
 
-## Step 3: Create docs/README.md
+## Step 3: Create docs/decisions/ Directory
+
+```bash
+mkdir -p docs/decisions
+```
+
+**ADRs track major decisions** — See [templates/adr.md](../templates/adr.md)
+
+**First ADR** (`docs/decisions/ADR-001-project-init.md`):
 
 ```markdown
-# Documentation Index
+# ADR-001: Project Initialization
 
-| Directory | Purpose |
-|-----------|---------|
-| [architecture/](architecture/) | System design |
-| [specs/](specs/) | Feature specs |
-| [decisions/](decisions/) | ADRs |
-| [notes/](notes/) | Session logs |
+**Decision**: Use project-pilot skill
 
-**Naming**: [naming-conventions.md](naming-conventions.md)
+**Rationale**: Lightweight but structured process for human+claw collaboration
 ```
 
 ---
@@ -149,15 +151,11 @@ Edit for project-specific rules.
 
 ---
 
-## Step 7: Create First Session Log
+## Step 7: Create Contract Directory Structure
 
-`docs/notes/YYYY-MM-DD-kickoff.md`:
-
-```markdown
-# Project Kickoff
-**Date**: YYYY-MM-DD
-**Goals**: [x] Init structure, [ ] Define milestone
-**Next**: {next task}
+```bash
+mkdir -p contracts/{active,pending-confirmation,archive}
+mkdir -p references/interfaces
 ```
 
 ---
@@ -173,12 +171,13 @@ git init && git add . && git commit -m "chore: init"
 ## Verification
 
 - [ ] README.md with project board
-- [ ] docs/ structure (including `architecture/`)
-- [ ] naming-conventions.md
+- [ ] `docs/decisions/` directory created
 - [ ] ADR-001 created
 - [ ] CHANGELOG.md initialized
-- [ ] Session log created
+- [ ] `references/interfaces/` directory created
+- [ ] `contracts/` directory structure (`active/`, `pending-confirmation/`, `archive/`)
+- [ ] Dependency graph scripts available (`scripts/*.py`)
 
 ---
 
-**Version**: 0.4.0 | **See also**: [guides/session-tasks.md](guides/session-tasks.md)
+**Version**: 1.1.2 (2026-03-26) — Contract Close vs Phase Completion clarified | **See also**: [guides/interface-docs.md](guides/interface-docs.md), [SKILL.md](../SKILL.md)

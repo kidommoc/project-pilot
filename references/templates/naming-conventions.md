@@ -112,7 +112,7 @@ Example:
 ## Enforcement
 
 - **Linting**: Configure linter rules where possible
-- **Code review**: Check naming during Phase 3 review
+- **Code review**: Check naming during Phase 3 audit
 - **Documentation**: Update this file when new patterns emerge
 
 ---

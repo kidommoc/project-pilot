@@ -1,15 +1,15 @@
-# Python Package 项目结构
+# Python Package Project Structure
 
-适用于 Python 库、CLI 工具、MCP Server 开发。
+For Python libraries, CLI tools, and MCP Server development.
 
-## 标准结构
+## Standard Structure
 
 ```
 {package-name}/
-├── pyproject.toml          # 必需 - 项目配置（Poetry/Flit）
-├── README.md               # 必需 - 项目说明
+├── pyproject.toml          # Required - Project configuration (Poetry/Flit)
+├── README.md               # Required - Project description
 ├── src/
-│   └── {package_name}/     # 源代码目录
+│   └── {package_name}/     # Source code directory
 │       ├── __init__.py
 │       ├── module_a.py
 │       └── module_b.py
@@ -17,15 +17,15 @@
 │   ├── __init__.py
 │   ├── test_module_a.py
 │   └── test_module_b.py
-├── docs/                   # 可选 - 文档
+├── docs/                   # Optional - Documentation
 │   └── {doc-files}.md
-├── scripts/                # 可选 - 辅助脚本
+├── scripts/                # Optional - Helper scripts
 │   └── {script-name}.py
-└── examples/               # 可选 - 使用示例
+└── examples/               # Optional - Usage examples
     └── {example-name}.py
 ```
 
-## 关键文件说明
+## Key Files
 
 ### pyproject.toml (Poetry)
 
@@ -33,8 +33,8 @@
 [tool.poetry]
 name = "{package-name}"
 version = "0.1.0"
-description = "项目描述"
-authors = ["企鹅 <email@example.com>"]
+description = "Project description"
+authors = ["Penguin <email@example.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -50,7 +50,7 @@ ruff = "^0.1.0"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-# CLI 入口（如适用）
+# CLI entry point (if applicable)
 [tool.poetry.scripts]
 {cli-command} = "{package_name}.cli:main"
 ```
@@ -58,10 +58,10 @@ build-backend = "poetry.core.masonry.api"
 ### src/{package_name}/__init__.py
 
 ```python
-"""{package-name} - 项目描述"""
+"""{package-name} - Project description"""
 
 __version__ = "0.1.0"
-__author__ = "企鹅"
+__author__ = "Penguin"
 
 from .module_a import function_a
 from .module_b import ClassB
@@ -69,7 +69,7 @@ from .module_b import ClassB
 __all__ = ["function_a", "ClassB"]
 ```
 
-### 测试文件
+### Test Files
 
 ```python
 # tests/test_module_a.py
@@ -80,38 +80,38 @@ def test_function_a():
     assert function_a(input) == expected_output
 ```
 
-## 开发流程调整
+## Development Process Adjustments
 
 ### Phase 1: Specification
 
-额外明确：
-- [ ] 包类型（库 / CLI / MCP Server）
-- [ ] Python 最低版本要求
-- [ ] 是否需要 CLI 入口
+Additional clarifications:
+- [ ] Package type (library / CLI / MCP Server)
+- [ ] Minimum Python version requirement
+- [ ] Is CLI entry point needed?
 
 ### Phase 2: Implementation
 
-- [ ] 使用 Poetry 管理依赖
-- [ ] 遵循 PEP 8 风格
-- [ ] 类型注解（推荐）
+- [ ] Use Poetry for dependency management
+- [ ] Follow PEP 8 style
+- [ ] Type annotations (recommended)
 
-### Phase 3: Review
+### Phase 3: Audit
 
-额外检查：
-- [ ] `pytest` 通过
-- [ ] `ruff check` 无错误
-- [ ] `black --check` 格式正确
-- [ ] 类型检查（mypy/pyright）通过
+Additional checks:
+- [ ] `pytest` passes
+- [ ] `ruff check` has no errors
+- [ ] `black --check` formatting is correct
+- [ ] Type checking (mypy/pyright) passes
 
 ### Phase 4: Release
 
-- [ ] 版本号更新（pyproject.toml）
-- [ ] 发布到 PyPI（如适用）
+- [ ] Version updated (pyproject.toml)
+- [ ] Published to PyPI (if applicable)
 - [ ] Git tag: `v{version}`
 
-## 质量工具配置
+## Quality Tool Configuration
 
-### pyproject.toml 集成
+### pyproject.toml Integration
 
 ```toml
 [tool.black]
@@ -131,9 +131,9 @@ python_version = "3.10"
 strict = true
 ```
 
-## MCP Server 特例
+## MCP Server Special Case
 
-如开发 MCP Server，结构调整为：
+For MCP Server development, adjust structure to:
 
 ```
 {mcp-server-name}/
@@ -141,15 +141,15 @@ strict = true
 ├── src/
 │   └── {server_name}/
 │       ├── __init__.py
-│       ├── server.py       # FastMCP 入口
-│       └── tools/          # 工具实现
+│       ├── server.py       # FastMCP entry
+│       └── tools/          # Tool implementations
 │           ├── __init__.py
 │           ├── tool_a.py
 │           └── tool_b.py
 └── tests/
 ```
 
-server.py 示例：
+server.py example:
 ```python
 from mcp.server.fastmcp import FastMCP
 
@@ -157,8 +157,8 @@ mcp = FastMCP("{server-name}")
 
 @mcp.tool()
 def tool_a(...) -> str:
-    """工具描述"""
-    return "结果"
+    """Tool description"""
+    return "Result"
 
 if __name__ == "__main__":
     mcp.run()
@@ -166,8 +166,24 @@ if __name__ == "__main__":
 
 ---
 
-**参考**:
-- [Poetry 文档](https://python-poetry.org/docs/)
+**Reference**:
+- [Poetry Documentation](https://python-poetry.org/docs/)
 - [FastMCP](https://github.com/jlowin/fastmcp)
 
-**Last Updated**: 2026-03-22
+## Project Pilot Integration
+
+**Use project-pilot for structured development**:
+
+1. **Activation**: Say "Use project-pilot for this package"
+2. **Contract**: Create Contract for each feature/modification
+3. **Interface Docs**: Document public APIs in `references/interfaces/`
+4. **ADRs**: Record architectural decisions (e.g., Poetry vs setuptools)
+
+**Documentation** (AI-First):
+- **Required**: Contract files, Interface docs (public API), ADRs
+- **Optional**: `docs/` for user documentation
+- **Not needed**: Completion reports, architecture docs
+
+---
+
+**Last Updated**: 2026-03-26 (project-pilot 1.1.0)

@@ -234,9 +234,25 @@ Claw：读取接口文档 → 修改代码 → 更新接口文档 → 验证 →
 
 ## 版本
 
-**当前版本**: 1.1.1 (2026-03-26)
+**当前版本**: 1.1.3 (2026-03-27)
 
 **更新日志**: 见 `CHANGELOG.md`
+
+### v1.1.3 (2026-03-27)
+
+**修正**:
+- `openclaw-plugin.md` hooks 目录从实际名称改为占位符（`{hook-name-1}`）
+- 添加 `configSchema` vs `config.schema.json` 说明
+
+### v1.1.2 (2026-03-27)
+
+**新增**:
+- 部署标准模板 (`references/templates/DEPLOYMENT.md`, `deploy.sh`)
+- OpenClaw 插件项目类型文档更新（目录结构、关键文件、部署流程）
+
+**变更**:
+- `openclaw-plugin.md` 目录结构更新为实际项目结构（`plugin/` 替代 `src/`）
+- 添加 `openclaw.plugin.json` 配置说明
 
 ---
 

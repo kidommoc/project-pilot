@@ -232,17 +232,60 @@ Claw：读取接口文档 → 修改代码 → 更新接口文档 → 验证 →
 
 ---
 
-## 版本
+## Current Phase
 
-**当前版本**: 1.1.3 (2026-03-27)
+**Phase**: Released (v1.3)
 
-**更新日志**: 见 `CHANGELOG.md`
+### Completed Contracts (v1.3 Iteration)
+- [x] 合同状态机重构
+- [x] 升级 lightweight-workflow
+- [x] 版本管理
+- [x] README 范围澄清
 
-### v1.1.3 (2026-03-27)
+### Next Iteration (Draft)
+- [ ] _Awaiting human direction_
 
-**修正**:
-- `openclaw-plugin.md` hooks 目录从实际名称改为占位符（`{hook-name-1}`）
-- 添加 `configSchema` vs `config.schema.json` 说明
+---
+
+## Version
+
+**Current**: 1.4 (2026-03-28)
+
+**Changelog**: See `CHANGELOG.md`
+
+### v1.4 (2026-03-28)
+
+**新增**:
+- README 范围规范：明确 README 与 contracts/ 职责边界
+- SKILL.md 添加 "README Scope" 章节
+
+**变更**:
+- README 简化为 Contract 标题列表，移除易 drift 的详细检查清单
+- Claw 自动维护 README Contract 状态
+
+---
+
+### v1.3 (2026-03-28)
+
+**新增**:
+- 版本管理规范：明确 lightweight vs Full workflow 差异
+- lightweight 规则：每个 Contract = Minor bump，单一 Commit + Tag
+
+**变更**:
+- 版本管理 Contract 完成，规范化 Iteration → Release 流程
+
+---
+
+### v1.2 (2026-03-28)
+
+**新增**:
+- lightweight-workflow v2.0：整合合同状态机 + README 范围 + 简化版版本管理
+- 明确 lightweight 与完整 project-pilot workflow 的定位差异
+
+**变更**:
+- 目录结构：`active/` → `in_progress/`，`pending-confirmation/` → 移除，`archive/` → `archived/`
+- 单一焦点约束：`in_progress/` 只能包含 1 个 contract
+- Session Recovery 算法：不依赖对话历史
 
 ### v1.1.2 (2026-03-27)
 

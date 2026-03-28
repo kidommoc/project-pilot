@@ -79,7 +79,10 @@ ls README.md contracts/ references/interfaces docs/decisions
 
 **Project state MUST always be findable:**
 
-- Active Contract → `contracts/active/` (temporary progress)
+- Draft Contracts → `contracts/draft/` (awaiting human confirmation)
+- Open Contracts → `contracts/open/` (confirmed, waiting to start)
+- In-Progress Contract → `contracts/in_progress/` (exactly 1, current focus)
+- Archived Contracts → `contracts/archived/` (completed)
 - Interface docs → `references/interfaces/` (permanent state)
 - Phase status → `README.md` (high-level overview)
 
@@ -124,7 +127,7 @@ A Contract is not a project specification. It is:
 ```markdown
 ## Status
 **Opened**: YYYY-MM-DDTHH:MM
-**Current**: draft | in_progress | completed | pending-confirmation
+**Current**: draft | open | in_progress | archived
 **Modified Files**:
 - `file.py` (description - done)
 
@@ -143,14 +146,19 @@ A Contract is not a project specification. It is:
 
 ```
 contracts/
-├── active/                  # In-progress Contract (max 1)
-├── pending-confirmation/    # Completed, waiting human confirmation
-└── archive/                 # Closed Contracts
+├── draft/               # Claw-drafted, awaiting human confirmation
+├── open/                # Human-confirmed, waiting to start (multiple allowed)
+├── in_progress/         # Current focus (exactly 1 enforced)
+└── archived/            # Completed contracts
+
+Flow: draft → human confirms → open → start → in_progress → done → archived
 
 Session Recovery:
-1. Check contracts/active/ → find in-progress Contract
-2. Read Status section → understand progress
-3. Continue work
+1. ls contracts/in_progress/
+   - 1 contract → Read and continue
+   - 0 contracts → Check open/ → Select next → Move to in_progress/
+   - >1 contracts → 🚨 Error state, report to human
+2. Read contract Status section → find last completed task → continue
 ```
 
 ### Temporary Progress vs Permanent State
@@ -159,6 +167,19 @@ Session Recovery:
 |------|----------|-----------|
 | **Temporary Progress** | Contract Status section | Contract lifecycle |
 | **Permanent State** | Interface docs | Project lifecycle |
+
+### Single Focus Constraint
+
+**`contracts/in_progress/` MUST contain exactly 1 contract at any time.**
+
+| Directory | Purpose | Quantity Constraint |
+|-----------|---------|---------------------|
+| `draft/` | Claw-drafted, awaiting human confirmation | Multiple allowed |
+| `open/` | Human-confirmed, waiting to start | Multiple allowed (like GitHub open issues) |
+| `in_progress/` | Current implementation focus | **Exactly 1** (enforced) |
+| `archived/` | Completed contracts | Unlimited |
+
+**Violation**: If `in_progress/` has >1 contracts, Claw must report error state and ask human to resolve.
 
 ---
 
@@ -281,13 +302,27 @@ ls README.md contracts/ references/interfaces docs/decisions
 
 **Project state = Contract files + Interface docs, not conversation history**
 
-- Check `contracts/active/` for in-progress work
+- Check `contracts/in_progress/` for current focus
+- Check `contracts/open/` for queued work
 - Read interface docs for current system state
 - Do NOT rely on session history
 
 ### Session Startup After Contract Closed
 
-**If `contracts/active/` is empty**:
+**Session Recovery Algorithm**:
+
+```
+1. ls contracts/in_progress/
+   - 1 contract → Read and continue
+   - 0 contracts → Check open/ → Select next → Move to in_progress/
+   - >1 contracts → 🚨 Error state, report to human
+
+2. Read contract Status section
+   - Find last completed task
+   - Continue from next pending task
+```
+
+**If `contracts/in_progress/` is empty AND `contracts/open/` is empty**:
 
 1. Read README.md → Find last completed Phase
 2. Check last archived Contract → Find "Next Session" suggestion
@@ -303,6 +338,9 @@ ls README.md contracts/ references/interfaces docs/decisions
      Continue to Phase N+1?
      ```
 4. Human confirms → Create new Contract or start Phase N+1
+```
+
+**Key Principle**: Project state = Contract files + Interface docs, NOT conversation history.
 
 ---
 

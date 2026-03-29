@@ -1,8 +1,6 @@
 # Contract: 升级 lightweight-workflow
 
 **Opened**: 2026-03-28T08:57  
-**Completed**: 2026-03-28T09:15  
-**Current**: archived  
 **Priority**: high  
 **Type**: Meta (project-pilot 自身改进)
 

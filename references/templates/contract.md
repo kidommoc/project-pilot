@@ -1,7 +1,7 @@
 # {Feature Name}
 
 **Opened**: YYYY-MM-DDTHH:MM
-**Status**: draft | in_progress | completed | pending-confirmation
+
 **Author**: Claw
 **Approved By**: {Human}
 
@@ -179,7 +179,7 @@ Response: {schema}
 - **First Contract**: {suggested topic}
 - **Context**: {ADRs or docs to read}
 
-**Archive**: Move to `contracts/archive/`, mark Status as `completed`.
+**Archive**: Move to `contracts/archived/`.
 
 ---
 

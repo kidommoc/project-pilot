@@ -52,8 +52,7 @@ No code without an approved Contract. Success is defined by Contract items passi
 
 ### Step 5: Archive Contract
 
-- Move to `contracts/archive/`
-- Mark Status as `completed`
+- Move to `contracts/archived/`
 
 ---
 
@@ -63,8 +62,8 @@ No code without an approved Contract. Success is defined by Contract items passi
 
 ### Step 0: Verify All Contracts Done
 
-- [ ] All Contracts in Phase closed (check `contracts/archive/`)
-- [ ] No pending Contracts in `contracts/active/` or `pending-confirmation/`
+- [ ] All Contracts in Phase closed (check `contracts/archived/`)
+- [ ] No pending Contracts in `contracts/in_progress/` or `contracts/open/`
 
 ### Step 1: Update README.md
 

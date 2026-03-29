@@ -1,7 +1,7 @@
 # {Feature / Change Title}
 
 **Opened**: YYYY-MM-DDTHH:MM
-**Status**: draft | in_progress | completed | pending-confirmation
+
 **Modified Files**:
 - `file.py` (description - done)
 
@@ -88,7 +88,7 @@ python scripts/query-doc-deps.py --graph .doc-graph.json --impact {modified_file
 - **First Contract**: {suggested topic}
 - **Context**: {ADRs or docs to read}
 
-**Archive**: Move to `contracts/archive/`, mark Status as `completed`.
+**Archive**: Move to `contracts/archived/`.
 
 ---
 

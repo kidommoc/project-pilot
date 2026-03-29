@@ -114,9 +114,10 @@ Claw 会驱动所有进度，你不需要追问「做到哪了」。
 your-project/
 ├── README.md              # 本文件 — 人类可读的项目状态
 ├── contracts/             # 合同（开发动作追踪）
-│   ├── active/            # 进行中的合同（最多 1 份）
-│   ├── pending-confirmation/  # 已完成，待你确认
-│   └── archive/           # 已关闭的合同
+│   ├── draft/             # Claw 起草，待人类确认
+│   ├── open/              # 人类已确认，等待开始
+│   ├── in_progress/       # 当前焦点（最多 1 份）
+│   └── archived/          # 已关闭的合同
 ├── references/
 │   ├── interfaces/        # 接口文档（真相来源）
 │   ├── templates/         # 合同/文档模板
@@ -136,9 +137,8 @@ your-project/
 不是项目规格说明书，而是：
 
 - 这次修改的意图、范围、接口、验证方法
-- 包含临时进度追踪（Status 章节）
 - 关闭条件：验证通过 + 接口文档更新 + 人类确认
-- 关闭后：进度清空，接口文档保留更新
+- 关闭后：移动到 `contracts/archived/`，接口文档保留更新
 
 ### 合同类型
 
@@ -234,13 +234,16 @@ Claw：读取接口文档 → 修改代码 → 更新接口文档 → 验证 →
 
 ## Current Phase
 
-**Phase**: Released (v1.3)
+**Phase**: Released (v1.4.1)
 
-### Completed Contracts (v1.3 Iteration)
+### Completed Contracts (v1.4 Iteration)
 - [x] 合同状态机重构
 - [x] 升级 lightweight-workflow
 - [x] 版本管理
 - [x] README 范围澄清
+
+### Completed Contracts (v1.4.1 Iteration)
+- [x] 移除 Contract 模板中的 Status 字段
 
 ### Next Iteration (Draft)
 - [ ] _Awaiting human direction_
@@ -249,7 +252,7 @@ Claw：读取接口文档 → 修改代码 → 更新接口文档 → 验证 →
 
 ## Version
 
-**Current**: 1.4 (2026-03-28)
+**Current**: 1.4.1 (2026-03-29)
 
 **Changelog**: See `CHANGELOG.md`
 
@@ -262,6 +265,16 @@ Claw：读取接口文档 → 修改代码 → 更新接口文档 → 验证 →
 **变更**:
 - README 简化为 Contract 标题列表，移除易 drift 的详细检查清单
 - Claw 自动维护 README Contract 状态
+
+---
+
+### v1.4.1 (2026-03-29)
+
+**变更**:
+- 模板文件移除冗余 Status 字段（目录即状态）
+- SKILL.md 更新 Contract Structure 示例和 Session Recovery 算法
+- workflow.md 移除 "Mark Status as completed" 描述
+- 历史合同清理：移除 archived 合同中的 Status 字段
 
 ---
 

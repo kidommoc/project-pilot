@@ -1,7 +1,6 @@
 # Contract: 合同状态机重构
 
 **Opened**: 2026-03-27T12:55  
-**Current**: archived  
 **Priority**: high  
 **Type**: Meta (project-pilot 自身改进)
 

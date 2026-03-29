@@ -1,33 +1,8 @@
 # Contract: README 范围澄清
 
 **Opened**: 2026-03-27T12:55  
-**Confirmed**: 2026-03-28T08:49  
-**Moved to in_progress**: 2026-03-28T09:40  
-**Completed**: 2026-03-28T09:45  
-**Current**: completed (awaiting archive)  
 **Priority**: medium  
 **Type**: Meta (project-pilot 自身改进)
-
----
-
-## Status
-
-**Phase 1**: ✅ Completed — SKILL.md 添加 README 范围说明  
-**Phase 2**: ✅ Completed — project-pilot README 更新示例
-
----
-
-## Phase 2 完成摘要
-
-**更新文件**:
-- ✅ SKILL.md: 添加 "README Scope" 章节，明确包含/不包含内容
-- ✅ README.md: 简化为 Contract 标题列表，移除详细检查清单
-
-**自我审查**:
-- ✅ Markdown 语法有效
-- ✅ README 范围规范与 lightweight-workflow 一致
-- ✅ SKILL.md 与 README 示例一致
-- ✅ 无冲突变更
 
 ---
 

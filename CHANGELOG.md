@@ -4,6 +4,18 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v1.4.1 (2026-03-29)
+
+**Contract**: 移除 Contract 模板中的 Status 字段
+
+**变更**:
+- 模板文件移除冗余 Status 字段（目录即状态）
+- SKILL.md 更新 Contract Structure 示例和 Session Recovery 算法
+- workflow.md 移除 "Mark Status as completed" 描述
+- 历史合同清理：移除 archived 合同中的 Status 字段
+
+---
+
 ## v1.4 (2026-03-28)
 
 **Contract**: README 范围澄清

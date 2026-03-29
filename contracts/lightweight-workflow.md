@@ -107,7 +107,7 @@ Release v1.2: 升级 lightweight-workflow
 
 ```markdown
 # Contract: {name}
-**Opened**: YYYY-MM-DDTHH:MM | **Current**: draft|open|in_progress|archived | **Priority**: high|medium|low
+**Opened**: YYYY-MM-DDTHH:MM | **Priority**: high|medium|low
 
 ## Goal
 One-sentence objective.

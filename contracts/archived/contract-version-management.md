@@ -1,22 +1,11 @@
 # Contract: 版本管理
 
 **Opened**: 2026-03-28T08:50  
-**Confirmed**: 2026-03-28T09:07  
-**Moved to in_progress**: 2026-03-28T09:29  
-**Completed**: 2026-03-28T09:35  
-**Current**: completed (awaiting archive)  
 **Priority**: high  
 **Type**: Meta (project-pilot 自身改进)
 
 **Applicability**: Full project-pilot workflow (4-Phase projects with significant code).  
 **Not for**: lightweight-workflow (which uses "Every Contract = One Version").
-
----
-
-## Status
-
-**Phase 1**: ✅ Completed — 规范定义  
-**Phase 2**: ✅ Completed — 文档更新 + 归档准备
 
 ---
 

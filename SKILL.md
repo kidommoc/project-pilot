@@ -103,9 +103,8 @@ ls README.md contracts/ references/interfaces docs/decisions
 
 A Contract is not a project specification. It is:
 - The intent, scope, interfaces, and verification of **this modification**
-- Contains temporary progress tracking (Status section)
 - Closed when: verification passed + interface docs updated + human confirmed
-- After closing: progress cleared (marked completed), interface docs remain updated
+- After closing: moved to `contracts/archived/`, interface docs remain updated
 
 ### Contract vs Phase
 
@@ -125,15 +124,10 @@ A Contract is not a project specification. It is:
 ### Contract Structure
 
 ```markdown
-## Status
 **Opened**: YYYY-MM-DDTHH:MM
-**Current**: draft | open | in_progress | archived
+
 **Modified Files**:
 - `file.py` (description - done)
-
-**Pending**:
-- [ ] Task 1
-- [ ] Interface docs updated
 
 ## Goal
 ...
@@ -158,14 +152,14 @@ Session Recovery:
    - 1 contract → Read and continue
    - 0 contracts → Check open/ → Select next → Move to in_progress/
    - >1 contracts → 🚨 Error state, report to human
-2. Read contract Status section → find last completed task → continue
+2. Read contract → find last completed task (via Tasks/Contract checkboxes) → continue
 ```
 
 ### Temporary Progress vs Permanent State
 
 | Type | Location | Lifecycle |
 |------|----------|-----------|
-| **Temporary Progress** | Contract Status section | Contract lifecycle |
+| **Temporary Progress** | Contract Tasks/Contract checkboxes | Contract lifecycle |
 | **Permanent State** | Interface docs | Project lifecycle |
 
 ### Single Focus Constraint

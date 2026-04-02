@@ -8,6 +8,19 @@ For Python libraries, CLI tools, and MCP Server development.
 {package-name}/
 ├── pyproject.toml          # Required - Project configuration (Poetry/Flit)
 ├── README.md               # Required - Project description
+├── CHANGELOG.md            # Version history
+├── contracts/              # ⚠️ Must be in root - project-pilot contracts
+│   ├── draft/              # Awaiting human confirmation
+│   ├── open/               # Confirmed, waiting to start
+│   ├── in_progress/        # Current focus (exactly 1)
+│   └── archived/           # Completed
+├── docs/                   # Project documentation
+│   ├── decisions/          # ADR - Architecture Decision Records
+│   └── interfaces/         # Public API interfaces
+├── references/             # Reference materials
+│   ├── guides/
+│   ├── templates/
+│   └── ...
 ├── src/
 │   └── {package_name}/     # Source code directory
 │       ├── __init__.py
@@ -17,8 +30,6 @@ For Python libraries, CLI tools, and MCP Server development.
 │   ├── __init__.py
 │   ├── test_module_a.py
 │   └── test_module_b.py
-├── docs/                   # Optional - Documentation
-│   └── {doc-files}.md
 ├── scripts/                # Optional - Helper scripts
 │   └── {script-name}.py
 └── examples/               # Optional - Usage examples
@@ -169,6 +180,8 @@ if __name__ == "__main__":
 **Reference**:
 - [Poetry Documentation](https://python-poetry.org/docs/)
 - [FastMCP](https://github.com/jlowin/fastmcp)
+
+**Last Updated**: 2026-04-02 (project-pilot 1.2.0)
 
 ## Project Pilot Integration
 

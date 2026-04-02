@@ -17,18 +17,20 @@ For OpenClaw plugin development (TypeScript + optional MCP).
 │       │   ├── HOOK.md       # Hook metadata (required for discovery)
 │       │   └── handler.ts    # Hook implementation
 │       └── {hook-name-2}/
+├── README.md                 # Project overview
+├── CHANGELOG.md              # Version history
+├── contracts/                # ⚠️ Required - Must be in root, project-pilot contracts
+│   ├── draft/                # Awaiting human confirmation
+│   ├── open/                 # Confirmed, waiting to start
+│   ├── in_progress/          # Current focus (exactly 1)
+│   └── archived/             # Completed
 ├── docs/                     # Required - Project documentation
-│   ├── README.md
-│   ├── DEPLOYMENT.md         # Deployment standard (generated from template)
-│   ├── architecture/         # Architecture docs
-│   ├── decisions/            # Design decisions
-│   ├── notes/                # Implementation notes
-│   └── specs/                # Specifications
-├── contracts/                # Required - project-pilot contracts
-│   ├── active/               # In-progress contracts
-│   ├── archive/              # Completed contracts
-│   └── pending-confirmation/ # Awaiting human confirmation
+│   ├── decisions/            # ADR - Architecture Decision Records
+│   └── interfaces/           # Plugin/hook interfaces
 ├── references/               # Optional - Reference materials
+│   ├── guides/
+│   ├── templates/
+│   └── ...
 ├── scripts/                  # Required - Helper scripts
 │   ├── deploy.sh             # Deployment script (generated from template)
 │   └── sync-to-container.sh  # Sync script for container deployment
@@ -249,4 +251,4 @@ Placeholders (`{{PLUGIN_ID}}`, `{{PROJECT_ROOT}}`) are replaced with actual valu
 - [Deployment Standard](../../../../workspace/DEPLOYMENT.md)
 - [Deployment Template](../templates/DEPLOYMENT.md)
 
-**Last Updated**: 2026-03-27 (project-pilot 1.1.1 + Deployment Standard v1.0)
+**Last Updated**: 2026-04-02 (project-pilot 1.2.0)

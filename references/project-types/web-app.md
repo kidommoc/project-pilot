@@ -9,6 +9,20 @@ For frontend/fullstack web application development.
 ├── package.json              # Required
 ├── tsconfig.json             # If using TypeScript
 ├── index.html                # Entry HTML
+├── README.md                 # Project overview
+├── CHANGELOG.md              # Version history
+├── contracts/                # ⚠️ Must be in root - project-pilot contracts
+│   ├── draft/                # Awaiting human confirmation
+│   ├── open/                 # Confirmed, waiting to start
+│   ├── in_progress/          # Current focus (exactly 1)
+│   └── archived/             # Completed
+├── docs/                     # Project documentation
+│   ├── decisions/            # ADR - Architecture Decision Records
+│   └── interfaces/           # API interfaces (if applicable)
+├── references/               # Reference materials
+│   ├── guides/
+│   ├── templates/
+│   └── ...
 ├── src/
 │   ├── main.ts(x)            # Application entry
 │   ├── App.tsx               # Root component
@@ -33,6 +47,20 @@ For frontend/fullstack web application development.
 {app-name}/
 ├── package.json
 ├── next.config.js
+├── README.md                 # Project overview
+├── CHANGELOG.md              # Version history
+├── contracts/                # ⚠️ Must be in root - project-pilot contracts
+│   ├── draft/                # Awaiting human confirmation
+│   ├── open/                 # Confirmed, waiting to start
+│   ├── in_progress/          # Current focus (exactly 1)
+│   └── archived/             # Completed
+├── docs/                     # Project documentation
+│   ├── decisions/            # ADR - Architecture Decision Records
+│   └── interfaces/           # API interfaces
+├── references/               # Reference materials
+│   ├── guides/
+│   ├── templates/
+│   └── ...
 ├── src/
 │   ├── app/                  # App Router
 │   │   ├── layout.tsx
@@ -152,4 +180,4 @@ test('renders button with text', () => {
 
 ---
 
-**Last Updated**: 2026-03-26 (project-pilot 1.1.0)
+**Last Updated**: 2026-04-02 (project-pilot 1.2.0)

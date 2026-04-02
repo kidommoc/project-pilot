@@ -8,6 +8,20 @@ For command-line tool development (Node.js or Python).
 {cli-name}/
 ├── package.json
 ├── tsconfig.json             # If using TypeScript
+├── README.md                 # Project overview
+├── CHANGELOG.md              # Version history
+├── contracts/                # ⚠️ Must be in root - project-pilot contracts
+│   ├── draft/                # Awaiting human confirmation
+│   ├── open/                 # Confirmed, waiting to start
+│   ├── in_progress/          # Current focus (exactly 1)
+│   └── archived/             # Completed
+├── docs/                     # Project documentation
+│   ├── decisions/            # ADR - Architecture Decision Records
+│   └── interfaces/           # CLI command interfaces
+├── references/               # Reference materials
+│   ├── guides/
+│   ├── templates/
+│   └── ...
 ├── src/
 │   ├── index.ts              # CLI entry
 │   ├── commands/             # Command implementations
@@ -79,6 +93,20 @@ program.parse();
 ```
 {cli-name}/
 ├── pyproject.toml
+├── README.md                 # Project overview
+├── CHANGELOG.md              # Version history
+├── contracts/                # ⚠️ Must be in root - project-pilot contracts
+│   ├── draft/                # Awaiting human confirmation
+│   ├── open/                 # Confirmed, waiting to start
+│   ├── in_progress/          # Current focus (exactly 1)
+│   └── archived/             # Completed
+├── docs/                     # Project documentation
+│   ├── decisions/            # ADR - Architecture Decision Records
+│   └── interfaces/           # CLI command interfaces
+├── references/               # Reference materials
+│   ├── guides/
+│   ├── templates/
+│   └── ...
 ├── src/
 │   └── {package_name}/
 │       ├── __init__.py
@@ -199,4 +227,4 @@ Additional checks:
 - [Click](https://click.palletsprojects.com/)
 - [project-pilot SKILL.md](../SKILL.md)
 
-**Last Updated**: 2026-03-26 (project-pilot 1.1.0)
+**Last Updated**: 2026-04-02 (project-pilot 1.2.0)

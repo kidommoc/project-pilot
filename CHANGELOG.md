@@ -4,6 +4,21 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v1.9.0 (2026-04-02)
+
+**Contract**: 统一项目类型模板的 docs 目录结构
+
+**新增**:
+- 统一 `references/project-types/*.md` 中的目录结构定义
+- 标准结构：`contracts/` (根目录), `docs/decisions/`, `docs/interfaces/`, `references/`
+- 明确 `contracts/` 子目录：`draft/`, `open/`, `in_progress/`, `archived/`
+- 修复 `openclaw-plugin.md` 中过时的 contract 目录名（`active/`→`in_progress/`, `archive/`→`archived/`）
+
+**变更**:
+- `web-app.md`, `cli-tool.md`, `python-package.md`, `openclaw-plugin.md` 目录结构标准化
+
+---
+
 ## v1.8.0 (2026-04-02)
 
 **Contract**: TDD 强制化

@@ -182,13 +182,13 @@ iteration/v{version}     # 迭代分支，Phase 1 开始时从 main 创建
 ## Close Contract
 
 **Verification**:
-- [ ] All Contract items pass
-- [ ] Interface docs updated (if interfaces changed)
+- [x] All Contract items pass
+- [x] Interface docs updated (if interfaces changed) — N/A，本文档修改
 - [ ] Human confirmed
 
 **Next Session** (for reference):
-- **Suggested**: Phase 2 Implementation
-- **First Task**: 阅读当前 workflow.md，标记修改点
-- **Context**: 本文件 + workflow.md 原文
+- **Suggested**: 继续处理下一个 open 状态的 Contract
+- **First Task**: 从 `contracts/open/` 中选择下一个 Contract
+- **Options**: `contract-semantic-review.md`, `contract-tdd-enforcement.md`, `contract-unify-templates-docs.md`
 
 **Archive**: Move to `contracts/archived/`.

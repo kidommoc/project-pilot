@@ -53,13 +53,8 @@ Flow: draft → open → in_progress → archived
 3. Human confirms → `contracts/archived/`
 4. Claw auto-updates:
    - CHANGELOG + Bump Version (minor +1)
-   - README: Add/update `## Current Iteration` (iteration branches only)
 5. **Single Git commit**: `Release v{version}: {Contract name}`
-6. Git tag: Optional
-
-**Release Cleanup** (before commit):
-- Remove `## Current Iteration` from README
-- Commit: `chore: cleanup iteration tracking`
+6. Git tag: **MUST**
 
 **No branches, no Phase 1 commits.** One contract = One commit.
 
@@ -75,7 +70,6 @@ Flow: draft → open → in_progress → archived
 
 **Release Checklist** (auto by Claw):
 - [ ] Cleanup README (remove `## Current Iteration`)
-- [ ] Commit: `chore: cleanup iteration tracking`
 - [ ] Update CHANGELOG.md
 - [ ] Update version
 - [ ] Git commit + optional tag

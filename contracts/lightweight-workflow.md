@@ -51,9 +51,15 @@ Flow: draft → open → in_progress → archived
 1. Move to `contracts/in_progress/`
 2. Implement + self-review
 3. Human confirms → `contracts/archived/`
-4. Claw auto-updates: README + CHANGELOG + Bump Version (minor +1)
+4. Claw auto-updates:
+   - CHANGELOG + Bump Version (minor +1)
+   - README: Add/update `## Current Iteration` (iteration branches only)
 5. **Single Git commit**: `Release v{version}: {Contract name}`
 6. Git tag: Optional
+
+**Release Cleanup** (before commit):
+- Remove `## Current Iteration` from README
+- Commit: `chore: cleanup iteration tracking`
 
 **No branches, no Phase 1 commits.** One contract = One commit.
 
@@ -68,9 +74,10 @@ Flow: draft → open → in_progress → archived
 | 3rd | v1.2 → v1.3 | Bug fix |
 
 **Release Checklist** (auto by Claw):
+- [ ] Cleanup README (remove `## Current Iteration`)
+- [ ] Commit: `chore: cleanup iteration tracking`
 - [ ] Update CHANGELOG.md
-- [ ] Update README.md (version + contract list)
-- [ ] Update this file's version header
+- [ ] Update version
 - [ ] Git commit + optional tag
 
 **Git Commit Format**:
@@ -98,8 +105,9 @@ Release v1.2: 升级 lightweight-workflow
 
 ### README Scope
 
-**Include**: Phase name, Contract list (titles + checkboxes), Version  
-**Exclude**: Task-level progress, detailed criteria, change history
+**Include** (main branch): Project overview, `Current release: v{X.Y.Z}`, Quick Start, related links  
+**Include** (iteration branches): Add `## Current Iteration` with version, phase, contract count  
+**Exclude**: Detailed phase tracking, version history (use CHANGELOG.md), contract lists (use contracts/ directory)
 
 **Claw auto-updates README on state changes.**
 

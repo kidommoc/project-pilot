@@ -9,7 +9,7 @@ For OpenClaw plugin development (TypeScript + optional MCP).
 ├── plugin/                   # Required - Plugin source code (OpenClaw runtime)
 │   ├── index.ts              # Plugin entry point
 │   ├── openclaw.plugin.json  # Plugin manifest (id, skills, config)
-│   ├── skills/               # OpenClaw skills
+│   ├── skills/               # Optional - OpenClaw skills
 │   │   └── {skill-name}/
 │   │       └── SKILL.md
 │   └── hooks/                # Optional - Gateway hooks
@@ -28,8 +28,6 @@ For OpenClaw plugin development (TypeScript + optional MCP).
 │   ├── active/               # In-progress contracts
 │   ├── archive/              # Completed contracts
 │   └── pending-confirmation/ # Awaiting human confirmation
-├── data/                     # Optional - Runtime data
-│   └── {tenant-id}/
 ├── references/               # Optional - Reference materials
 ├── scripts/                  # Required - Helper scripts
 │   ├── deploy.sh             # Deployment script (generated from template)

@@ -4,6 +4,23 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v1.5.0 (2026-04-02)
+
+**Contract**: 统一简化 README 中的版本记录和 Phase 追踪
+
+**新增**:
+- 分支区分策略：main 仅显示 `Current release`，iteration 分支显示 `Current Iteration`
+- Release 前 Cleanup 步骤：移除 Current Iteration，提交 `chore: cleanup iteration tracking`
+
+**变更**:
+- SKILL.md MUST-1: 移除 "Update README.md phase status" 步骤
+- workflow.md Phase Completion Protocol: 移除 Update README 步骤
+- workflow.md Phase 4: 增加 Cleanup README 步骤，明确 CHANGELOG 是唯一版本记录
+- lightweight-workflow.md: 更新 Phase 2 README 管理、Release Checklist、README Scope
+- README.md: 简化为仅显示 `Current release: v{X.Y.Z}`，移除 Phase/Version 详细章节
+
+---
+
 ## v1.4.1 (2026-03-29)
 
 **Contract**: 移除 Contract 模板中的 Status 字段

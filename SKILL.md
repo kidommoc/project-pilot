@@ -23,10 +23,11 @@ description: Project management for single human + claw collaboration. Claw driv
    - Docs: syntax check + link validation
    - Config: validation command + rollback test
 1. Update interface docs (if interfaces changed)
-2. Update README.md phase status
-3. Explicitly ask user: "Phase N completed (tests passed). Continue to Phase N+1?"
-4. ⛔ Before user confirmation, FORBIDDEN to execute any code for next phase
+2. Explicitly ask user: "Phase N completed (tests passed). Continue to Phase N+1?"
+3. ⛔ Before user confirmation, FORBIDDEN to execute any code for next phase
 ```
+
+**Note**: README.md phase status is maintained in iteration branches only, not in main.
 
 **Trigger**: When all tasks in current Phase are marked complete
 

@@ -65,19 +65,13 @@ No code without an approved Contract. Success is defined by Contract items passi
 - [ ] All Contracts in Phase closed (check `contracts/archived/`)
 - [ ] No pending Contracts in `contracts/in_progress/` or `contracts/open/`
 
-### Step 1: Update README.md
-
-```markdown
-### Phase N: {phase_name} (✅ Completed - YYYY-MM-DD)
-
-### Phase N+1: {next_phase} (⏳ Pending)
-```
-
-### Step 2: Ask User
+### Step 1: Ask User
 
 > "Phase N completed (all Contracts done). Continue to Phase N+1?"
 
 **⛔ Wait for confirmation** before starting Phase N+1.
+
+**Note**: README.md phase status is maintained in iteration branches only. Main branch shows only `Current release: v{X.Y.Z}`.
 
 ---
 
@@ -213,12 +207,16 @@ The Claw in this phase takes an **opposing stance** to its Phase 2 self. The que
 **Goal**: Package and ship.  
 **Hat**: Release Engineer
 
+**Version History**: CHANGELOG.md is the **single source of truth** for version history. README.md only shows current release.
+
 ### Steps
 
-1. Claw updates CHANGELOG.md
-2. Claw bumps version (SemVer)
-3. Claw creates git tag (`v{version}`)
-4. Claw prepares release notes (if external)
+1. **Cleanup README** (iteration branches only)
+   - Remove `## Current Iteration` section
+   - Commit: `chore: cleanup iteration tracking`
+2. Claw updates CHANGELOG.md
+3. Claw bumps version (SemVer)
+4. Claw creates git tag (`v{version}`)
 5. Claw presents release summary to human
 6. Human confirms release
 

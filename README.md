@@ -138,7 +138,7 @@ Phase 4: 发布
 ## 项目结构
 
 ```
-your-project/
+project-pilot/
 ├── README.md              # 项目概述 — 仅显示 Current release
 ├── CHANGELOG.md           # 版本历史（唯一来源）
 ├── contracts/             # 合同（开发动作追踪）

@@ -78,9 +78,9 @@ Phase 1: Contract Definition
 
 ## Contract
 
-- [ ] `references/workflow.md` Phase 1 步骤更新：每个 Contract draft 创建后增加"语义预审查"步骤
-- [ ] 预审查输出格式标准化（如上方模板）
-- [ ] 验证：预审查机制与现有 Contract 状态机兼容
+- [x] `references/workflow.md` Phase 1 步骤更新：每个 Contract draft 创建后增加"语义预审查"步骤
+- [x] 预审查输出格式标准化（如上方模板）
+- [x] 验证：预审查机制与现有 Contract 状态机兼容
 
 ## Tasks
 
@@ -100,11 +100,12 @@ Phase 1: Contract Definition
 ## Close Contract
 
 **Verification**:
-- [ ] All Contract items pass
+- [x] All Contract items pass
 - [ ] Human confirmed
 
 **Next Session**:
-- **Suggested**: Phase 2 Implementation
-- **First Task**: 修改 workflow.md Phase 1
+- **Suggested**: 处理剩余 open contracts（`contract-tdd-enforcement.md` 或 `contract-unify-templates-docs.md`）
+- **First Contract**: 任选其一，建议按优先级顺序
+- **Context**: `contracts/open/`
 
 **Archive**: Move to `contracts/archived/`.

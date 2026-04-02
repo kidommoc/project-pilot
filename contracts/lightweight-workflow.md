@@ -49,7 +49,7 @@ Flow: draft → open → in_progress → archived
 
 **Phase 2: Implementation**
 1. Move to `contracts/in_progress/`
-2. Implement + self-review
+2. Implement + self-review. **DON'T COMMIT NOW**
 3. Human confirms → `contracts/archived/`
 4. Claw auto-updates:
    - CHANGELOG + Bump Version (minor +1)

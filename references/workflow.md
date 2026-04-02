@@ -140,11 +140,55 @@ Phase 1 结束: 000 archived + 所有子合约 open
 
 1. **从 main 创建 iteration 分支**：`git checkout -b iteration/v{version}`
 2. **创建 000 元合约**：起草 `C-{version}-000-meta.md`，定义版本号和子合约列表
-3. Human 确认 000 规划
-4. **000 → in_progress/**，**Commit**: `contract: meta v{version}`（iteration 分支第一个 commit）
-5. 按 000 规划创建子合约：`C-{version}-001-{name}.md`，`C-{version}-002-{name}.md`...
-6. 子合约进入 `draft/` → Human 确认 → `open/`
-7. **Phase 1 结束**：000 archived + 所有子合约 in `open/`
+3. **语义预审查**：Claw 对 000 进行自我审查（见下方「语义预审查机制」）
+4. Human 确认 000 规划
+5. **000 → in_progress/**，**Commit**: `contract: meta v{version}`（iteration 分支第一个 commit）
+6. 按 000 规划创建子合约：`C-{version}-001-{name}.md`，`C-{version}-002-{name}.md`...
+7. 每个子合约进入 `draft/` → **语义预审查** → Human 确认 → `open/`
+8. **Phase 1 结束**：000 archived + 所有子合约 in `open/`
+
+---
+
+### 语义预审查机制
+
+**时机**：每完成一个 Contract draft 后立即进行（而非等 Phase 1 所有 Contract 完成）。
+
+**目的**：在 Human 审阅前进行语义层面的自检，确保生成的文档与原始意图一致，避免 LLM 生成偏离需求。
+
+**审查维度**：
+
+| 维度 | 检查内容 |
+|------|----------|
+| **意图一致性** | Contract 是否匹配最初讨论的 idea/purpose？ |
+| **需求覆盖度** | 是否遗漏了人类提出的要求？ |
+| **逻辑自洽性** | Contract items 之间是否有冲突？Boundary 是否清晰？ |
+| **可执行性** | Contract items 是否足够具体，能转化为代码/行动？ |
+| **命名一致性** | 术语使用是否一致？是否有歧义？ |
+
+**审查输出格式**：
+
+```markdown
+## 预审查报告: {Contract-name}
+
+### ✅ 已覆盖
+- {列出已正确实现的需求点}
+
+### ⚠️ 可能遗漏
+- {列出可能遗漏或弱化的需求点}
+
+### ❓ 需要澄清
+- {列出语义模糊、需要人类确认的点}
+
+### 建议
+- {改进建议，可选}
+```
+
+**人类决策**：收到预审查报告后，人类选择：
+- **确认**：Contract 进入 `open/`
+- **修改**：Claw 根据反馈修改，重新预审查
+- **忽略**：人类认为报告误报，直接确认
+
+**注意**：预审查不是替代人类审阅，而是帮助人类更快发现问题。
 
 **Claw responsibility**: Propose complete, actionable Contract with testable acceptance criteria  
 **Human role**: Audit Contract items (especially edge cases and boundaries), confirm or request changes

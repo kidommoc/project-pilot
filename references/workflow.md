@@ -215,21 +215,38 @@ Phase 2 enforces **thinking-stage separation** — same Claw, different hats at 
 - Each contract item → target file(s), function(s), module(s)
 - New interfaces → define signatures first (no implementation yet)
 - Execution order → which items have dependencies, which can be parallelized (subagent-eligible)
+- **Test Strategy** → 每个 Contract item 的测试方案
+  - 测试类型（unit/integration/e2e）
+  - 关键测试用例（Given/When/Then 转化为测试描述）
+  - Mock/依赖处理方式
 
 **Format**: Embed in Contract file (Tasks section) or README. No separate document needed.  
 **Scale**: Mini-Contract → 5-10 bullet points. Full Contract → Implementation Plan section.
 
 ⛔ **No code before the brief is written.**
 
-### Step 2: Implement + Verify (Developer Hat)
+### Step 2: Test-First Development (Developer Hat)
 
-Execute in the order defined by the brief:
+执行顺序遵循 Implementation Brief，采用 **红-绿-重构** 循环：
 
-- **Per-item verification**: After completing each contract item, immediately verify it passes
-- **Interface docs update**: If interface changed, update docs immediately (not after)
-- **Regression check**: If verification breaks a previously passing item, fix before continuing
-- **Test discipline**: Test-first or test-during. Never test-after.
-- **Subagents**: Use for independent tasks (docs, test scaffolding, parallel modules)
+对每个 Contract item：
+
+1. **红**: 编写测试（测试应失败，验证测试有效）
+2. **绿**: 编写最小实现使测试通过
+3. **重构**: 优化代码（保持测试通过）
+
+**记录要求**: 在 Contract 中标记每个 item 对应的测试用例：
+
+```markdown
+- [ ] Given ... When ... Then ...
+  - **Test**: `test_feature_x.py::test_scenario_y()`
+```
+
+**执行中检查点**:
+- **Per-item verification**: 每个 item 完成后立即验证对应测试通过
+- **Interface docs update**: 接口变更时立即更新文档
+- **Regression check**: 修复回归问题后才能继续
+- **Subagents**: 用于独立任务（文档、测试脚手架、并行模块）
 
 📖 **Task decomposition guide**: [guides/session-tasks.md](guides/session-tasks.md)
 
@@ -237,6 +254,7 @@ Execute in the order defined by the brief:
 
 After all items are implemented, switch mindset — **pretend you don't know how the code works**:
 
+- **TDD 验证**: 每个 Contract item 都有对应测试用例
 - Walk through each contract item, verify it passes independently
 - Run full test suite
 - Verify interface docs are up to date

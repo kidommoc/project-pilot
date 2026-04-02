@@ -4,6 +4,21 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v1.8.0 (2026-04-02)
+
+**Contract**: TDD 强制化
+
+**新增**:
+- Phase 2 Step 1 (Implementation Brief): 必须包含 Test Strategy（测试类型、关键用例、Mock 处理）
+- Phase 2 Step 2: 改为 "Test-First Development"，明确红-绿-重构循环
+- Contract item 与测试映射格式: `**Test**: test_file.py::test_case()`
+- Phase 2 Step 3 (Self-Check): 新增 TDD 验证检查点（每个 Contract item 都有对应测试）
+
+**变更**:
+- workflow.md Phase 2: 全面 TDD 化，测试先行成为必需步骤
+
+---
+
 ## v1.7.0 (2026-04-02)
 
 **Contract**: 语义预审查机制

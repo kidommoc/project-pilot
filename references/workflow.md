@@ -262,10 +262,10 @@ After all items are implemented, switch mindset — **pretend you don't know how
 
 ### Step 4: Commit
 
-Contract 完成后，在 iteration 分支提交：
+Contract 完成后，在 iteration 分支提交（Claw 使用 `--author` 显式标识身份）：
 
 ```bash
-git commit -m "feature: {contract-name}"
+git commit --author="Openclaw <claw@openclaw.local>" -m "feature: {contract-name}"
 ```
 
 **Commit 触发点**：
@@ -347,7 +347,11 @@ The Claw in this phase takes an **opposing stance** to its Phase 2 self. The que
    - Commit: `chore: cleanup iteration tracking`
 2. Claw updates CHANGELOG.md
 3. Claw bumps version (SemVer)
-4. **Commit**: `release: v{version}`（在 iteration 分支）
+4. **Commit** (Claw identity): 
+   ```bash
+   git commit --author="Openclaw <claw@openclaw.local>" -m "release: v{version}"
+   ```
+   （在 iteration 分支）
 5. **合并到 main**：
    ```bash
    git checkout main

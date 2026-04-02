@@ -4,6 +4,21 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v1.10.0 (2026-04-02)
+
+**Contract**: 规范 Claw 的 Git 提交身份
+
+**新增**:
+- 明确 Claw Git 提交身份：`Openclaw <claw@openclaw.local>`
+- lightweight-workflow.md: Phase 2 commit 使用 `--author` 显式指定
+- workflow.md: Phase 2 和 Phase 4 的 commit 使用 `--author` 显式指定
+
+**规范**:
+- Claw 执行的所有 `git commit` 必须包含 `--author="Openclaw <claw@openclaw.local>"`
+- 用户手动提交不受影响（使用其 `~/.gitconfig` 配置）
+
+---
+
 ## v1.9.0 (2026-04-02)
 
 **Contract**: 统一项目类型模板的 docs 目录结构

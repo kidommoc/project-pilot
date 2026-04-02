@@ -53,7 +53,10 @@ Flow: draft → open → in_progress → archived
 3. Human confirms → `contracts/archived/`
 4. Claw auto-updates:
    - CHANGELOG + Bump Version (minor +1)
-5. **Single Git commit**: `Release v{version}: {Contract name}`
+5. **Single Git commit** (Claw identity): 
+   ```bash
+   git commit --author="Openclaw <claw@openclaw.local>" -m "Release v{version}: {Contract name}"
+   ```
 6. Git tag: **MUST**
 
 **No branches, no Phase 1 commits.** One contract = One commit.

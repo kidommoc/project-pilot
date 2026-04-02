@@ -80,6 +80,55 @@ No code without an approved Contract. Success is defined by Contract items passi
 **Goal**: Define WHAT to build and HOW to verify it.  
 **Hat**: Product + Architect
 
+### Branch Model
+
+```
+main/master              # 稳定分支，始终保持 Release 终态
+iteration/v{version}     # 迭代分支，Phase 1 开始时从 main 创建
+```
+
+**main 分支原则**：始终保持 Release 终态，不保留任何"进行中"的 Contract 状态。
+
+### 000 Meta-Contract (Iteration Planning)
+
+**元合约模式**：在完整 workflow 中，Phase 1 从 000 元合约开始。
+
+**文件命名**：`C-{MAJOR.MINOR.PATCH}-000-meta.md`
+
+**生命周期**：
+```
+从 main 切 iteration 分支
+git checkout -b iteration/v{version}
+Phase 1 开始: 000 在 iteration 分支创建 → draft/
+人类确认后: 000 → open/
+开始迭代: 000 → in_progress/  ← iteration 分支第一个 commit: contract: meta v{version}
+创建子合约: 000 指导子合约创建，子合约逐个进入 open/ → in_progress/ → archived/
+Phase 1 结束: 000 archived + 所有子合约 open
+```
+
+**000 的 Contract items**：
+- [ ] 定义本次迭代的版本号 `{MAJOR.MINOR.PATCH}`
+- [ ] 定义本次迭代要创建的子合约列表（名称、目标）
+- [ ] 所有子合约已创建并进入 open/
+
+**Phase 1 中途新增 Contract**：
+如需新增子合约，**先修改 000**（追加到子合约列表），人类确认后再创建新子合约。
+
+### Contract Naming Convention
+
+**文件命名**：`C-{MAJOR.MINOR.PATCH}-{No.}-{name}.md`
+
+| 组件 | 含义 | 示例 |
+|------|------|------|
+| `C` | Contract 前缀 | 固定 |
+| `{MAJOR.MINOR.PATCH}` | 迭代版本号 | `1.5.0` |
+| `{No.}` | 该迭代内的 Contract 序号，000 保留给元合约 | `000`, `001`, `002` |
+| `{name}` | 短横线连接的小写名称 | `branch-management` |
+
+**示例**：
+- `C-1.5.0-000-meta.md` — 元合约
+- `C-1.5.0-001-branch-version.md` — 子合约
+
 ### Contract Selection
 
 | Criteria | Use |
@@ -89,22 +138,22 @@ No code without an approved Contract. Success is defined by Contract items passi
 
 ### Steps
 
-1. Human provides high-level goal
-2. Claw selects Contract type (Mini or Full) based on scope
-3. Claw drafts: Contract + ADRs (if needed)
-4. **If interfaces modified**: Include Interface Contract section or separate interface-contract.md
-5. Claw presents to human, highlighting Boundary, Contract items, and Interface changes
-6. Human confirms OR requests modifications
-7. **Contract approved** → Phase 2
+1. **从 main 创建 iteration 分支**：`git checkout -b iteration/v{version}`
+2. **创建 000 元合约**：起草 `C-{version}-000-meta.md`，定义版本号和子合约列表
+3. Human 确认 000 规划
+4. **000 → in_progress/**，**Commit**: `contract: meta v{version}`（iteration 分支第一个 commit）
+5. 按 000 规划创建子合约：`C-{version}-001-{name}.md`，`C-{version}-002-{name}.md`...
+6. 子合约进入 `draft/` → Human 确认 → `open/`
+7. **Phase 1 结束**：000 archived + 所有子合约 in `open/`
 
 **Claw responsibility**: Propose complete, actionable Contract with testable acceptance criteria  
 **Human role**: Audit Contract items (especially edge cases and boundaries), confirm or request changes
 
 ### Exit Criteria
 
-- [ ] Contract created (Mini or Full, with testable acceptance items)
-- [ ] Human approval obtained
-- [ ] Dependencies identified
+- [ ] iteration 分支已创建（`iteration/v{version}`）
+- [ ] 000 元合约已 archived（规划完成）
+- [ ] 所有子合约已创建并进入 `open/`
 - [ ] ADRs created (if architectural decisions involved)
 
 ---
@@ -149,6 +198,25 @@ After all items are implemented, switch mindset — **pretend you don't know how
 - Verify interface docs are up to date
 - If any item fails → return to Step 2, fix, re-verify
 
+### Step 4: Commit
+
+Contract 完成后，在 iteration 分支提交：
+
+```bash
+git commit -m "feature: {contract-name}"
+```
+
+**Commit 触发点**：
+
+| 时机 | Commit Message |
+|------|----------------|
+| 000 进入 in_progress | `contract: meta v{version}` ← iteration 分支第一个 commit |
+| Phase 1 子合约确认进入 open | `contract: define {contract-name}` |
+| Phase 2 Contract 完成 | `feature: {contract-name}` |
+| Phase 3 Audit 小问题修复 | `fix: audit feedback - {description}` |
+| Phase 3 Audit 大问题 | 新建 Contract → `feature: {new-name}` |
+| Phase 4 Release | `release: v{version}` |
+
 ### Exit Criteria
 
 - [ ] Implementation Brief written
@@ -156,6 +224,7 @@ After all items are implemented, switch mindset — **pretend you don't know how
 - [ ] Full test suite passing
 - [ ] Interface docs updated (if interfaces changed)
 - [ ] Contract status updated to "Done"
+- [ ] **Committed**: `feature: {contract-name}`
 
 **Claw responsibility**: Execute plan, maintain quality, verify per item, keep interface docs current  
 **Human role**: Available for questions, confirms at Phase end
@@ -216,9 +285,18 @@ The Claw in this phase takes an **opposing stance** to its Phase 2 self. The que
    - Commit: `chore: cleanup iteration tracking`
 2. Claw updates CHANGELOG.md
 3. Claw bumps version (SemVer)
-4. Claw creates git tag (`v{version}`)
-5. Claw presents release summary to human
-6. Human confirms release
+4. **Commit**: `release: v{version}`（在 iteration 分支）
+5. **合并到 main**：
+   ```bash
+   git checkout main
+   git merge iteration/v{version}
+   ```
+6. Claw creates git tag (`v{version}`)（在 main 分支）
+   ```bash
+   git tag v{version}
+   ```
+7. Claw presents release summary to human
+8. Human confirms release
 
 ### Version Bumping
 
@@ -232,7 +310,9 @@ The Claw in this phase takes an **opposing stance** to its Phase 2 self. The que
 
 - [ ] CHANGELOG updated
 - [ ] Version bumped
-- [ ] Git tag created
+- [ ] **Committed**: `release: v{version}`（iteration 分支）
+- [ ] **Merged**: iteration branch → main
+- [ ] **Git tag created**: `v{version}`（main 分支）
 - [ ] Human confirmation obtained
 
 **Claw responsibility**: Package correctly, follow SemVer  

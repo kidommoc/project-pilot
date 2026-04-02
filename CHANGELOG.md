@@ -4,6 +4,27 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v1.6.0 (2026-04-02)
+
+**Contract**: 分支管理、版本管理与元合约模式
+
+**新增**:
+- 000 Meta-Contract 模式：Phase 1 从元合约开始，定义迭代版本号和子合约列表
+- 合约命名规范：`C-{MAJOR.MINOR.PATCH}-{No.}-{name}.md`，000 保留给元合约
+- 分支模型：`main` 保持 Release 终态，`iteration/v{version}` 为工作分支
+- Commit 触发点规范：000/子合约/Feature/Fix/Release 的 commit message 规则
+- README.md Current Iteration 章节模板（仅 iteration 分支）
+
+**变更**:
+- workflow.md Phase 1: 增加 000 元合约流程、合约命名规范、分支创建时机
+- workflow.md Phase 2: 增加 Contract 完成时的 commit 说明
+- workflow.md Phase 4: 增加 iteration 分支合并到 main 步骤
+- checklists.md Phase 1 Completion: 增加 000 archived 检查
+- checklists.md Pre-Release Git: 增加 iteration 分支检查
+- naming-conventions.md: `feat` → `feature`，新增 Contract 命名规范章节
+
+---
+
 ## v1.5.0 (2026-04-02)
 
 **Contract**: 统一简化 README 中的版本记录和 Phase 追踪

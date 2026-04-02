@@ -86,13 +86,45 @@ This document tracks project-specific naming conventions. Update as the project 
 
 ### Commit Types
 
-- `feat`: New feature
+- `feature`: New feature (was `feat`, changed for clarity)
 - `fix`: Bug fix
 - `docs`: Documentation only
 - `style`: Formatting (no code change)
 - `refactor`: Code restructuring (no behavior change)
 - `test`: Adding tests
 - `chore`: Maintenance tasks
+
+---
+
+## Contract Naming (project-pilot)
+
+**文件命名**：`C-{MAJOR.MINOR.PATCH}-{No.}-{name}.md`
+
+| 组件 | 含义 | 示例 |
+|------|------|------|
+| `C` | Contract 前缀 | 固定 |
+| `{MAJOR.MINOR.PATCH}` | 迭代版本号 | `1.5.0` |
+| `{No.}` | 该迭代内的 Contract 序号，000 保留给元合约 | `000`, `001`, `002` |
+| `{name}` | 短横线连接的小写名称 | `branch-management` |
+
+**示例**：
+- `C-1.5.0-000-meta.md` — 元合约（规划迭代范围）
+- `C-1.5.0-001-branch-version.md` — 子合约 1
+- `C-1.5.0-002-semantic-review.md` — 子合约 2
+
+**000 Meta-Contract**：
+- 仅用于完整 workflow（A）
+- lightweight workflow（B）不使用 000
+
+### Contract Commit Messages
+
+| 时机 | Commit Message |
+|------|----------------|
+| 000 进入 in_progress | `contract: meta v{version}` |
+| Phase 1 子合约确认 | `contract: define {contract-name}` |
+| Phase 2 Contract 完成 | `feature: {contract-name}` |
+| Phase 3 小问题修复 | `fix: audit feedback - {description}` |
+| Phase 4 Release | `release: v{version}` |
 
 ---
 

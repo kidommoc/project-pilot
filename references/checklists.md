@@ -40,9 +40,14 @@ python scripts/query-doc-deps.py --graph .doc-graph.json --impact {modified_file
 
 **MUST check before declaring Phase complete:**
 
+### Phase 1 Completion (Additional)
+- [ ] **000 Meta-Contract archived** (规划完成，子合约列表已定)
+- [ ] All child Contracts created and in `contracts/open/`
+- [ ] iteration branch created: `iteration/v{version}`
+
 ### All Contracts Done
-- [ ] All Contracts in Phase closed (check `contracts/archive/`)
-- [ ] No pending Contracts in `contracts/active/` or `pending-confirmation/`
+- [ ] All Contracts in Phase closed (check `contracts/archived/`)
+- [ ] No pending Contracts in `contracts/in_progress/` or `contracts/open/`
 
 ### README Update
 - [ ] README.md Phase status updated (✅ Completed)
@@ -114,7 +119,12 @@ python scripts/query-doc-deps.py --graph .doc-graph.json --impact {modified_file
 
 **Git**:
 - [ ] All changes committed
-- [ ] Tag created: `v{MAJOR}.{MINOR}.{PATCH}`
+- [ ] **Iteration branch checked**: `iteration/v{version}` exists and is current
+- [ ] **On iteration branch**: All commits pushed (`contract:`, `feature:`, `fix:`)
+- [ ] **Cleanup committed**: `chore: cleanup iteration tracking` (README Current Iteration removed)
+- [ ] **Release committed**: `release: v{version}`
+- [ ] **Merged to main**: `git merge iteration/v{version}`
+- [ ] **Tag created**: `v{MAJOR}.{MINOR}.{PATCH}` (on main)
 
 **Release Notes** (if external):
 - [ ] Highlights section

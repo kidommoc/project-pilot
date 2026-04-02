@@ -2,7 +2,15 @@
 
 **Claw 驱动进度，人类确认或请求变更。**
 
-Current release: v1.4.1
+Current release: v1.6.0
+
+<!-- Current Iteration 章节 - 仅存在于 iteration 分支，发布前移除 -->
+## Current Iteration
+- **Version**: v{MAJOR.MINOR.PATCH}
+- **Branch**: `iteration/v{MAJOR.MINOR.PATCH}`
+- **Started**: YYYY-MM-DD
+- **Status**: Phase 1|2|3|4 ({N} open, {M} archived)
+- **000**: C-{version}-000-meta.md
 
 ---
 

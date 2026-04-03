@@ -4,6 +4,30 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v1.11.0 (2026-04-04)
+
+**Contract**: Documentation Refactor
+
+**重构 SKILL.md**:
+- 精简至 ~110 行（原 ~600 行）
+- 6 条 MUST Constraints 重新排序，强调 Proactive Execution + Human Confirmation
+- 新增 Session Startup Algorithm（README-first）
+- Decision Rules 表格化（Contract 选择、ADR 触发、状态存储）
+- Phase Quick Reference（链接到分阶段 workflow）
+- 删除：Core Principles、Documentation Philosophy、详细 Contract 理论
+
+**拆分 workflow.md**:
+- 创建 workflow-phase1.md（Contract Definition）
+- 创建 workflow-phase2.md（Implementation）
+- 创建 workflow-phase3.md（Audit）
+- 创建 workflow-phase4.md（Release）
+- 全部内容翻译为英文
+
+**翻译 naming-conventions.md**:
+- Contract 命名表格表头翻译为英文
+
+---
+
 ## v1.10.0 (2026-04-02)
 
 **Contract**: 规范 Claw 的 Git 提交身份

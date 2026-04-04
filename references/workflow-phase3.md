@@ -37,11 +37,32 @@ Take an opposing stance to your Phase 2 self. Question: "Does it actually satisf
 
 ---
 
+## Transition Actions (P3→P4)
+
+Execute these steps **immediately after** human confirms audit pass:
+
+1. **Generate Audit Report**: Create `reports/audit-v{version}.md` (lightweight summary)
+2. **Human confirms**: Audit pass
+3. **Update README**: Change `Phase: 3` → `Phase: 4`
+4. **Commit**: `docs: phase 3 → 4`
+
+```bash
+git add -A
+git commit --author="Openclaw <claw@openclaw.local>" -m "docs: phase 3 → 4"
+```
+
+**Human confirmation**: Required before commit.
+
+---
+
 ## Exit Criteria
 
 - [ ] Audit Summary delivered to human
+- [ ] Audit Report generated
 - [ ] Human confirmation obtained
 - [ ] Feedback addressed (if any)
+- [ ] README updated to Phase 4
+- [ ] Transition commit created
 
 **Claw**: Audits thoroughly from adversarial perspective, presents clearly  
 **Human**: Validates, confirms, or requests changes

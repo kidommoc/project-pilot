@@ -137,9 +137,28 @@ To add new child Contracts, first modify 000 (append to list), get human confirm
 
 ---
 
+## Transition Actions (P1→P2)
+
+Execute these steps **immediately after** Exit Criteria are met:
+
+1. **Archive 000 Meta-Contract**: Move `contracts/in_progress/C-{version}-000-meta.md` → `contracts/archived/`
+2. **Update README**: Change `Phase: 1` → `Phase: 2`
+3. **Commit**: `iteration: v{version} ready`
+
+```bash
+git add -A
+git commit --author="Openclaw <claw@openclaw.local>" -m "iteration: v{version} ready"
+```
+
+**Human confirmation**: Required before commit.
+
+---
+
 ## Exit Criteria
 
 - [ ] Iteration branch created (`iteration/v{version}`)
 - [ ] 000 Meta-Contract archived (planning complete)
 - [ ] All child Contracts created and in `open/`
 - [ ] ADRs created (if architectural decisions involved)
+- [ ] README updated to Phase 2
+- [ ] Transition commit created

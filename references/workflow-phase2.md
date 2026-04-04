@@ -83,14 +83,32 @@ git commit --author="Openclaw <claw@openclaw.local>" -m "feature: {contract-name
 
 ---
 
+## Transition Actions (P2→P3)
+
+Execute these steps **immediately after** all Contracts are archived:
+
+1. **Verify**: `contracts/open/` and `contracts/in_progress/` are empty
+2. **Update README**: Change `Phase: 2` → `Phase: 3`
+3. **Commit**: `docs: phase 2 → 3`
+
+```bash
+git add -A
+git commit --author="Openclaw <claw@openclaw.local>" -m "docs: phase 2 → 3"
+```
+
+**Human confirmation**: Required before commit.
+
+---
+
 ## Exit Criteria
 
 - [ ] Implementation Brief written
 - [ ] All Contract items implemented and individually verified
 - [ ] Full test suite passing
 - [ ] Interface docs updated (if interfaces changed)
-- [ ] Contract status marked "Done"
-- [ ] **Committed**: `feature: {contract-name}`
+- [ ] All Contracts archived
+- [ ] README updated to Phase 3
+- [ ] Transition commit created
 
 **Claw**: Executes plan, maintains quality, verifies per item, keeps docs current  
 **Human**: Available for questions, confirms at Phase end

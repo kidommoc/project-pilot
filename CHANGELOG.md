@@ -4,6 +4,24 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v1.12.0 (2026-04-04)
+
+**Contract**: Workflow Transition Actions
+
+**为完整 workflow 添加 Phase 转换动作**：
+- P1→P2: Archive 000 → Update README → Commit `iteration: v{x.x.x} ready`
+- P2→P3: Verify contracts archived → Update README → Commit `docs: phase 2 → 3`
+- P3→P4: Generate audit report → Human confirms → Update README → Commit `docs: phase 3 → 4`
+- P4→Done: Prepare → Plan release actions → Human confirms → Execute all git actions
+
+**更新文件**：
+- workflow-phase1.md — 添加 Transition Actions (P1→P2)
+- workflow-phase2.md — 添加 Transition Actions (P2→P3)
+- workflow-phase3.md — 添加 Transition Actions (P3→P4)
+- workflow-phase4.md — 添加 Transition Actions (P4→Done) + git 打包执行流程
+
+---
+
 ## v1.11.0 (2026-04-04)
 
 **Contract**: Documentation Refactor

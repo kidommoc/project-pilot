@@ -66,21 +66,21 @@ python scripts/query-doc-deps.py --graph .doc-graph.json --impact {modified_file
 
 ## Tasks
 
-> **Document-First + Test-Driven**: 严格按 Phase A → B → C 顺序执行。
+> **Document-First + Test-Driven**: Execute in Phase A → B → C order.
 
 **Phase A: Interface Definition** ⛔
-- [ ] 定义接口，更新 `references/interfaces/{module}.md`
+- [ ] Define interfaces, update `references/interfaces/{module}.md`
 - [ ] Commit: `[A] docs: interface for {contract-name}`
 
 **Phase B: Test First** ⛔
-- [ ] 编写测试（应先失败）
-- [ ] 验证 Contract items 均有测试覆盖
+- [ ] Write tests (should fail first)
+- [ ] Verify all Contract items have test coverage
 - [ ] Commit: `[B] test: red tests for {contract-name}`
 
 **Phase C: Implementation** ⛜
-- [ ] 编写实现使测试通过
+- [ ] Write implementation to pass tests
 - [ ] Commit: `[C] feat: implement {contract-name}`
-- [ ] 运行测试验证全部通过
+- [ ] Run tests to verify all pass
 
 ## Notes
 

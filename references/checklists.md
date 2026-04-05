@@ -4,7 +4,7 @@
 
 ## 🚨 Contract Close Checklist
 
-**参见 `references/workflow-phase2.md` Step 4 进行 Phase Sequence 验证和 Squash**
+**See `references/workflow-phase2.md` Step 4 for Phase Sequence verification and Squash**
 
 ---
 
@@ -13,7 +13,7 @@
 **MUST check before declaring Phase complete:**
 
 ### Phase 1 Completion (Additional)
-- [ ] **000 Meta-Contract archived** (规划完成，子合约列表已定)
+- [ ] **000 Meta-Contract archived** (planning complete, child contract list defined)
 - [ ] All child Contracts created and in `contracts/open/`
 - [ ] iteration branch created: `iteration/v{version}`
 

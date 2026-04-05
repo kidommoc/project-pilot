@@ -35,45 +35,45 @@ Phase 2 executes the work defined in Phase 1 Contracts:
 
 ## Step 2: Phase-Gated Development
 
-**Document-First + Test-Driven**: 严格按 Phase A → B → C 顺序执行，不可跳过。
+**Document-First + Test-Driven**: Strictly execute in Phase A → B → C order. No skipping.
 
 ### Phase A: Interface Definition ⛔ GATE A
-**准入**: Contract 已批准  
-**禁止**: 任何实现代码
+**Entry**: Contract approved  
+**Forbidden**: Any implementation code
 
-- 分析 Contract 场景和边界条件
-- 定义接口签名（输入参数、返回值、异常类型）
-- 更新 `references/interfaces/{module}.md`
+- Analyze Contract scenarios and boundary conditions
+- Define interface signatures (inputs, returns, exceptions)
+- Update `references/interfaces/{module}.md`
 - **Commit**: `[A] docs: interface for {contract-name}`
 
-**⛔ 检查**: Gate A 未完成，禁止开始 Phase B
+**⛔ Check**: Gate A incomplete, Phase B forbidden
 
 ---
 
 ### Phase B: Test Development ⛔ GATE B
-**准入**: Gate A commit 完成  
-**禁止**: 任何实现代码
+**Entry**: Gate A commit complete  
+**Forbidden**: Any implementation code
 
-- 根据接口编写测试框架
-- 实现 Contract items 的测试（必须先失败 - Red）
-- 运行测试，确认 Red 状态（截图或日志记录）
+- Write test framework based on interfaces
+- Implement tests for Contract items (must fail first - Red)
+- Run tests, confirm Red status (screenshot or log)
 - **Commit**: `[B] test: red tests for {contract-name}`
 
-**⛔ 检查**: Gate B 未完成，禁止开始 Phase C
+**⛔ Check**: Gate B incomplete, Phase C forbidden
 
 ---
 
 ### Phase C: Implementation ⛔ GATE C
-**准入**: Gate B commit 完成
+**Entry**: Gate B commit complete
 
-- 编写最小实现使测试通过（Green）
-- 重构优化（保持测试通过）
-- 验证接口文档与实际代码一致
+- Write minimal implementation to pass tests (Green)
+- Refactor optimization (keep tests passing)
+- Verify interface docs match actual code
 - **Commit**: `[C] feat: implement {contract-name}`
 
 ---
 
-**Subagents**: 可用于独立任务（文档、测试脚手架、并行模块）
+**Subagents**: Use for isolated tasks (docs, test scaffolding, parallel modules)
 
 📖 **Task decomposition**: [guides/session-tasks.md](guides/session-tasks.md)
 
@@ -91,39 +91,39 @@ After Phase C, switch mindset — **assume you don't know the code**:
 
 ## Step 4: Contract Close Verification
 
-**执行时机**: 所有 Contract items 实现完成，准备 archive 前
+**Timing**: After all Contract items implemented, before archiving
 
-### 4.1 Phase Sequence 验证
+### 4.1 Phase Sequence Verification
 
-验证最近 3 个 commit 符合 `[A] → [B] → [C]` 顺序：
+Verify last 3 commits follow `[A] → [B] → [C]` order:
 
 ```bash
 git log -3 --format=%s
 ```
 
-**通过标准**:
-- [ ] Commit-3: `[A] docs: interface for {contract}` — 接口文档
-- [ ] Commit-2: `[B] test: red tests for {contract}` — 测试先行
-- [ ] Commit-1: `[C] feat: implement {contract}` — 实现代码
-- [ ] 当前测试全部通过（Green）
+**Pass Criteria**:
+- [ ] Commit-3: `[A] docs: interface for {contract}` — Interface docs
+- [ ] Commit-2: `[B] test: red tests for {contract}` — Tests first
+- [ ] Commit-1: `[C] feat: implement {contract}` — Implementation
+- [ ] All tests currently passing (Green)
 
-### 4.2 结果处理
+### 4.2 Result Handling
 
-**✅ 验证通过 → Squash**:
+**✅ Verified → Squash**:
 ```bash
 git reset --soft HEAD~3
 git commit -m "feat: {contract-name}"
 ```
 
-**❌ 验证失败 → Rollback**:
+**❌ Failed → Rollback**:
 ```bash
 git reset --hard HEAD~3
 ```
-**动作**: 返回 Phase A，重新执行 A → B → C
+**Action**: Return to Phase A, re-execute A → B → C
 
-### 4.3 关闭 Contract
-- [ ] Squash 后的 commit 已创建
-- [ ] 人类最终确认
+### 4.3 Close Contract
+- [ ] Squashed commit created
+- [ ] Human final confirmation
 - [ ] Move to `contracts/archived/`
 
 ---

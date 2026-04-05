@@ -119,54 +119,54 @@ Response: {schema}
 
 ## Tasks
 
-> **Document-First + Test-Driven**: 严格按 Phase A → B → C 顺序执行，不可跳过。
+> **Document-First + Test-Driven**: Strictly execute in Phase A → B → C order. No skipping.
 
 ### Phase A: Interface Definition ⛔ GATE A
-**准入**: Contract 已批准  
-**禁止**: 任何实现代码
+**Entry**: Contract approved  
+**Forbidden**: Any implementation code
 
-- [ ] 分析 Contract 场景和边界条件
-- [ ] 定义接口签名（输入参数、返回值、异常类型）
-- [ ] 写入 `references/interfaces/{module}.md`
-- [ ] 记录接口决策和约束（如有 trade-off）
+- [ ] Analyze Contract scenarios and boundary conditions
+- [ ] Define interface signatures (inputs, returns, exceptions)
+- [ ] Write to `references/interfaces/{module}.md`
+- [ ] Document interface decisions and constraints (trade-offs if any)
 
-**Gate A 完成**:
-- [ ] 接口文档已提交（commit 标记 `[A] docs: interface for {contract-name}`）
+**Gate A Complete**:
+- [ ] Interface docs committed (commit marker `[A] docs: interface for {contract-name}`)
 
 ---
 
 ### Phase B: Test Development ⛔ GATE B
-**准入**: Gate A 已完成  
-**禁止**: 任何实现代码
+**Entry**: Gate A complete  
+**Forbidden**: Any implementation code
 
-- [ ] 根据接口编写测试框架
-- [ ] 实现 Contract items 的测试（必须先失败）
+- [ ] Write test framework based on interfaces
+- [ ] Implement tests for Contract items (must fail first)
 
-| Contract Item | 测试文件 | 测试函数 | 状态 |
-|--------------|---------|---------|------|
+| Contract Item | Test File | Test Function | Status |
+|--------------|-----------|---------------|--------|
 | Core-1: {Given...When...Then...} | `test_xxx.py` | `test_yyy()` | ⬜ Red |
 | Core-2: {Given...When...Then...} | `test_xxx.py` | `test_zzz()` | ⬜ Red |
 | Edge-1: {...} | `test_xxx.py` | `test_edge1()` | ⬜ Red |
 
-- [ ] 运行测试，确认 Red 状态（失败）
+- [ ] Run tests, confirm Red status (failing)
 
-**Gate B 完成**:
-- [ ] 测试文件已提交（commit 标记 `[B] test: red tests for {contract-name}`）
-- [ ] 所有 Contract items 有对应测试
-- [ ] 测试显示 Red（截图或日志记录）
+**Gate B Complete**:
+- [ ] Test files committed (commit marker `[B] test: red tests for {contract-name}`)
+- [ ] All Contract items have corresponding tests
+- [ ] Tests show Red (screenshot or log)
 
 ---
 
 ### Phase C: Implementation ⛔ GATE C
-**准入**: Gate B 已完成
+**Entry**: Gate B complete
 
-- [ ] 编写最小实现使测试通过（Green）
-- [ ] 重构优化（保持测试通过）
-- [ ] 验证接口文档与实际代码一致
+- [ ] Write minimal implementation to pass tests (Green)
+- [ ] Refactor optimization (keep tests passing)
+- [ ] Verify interface docs match actual code
 
-**Gate C 完成**:
-- [ ] 实现代码已提交（commit 标记 `[C] feat: implement {contract-name}`）
-- [ ] 所有测试通过
+**Gate C Complete**:
+- [ ] Implementation committed (commit marker `[C] feat: implement {contract-name}`)
+- [ ] All tests passing
 
 ---
 

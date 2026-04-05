@@ -4,6 +4,17 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v1.13.1 (2026-04-06)
+
+**Fix**: Translate all Phase-Gated workflow content to English
+
+- workflow-phase2.md — All Phase A/B/C descriptions in English
+- templates/contract.md — All Task descriptions in English
+- templates/mini-contract.md — All Task descriptions in English
+- checklists.md — Reference text in English
+
+---
+
 ## v1.13.0 (2026-04-06)
 
 **Contract**: Phase-Gated Document-First Test-Driven Workflow

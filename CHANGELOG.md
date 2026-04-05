@@ -4,6 +4,24 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v1.13.0 (2026-04-06)
+
+**Contract**: Phase-Gated Document-First Test-Driven Workflow
+
+**引入严格的三阶段门控流程**：
+- Phase A: Interface Definition — 先写接口文档，commit 标记 `[A]`
+- Phase B: Test Development — 先写测试并验证 Red，commit 标记 `[B]`
+- Phase C: Implementation — 后写实现使测试 Green，commit 标记 `[C]`
+- Contract Close 验证 commit 顺序 `[A] → [B] → [C]`，通过后 squash 成一个 commit
+
+**更新文件**：
+- workflow-phase2.md — Step 2 改为 Phase-Gated，新增 Step 4 Contract Close Verification
+- templates/contract.md — Tasks 改为三阶段，Phase B 包含 items→tests 映射表
+- templates/mini-contract.md — Tasks 改为简化三阶段
+- checklists.md — 删除重复 Contract Close 检查项
+
+---
+
 ## v1.12.0 (2026-04-04)
 
 **Contract**: Workflow Transition Actions

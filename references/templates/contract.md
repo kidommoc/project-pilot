@@ -117,33 +117,58 @@ Response: {schema}
 
 ---
 
-## Implementation Plan
+## Tasks
 
-> Tasks with dependency ordering. Use `→` to indicate sequential deps.
+> **Document-First + Test-Driven**: 严格按 Phase A → B → C 顺序执行，不可跳过。
 
-### Phase 1: {name}
-1. {Task}
-2. {Task}
-3. Verify: `{test command}`
+### Phase A: Interface Definition ⛔ GATE A
+**准入**: Contract 已批准  
+**禁止**: 任何实现代码
 
-### Phase 2: {name} (depends on Phase 1)
-1. {Task}
-2. Verify: `{test command}`
+- [ ] 分析 Contract 场景和边界条件
+- [ ] 定义接口签名（输入参数、返回值、异常类型）
+- [ ] 写入 `references/interfaces/{module}.md`
+- [ ] 记录接口决策和约束（如有 trade-off）
 
-### Parallel Tasks (subagent-eligible)
-- [ ] Documentation updates
-- [ ] Test coverage expansion
+**Gate A 完成**:
+- [ ] 接口文档已提交（commit 标记 `[A] docs: interface for {contract-name}`）
 
 ---
 
-## Test Plan
+### Phase B: Test Development ⛔ GATE B
+**准入**: Gate A 已完成  
+**禁止**: 任何实现代码
 
-### Automated Tests
+- [ ] 根据接口编写测试框架
+- [ ] 实现 Contract items 的测试（必须先失败）
 
-| Category | File/Command | Contract Items Covered |
-|----------|-------------|----------------------|
-| Unit | `{test file/command}` | Core 1-3 |
-| Integration | `{test file/command}` | Edge 1-2 |
+| Contract Item | 测试文件 | 测试函数 | 状态 |
+|--------------|---------|---------|------|
+| Core-1: {Given...When...Then...} | `test_xxx.py` | `test_yyy()` | ⬜ Red |
+| Core-2: {Given...When...Then...} | `test_xxx.py` | `test_zzz()` | ⬜ Red |
+| Edge-1: {...} | `test_xxx.py` | `test_edge1()` | ⬜ Red |
+
+- [ ] 运行测试，确认 Red 状态（失败）
+
+**Gate B 完成**:
+- [ ] 测试文件已提交（commit 标记 `[B] test: red tests for {contract-name}`）
+- [ ] 所有 Contract items 有对应测试
+- [ ] 测试显示 Red（截图或日志记录）
+
+---
+
+### Phase C: Implementation ⛔ GATE C
+**准入**: Gate B 已完成
+
+- [ ] 编写最小实现使测试通过（Green）
+- [ ] 重构优化（保持测试通过）
+- [ ] 验证接口文档与实际代码一致
+
+**Gate C 完成**:
+- [ ] 实现代码已提交（commit 标记 `[C] feat: implement {contract-name}`）
+- [ ] 所有测试通过
+
+---
 
 ### Manual Verification (if needed)
 

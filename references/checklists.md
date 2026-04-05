@@ -4,35 +4,7 @@
 
 ## 🚨 Contract Close Checklist
 
-**MUST check before closing a Contract:**
-
-### Contract Verification
-- [ ] All Contract items pass (Given/When/Then)
-- [ ] Unit tests written and passing
-- [ ] Edge cases covered
-- [ ] Error handling verified
-
-### Documentation Updates
-- [ ] Interface docs updated (if interfaces changed)
-- [ ] Dependency graph regenerated (if structure changed)
-- [ ] Documentation consistency checked (see Consistency Check below)
-
-### Consistency Check
-
-**Run impact analysis**:
-```bash
-python scripts/query-doc-deps.py --graph .doc-graph.json --impact {modified_file.md}
-```
-
-- [ ] All impacted files updated
-- [ ] Templates checked (if core workflow changed)
-
-### Next Session
-- [ ] Next Session recorded in Contract
-- [ ] Explicitly asked: "Contract '{name}' completed. Next: {task}. Continue?"
-- [ ] ⛔ Stopped and waiting for confirmation
-
-**Contract Close → Archive to `contracts/archive/`**
+**参见 `references/workflow-phase2.md` Step 4 进行 Phase Sequence 验证和 Squash**
 
 ---
 

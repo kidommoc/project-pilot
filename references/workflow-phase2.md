@@ -33,26 +33,47 @@ Phase 2 executes the work defined in Phase 1 Contracts:
 
 ---
 
-## Step 2: Test-First Development (Developer Mode)
+## Step 2: Phase-Gated Development
 
-Execute per Implementation Brief using **red-green-refactor**:
+**Document-First + Test-Driven**: 严格按 Phase A → B → C 顺序执行，不可跳过。
 
-For each Contract item:
-1. **Red**: Write test (should fail, validates test)
-2. **Green**: Write minimal implementation (test passes)
-3. **Refactor**: Optimize code (keep tests passing)
+### Phase A: Interface Definition ⛔ GATE A
+**准入**: Contract 已批准  
+**禁止**: 任何实现代码
 
-**Record in Contract**:
-```markdown
-- [ ] Given ... When ... Then ...
-  - **Test**: `test_feature_x.py::test_scenario_y()`
-```
+- 分析 Contract 场景和边界条件
+- 定义接口签名（输入参数、返回值、异常类型）
+- 更新 `references/interfaces/{module}.md`
+- **Commit**: `[A] docs: interface for {contract-name}`
 
-**Checkpoints**:
-- Per-item verification: Test passes immediately after item
-- Interface docs: Update on any interface change
-- Regression: Fix before continuing
-- Subagents: Use for isolated tasks (docs, test scaffolding, parallel modules)
+**⛔ 检查**: Gate A 未完成，禁止开始 Phase B
+
+---
+
+### Phase B: Test Development ⛔ GATE B
+**准入**: Gate A commit 完成  
+**禁止**: 任何实现代码
+
+- 根据接口编写测试框架
+- 实现 Contract items 的测试（必须先失败 - Red）
+- 运行测试，确认 Red 状态（截图或日志记录）
+- **Commit**: `[B] test: red tests for {contract-name}`
+
+**⛔ 检查**: Gate B 未完成，禁止开始 Phase C
+
+---
+
+### Phase C: Implementation ⛔ GATE C
+**准入**: Gate B commit 完成
+
+- 编写最小实现使测试通过（Green）
+- 重构优化（保持测试通过）
+- 验证接口文档与实际代码一致
+- **Commit**: `[C] feat: implement {contract-name}`
+
+---
+
+**Subagents**: 可用于独立任务（文档、测试脚手架、并行模块）
 
 📖 **Task decomposition**: [guides/session-tasks.md](guides/session-tasks.md)
 
@@ -60,12 +81,50 @@ For each Contract item:
 
 ## Step 3: Self-Check (Tester Mode)
 
-After all items implemented, switch mindset — **assume you don't know the code**:
-- **TDD verification**: Each Contract item has corresponding test
-- Walk through each item, verify passes independently
+After Phase C, switch mindset — **assume you don't know the code**:
+- Walk through each Contract item, verify passes independently
 - Run full test suite
 - Verify interface docs current
-- Any failure → return to Step 2, fix, re-verify
+- Any failure → return to Phase C, fix, re-verify
+
+---
+
+## Step 4: Contract Close Verification
+
+**执行时机**: 所有 Contract items 实现完成，准备 archive 前
+
+### 4.1 Phase Sequence 验证
+
+验证最近 3 个 commit 符合 `[A] → [B] → [C]` 顺序：
+
+```bash
+git log -3 --format=%s
+```
+
+**通过标准**:
+- [ ] Commit-3: `[A] docs: interface for {contract}` — 接口文档
+- [ ] Commit-2: `[B] test: red tests for {contract}` — 测试先行
+- [ ] Commit-1: `[C] feat: implement {contract}` — 实现代码
+- [ ] 当前测试全部通过（Green）
+
+### 4.2 结果处理
+
+**✅ 验证通过 → Squash**:
+```bash
+git reset --soft HEAD~3
+git commit -m "feat: {contract-name}"
+```
+
+**❌ 验证失败 → Rollback**:
+```bash
+git reset --hard HEAD~3
+```
+**动作**: 返回 Phase A，重新执行 A → B → C
+
+### 4.3 关闭 Contract
+- [ ] Squash 后的 commit 已创建
+- [ ] 人类最终确认
+- [ ] Move to `contracts/archived/`
 
 ---
 

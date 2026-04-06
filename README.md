@@ -2,7 +2,7 @@
 
 **Claw 驱动进度，人类确认或请求变更。**
 
-Current release: v1.13.1
+Current release: v1.14
 
 ---
 

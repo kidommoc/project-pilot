@@ -4,6 +4,16 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v1.14 (2026-04-06)
+
+**Contract**: Force Workflow Read
+
+- SKILL.md Session Startup now mandates reading `references/workflow-phase{N}.md` before any task execution
+- Added ⛔ mandatory marker: "Do not proceed without reading the workflow file"
+- Prevents skipping Phase A/B/C gates and forgetting squash commits
+
+---
+
 ## v1.13.1 (2026-04-06)
 
 **Fix**: Translate all Phase-Gated workflow content to English

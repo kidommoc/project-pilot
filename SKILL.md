@@ -44,7 +44,9 @@ Always write state to contracts/, interfaces/, README — never assume conversat
 
 ```
 1. Read README.md → Determine Phase
-2. Based on Phase:
+2. Read `references/workflow-phase{N}.md` where N = current Phase
+   ⛔ Rule: Do not proceed without reading the workflow file
+3. Based on Phase:
    ├─ P1 → Continue defining Contracts
    ├─ P2 → Check contracts/open/ and in_progress/ → Continue or start Contract
    ├─ P3 → Perform audit
@@ -107,4 +109,4 @@ Create ADR when:
 | Web App | references/project-types/web-app.md |
 | CLI Tool | references/project-types/cli-tool.md |
 
-**Version**: 2.0.0 | **See also**: [CHANGELOG](CHANGELOG.md)
+**Version**: 2.1.0 | **See also**: [CHANGELOG](CHANGELOG.md)

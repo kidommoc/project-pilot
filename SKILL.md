@@ -1,6 +1,6 @@
 ---
 name: project-pilot
-description: Project management for single human + claw collaboration. Triggers on "use project-pilot", "start development", or "continue project {name}" when contracts/ directory exists.
+description: Project management for single human + claw collaboration. Triggers on "use project-pilot", "start development", or "continue project {name}" when contracts/ directory exists. ⛔ READ SKILL.md AT <location> FIRST - Must read this file before any action.
 ---
 
 # Project Pilot

@@ -4,6 +4,15 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v1.15 (2026-04-06)
+
+**Contract**: Fix Workflow Violation in Self-Use
+
+- Enhanced skill description with explicit location read requirement
+- Added ⛔ reminder in description: "READ SKILL.md AT <location> FIRST - Must read this file before any action"
+
+---
+
 ## v1.14 (2026-04-06)
 
 **Contract**: Force Workflow Read
@@ -13,7 +22,6 @@ All notable changes to project-pilot are documented in this file.
 - Prevents skipping Phase A/B/C gates and forgetting squash commits
 
 ---
-
 ## v1.13.1 (2026-04-06)
 
 **Fix**: Translate all Phase-Gated workflow content to English

@@ -1,112 +1,119 @@
 ---
 name: project-pilot
-description: Project management for single human + claw collaboration. Triggers on "use project-pilot", "start development", or "continue project {name}" when contracts/ directory exists. ⛔ READ SKILL.md AT <location> FIRST - Must read this file before any action.
+description: "Project management for single human + claw collaboration. Triggers on 'use project-pilot', 'start development', or 'continue project {name}' when docs/contracts/ or workspace/contracts/ directory exists."
 ---
 
-# Project Pilot
+# Project Pilot — Main Agent Skill
 
-**Claw-led, human-confirmed project management.**
+**Detect project lifecycle stage and spawn corresponding agentId to execute work.**
 
-## MUST Constraints
+## Trigger Conditions
 
-Violating these = skill failure. Stop and correct immediately.
+- User says "use project-pilot", "continue project XXX", "start development"
+- Project directory contains `docs/contracts/` or `workspace/contracts/` directory
 
-### MUST-1: Proactive Execution
-Claw actively drives progress; human provides high-level direction only.
-- Human: Sets goals ("implement X")
-- Claw: Designs Contracts, proposes plans, reports progress
-- **Human confirms at decision points**: Contract approval, Phase transitions, release
+## How It Works
 
-Never wait for detailed instructions. Propose complete next steps. But **never proceed past a decision point without explicit human confirmation**.
+This skill contains NO development workflow logic. Its sole responsibilities are:
 
-### MUST-2: Contract-First
-No implementation without approved Contract in `contracts/in_progress/`.
-Contract closes only when all items pass verification.
-"Code written" ≠ "Contract closed".
+1. **Detect lifecycle stage**
+2. **Spawn corresponding agent**
+3. **Bridge human and agent interaction**
 
-### MUST-3: Single Focus
-`contracts/in_progress/` must contain exactly 1 file.
-more than 1 files = error state. Stop and report to human.
+All development workflows, contract management, phase transitions, etc. are defined by each agent's AGENTS.md.
 
-### MUST-4: Interface Docs
-Update `references/interfaces/{module}.md` when modifying module interfaces.
-Interface docs = Single Source of Truth (always reflect current code).
+## Response Timing
 
-### MUST-5: Process Adherence
-Follow Phase sequence: P1 → P2 → P3 → P4.
-No Phase skipping. No next-Phase action without explicit user confirmation.
+### Discord Quick Response
+- **Always respond within 3 seconds** to acknowledge the interaction
+- Send a quick confirmation first (e.g., "Starting project-pilot workflow...")
+- Then spawn subagent for slow work
+- This prevents "Interaction already acknowledged" error
 
-### MUST-6: State in Files
-Project state must be recoverable from files without session history.
-Always write state to contracts/, interfaces/, README — never assume conversation continuity.
+### No Announce
+- Subagents must NOT post results back to the main chat
+- To suppress announce, end with `NO_REPLY` or `no_reply`
+- Main agent will summarize results for the user
 
-## Session Startup
+## Lifecycle Detection
+
+State is derived purely from the filesystem. Check in order:
+
+| # | Condition | Stage | Action |
+|---|-----------|-------|--------|
+| 1 | No `PROJECT.AGENT.md` | Init | Spawn `project-pilot-init` |
+| 2 | No `workspace/current-spec.md` | Idle | Await Design trigger or Bugfix trigger from human |
+| 3 | `workspace/current-spec.md` exists, no `workspace/meta.md` | Plan (meta) | Spawn `project-pilot-plan` |
+| 4 | `workspace/meta.md` exists, `workspace/contracts/open/` empty | Plan (contracts) | Spawn `project-pilot-plan` (Phase 2) |
+| 5 | `workspace/contracts/in_progress/` has symlink | Implementing | Do NOT spawn — Implement Agent is running |
+| 6 | `workspace/contracts/open/` has symlinks, `in_progress/` empty | Ready | Pick next contract (by priority/deps or ask human), `mv` symlink from `open/` to `in_progress/`, spawn `project-pilot-implement` |
+| 7 | `workspace/current-spec.md` exists, `open/` and `in_progress/` both empty | Done | Spawn `project-pilot-cicd` |
+
+### L0 Responsibilities
+
+- **State routing**: Read workspace, determine stage, spawn agent
+- **Contract selection**: Move symlink from `open/` → `in_progress/` before spawning Implement
+- **Human bridge**: Relay agent results to human, relay human decisions to agents
+- **Does NOT**: Write code, create contracts, run reviews, make design decisions
+
+## Agent Registry
+
+| agentId | Role | When to Spawn |
+|---------|------|---------------|
+| `project-pilot-init` | Initializes project structure + PROJECT.AGENT.md | No PROJECT.AGENT.md found |
+| `project-pilot-design` | Discusses design with human, writes specs | Main agent detects design stage |
+| `project-pilot-plan` | Reads specs, produces contracts | Main agent after specs confirmed |
+| `project-pilot-implement` | Executes a single contract (session mode) | Main agent for each open contract |
+| `project-pilot-interface-worker` | Defines interfaces (code + docs) | Spawned by implement agent |
+| `project-pilot-test-worker` | Writes tests (RED) + verifies (GREEN), session mode | Spawned by implement agent |
+| `project-pilot-coding-worker` | Implements interfaces to pass tests | Spawned by implement agent |
+| `project-pilot-review-worker` | Reviews work output (multiple skills) | Spawned by design/plan/implement agents |
+
+## Spawn Example
 
 ```
-1. Read README.md → Determine Phase
-2. Read `references/workflow-phase{N}.md` where N = current Phase
-   ⛔ Rule: Do not proceed without reading the workflow file
-3. Based on Phase:
-   ├─ P1 → Continue defining Contracts
-   ├─ P2 → Check contracts/open/ and in_progress/ → Continue or start Contract
-   ├─ P3 → Perform audit
-   ├─ P4 → Prepare release
-   └─ Done → Ask: "New iteration?"
+sessions_spawn({
+  task: "Manage project iteration: [user intent and project context]",
+  runtime: "subagent",
+  mode: "run",
+  agentId: "project-pilot-iteration"
+})
 ```
 
-**Phase Detection:**
-| Phase | Indicator |
-|-------|-----------|
-| P1 | Iteration just created, Contracts being defined |
-| P2 | Contracts in `open/` or `in_progress/` |
-| P3 | All Contracts archived, awaiting audit |
-| P4 | Audit passed, awaiting release |
+## Design Stage
 
-## Decision Rules
+Design stage is handled by main agent directly (no spawn):
+- Human-machine discussion of requirements and architecture
+- After discussion, write conclusions to specs file in project directory
+- Then spawn iteration agent to enter formal workflow
 
-### Contract Selection
-| Condition | Selection |
-|-----------|-----------|
-| ≤8 items, single module, simple deps | Mini-Contract (default) |
-| >8 items OR multi-module OR architectural | Full Contract |
+## Bugfix Mode
 
-### ADR Trigger
-Create ADR when:
-- Changes project structure
-- New dependency patterns
-- Breaking interface changes
+When user reports a bug from Idle state (no active spec/iteration):
 
-### State Storage
-| Type | Location | Lifecycle |
-|------|----------|-----------|
-| Temporary progress | Contract checkboxes | Contract |
-| Permanent truth | references/interfaces/ | Project |
+1. Main Agent confirms bug description with human
+2. Spawn `project-pilot-plan` with bugfix context (no spec needed)
+3. Plan Agent creates iteration branch (`iteration/v<patch-version>`) + single fix-contract
+4. Normal flow continues: Implement → CI/CD
 
-## Phase Quick Reference
+**Key difference from normal iteration**: skips Design stage entirely. No spec is written. Plan Agent uses `references/fix-contract.md` template instead of mini/full contract.
 
-| Phase | Goal | Detail |
-|-------|------|--------|
-| P1 | Contract Definition | [workflow-phase1.md](references/workflow-phase1.md) |
-| P2 | Implementation | [workflow-phase2.md](references/workflow-phase2.md) |
-| P3 | Audit | [workflow-phase3.md](references/workflow-phase3.md) |
-| P4 | Release | [workflow-phase4.md](references/workflow-phase4.md) |
+**Detection**: Human explicitly says "fix bug", "there's a bug", or similar. Main Agent asks for bug description, then spawns Plan Agent with the description as context.
 
-## Templates & Tools
+## Key Constraints
 
-| Use | File |
-|-----|------|
-| Mini-Contract | references/templates/mini-contract.md |
-| Full Contract | references/templates/contract.md |
-| Interface Contract | references/templates/interface-contract.md |
-| ADR | references/templates/adr.md |
+### ⛔ Main agent does NOT execute development workflows
+Main agent only routes; does not do contract management, interface writing, code implementation, etc.
 
-## Project Types
+### ⛔ Phase transitions require human confirmation
+Each agent must pause and wait for human confirmation after completing a phase.
 
-| Type | Template |
-|------|----------|
-| OpenClaw Plugin | references/project-types/openclaw-plugin.md |
-| Python Package | references/project-types/python-package.md |
-| Web App | references/project-types/web-app.md |
-| CLI Tool | references/project-types/cli-tool.md |
+### ⛔ State is in files
+Project state is visible through `workspace/contracts/` symlinks and `docs/` files, not dependent on conversation history.
 
-**Version**: 2.1.0 | **See also**: [CHANGELOG](CHANGELOG.md)
+## Configuration Requirements
+
+Before use, configure agents in `openclaw.json`, see project's `openclaw.json` for reference.
+
+**Version**: 2.0.0
+**Release**: v2.0.0

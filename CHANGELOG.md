@@ -4,6 +4,64 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v2.0.0 (2026-04-17)
+
+**Architecture rewrite: Three-tier multi-agent with symlink state machine**
+
+Complete redesign from monolithic SKILL.md to distributed agent architecture.
+
+### Added
+- **Three-tier agent hierarchy**: L0 Main → L1 Orchestrators (init/design/plan/implement/cicd) → L2 Workers (interface/test/coding/review)
+- **9 agent workspaces** under `agent-workspaces/` — each agent has its own AGENTS.md, references, and skills
+- **ARCHITECTURE.md** — system-level design document with 16 architecture decisions (D1–D16)
+- **openclaw.json** — agent declarations with dedicated workspaces
+- **Symlink state machine** — project state derived purely from filesystem:
+  - `workspace/current-spec.md` → active iteration marker
+  - `workspace/meta.md` → iteration contract index
+  - `workspace/contracts/{open,in_progress}/` → contract lifecycle
+- **Markdown link traceability** — meta ↔ contract ↔ spec linked via relative md links
+- **7-step lifecycle detection** in SKILL.md (L0) — unambiguous stage routing
+- **Review Worker** with 6 review skills (specs, meta, contracts, interface, tests, code, audit)
+- **Defect classification**: MISS/EXTRA/ERROR (with source) + INCOMPLETE/AMBIGUOUS/INCONSISTENT (specs)
+- **Fix routing**: auto-fixable → re-spawn + feedback; needs-human → escalate; max 2 rounds
+- **Bugfix mode**: L0 detects bug reports from Idle state, Plan Agent Phase 0 produces fix-contract without spec
+- **fix-contract template**: lightweight contract for bug fixes (no spec reference, starts at Phase B)
+- **Branch management (D16)**: `main` (stable) + `iteration/v{version}` (work branch)
+  - Plan Agent creates iteration branch; CI/CD Agent merges back to main + tags
+  - Version number single source of truth: iteration branch name
+- **Commit conventions**: plan:/design:/impl:/fix:/release: prefixes
+- **CI/CD Agent** reads version from branch name, reads meta for iteration-scoped audits, cleans up workspace on release
+
+### Changed
+- **SKILL.md** rewritten: L0 is now pure router + state manager, no workflow logic
+- **L0 owns contract selection**: moves symlinks from `open/` → `in_progress/` before spawning Implement
+- **Meta contract template** uses markdown links for contract file references
+- **Contract templates** include back-references to meta and source spec
+- **README.md** rewritten: intro + how it works + architecture overview
+
+### Removed
+- `references/` (old monolithic guides, templates, checklists) — replaced by per-agent references
+- `scripts/` (dependency extraction scripts) — no longer needed
+- Old workflow phases (phase1-4 md files) — replaced by agent-level workflow
+
+### Design Decisions (rejected)
+- Declarative `@step/@worker/@depends` DSL — rejected in favor of Phase A→E markdown (D5)
+- ID traceability system — rejected, markdown links are sufficient (D5)
+
+### Migration
+- This is a breaking change. Old v1.x project structures are not compatible.
+- Projects must be re-initialized with the new `project-pilot-init` agent.
+
+---
+
+## v1.16 (2026-03-28)
+
+*Previously tagged as v2.0. Re-tagged as v1.16 since it was never deployed.*
+
+**Contract**: 合同状态机重构 + 版本管理 + README 范围澄清
+
+---
+
 ## v1.15 (2026-04-06)
 
 **Contract**: Fix Workflow Violation in Self-Use

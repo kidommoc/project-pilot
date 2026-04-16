@@ -1,0 +1,33 @@
+{
+  "agents": {
+    "defaults": {
+      "subagents": {
+        "allowAgents": [
+          "project-pilot-init",
+          "project-pilot-design",
+          "project-pilot-plan",
+          "project-pilot-implement",
+          "project-pilot-cicd",
+          "project-pilot-interface-worker",
+          "project-pilot-test-worker",
+          "project-pilot-coding-worker",
+          "project-pilot-review-worker"
+        ],
+        "maxSpawnDepth": 2,
+        "maxChildrenPerAgent": 6
+      },
+      "skipBootstrap": true
+    },
+    "list": [
+      { "id": "project-pilot-init", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-init" },
+      { "id": "project-pilot-design", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-design" },
+      { "id": "project-pilot-plan", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-plan" },
+      { "id": "project-pilot-implement", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-implement" },
+      { "id": "project-pilot-cicd", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-cicd" },
+      { "id": "project-pilot-interface-worker", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-interface-worker" },
+      { "id": "project-pilot-test-worker", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-test-worker" },
+      { "id": "project-pilot-coding-worker", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-coding-worker" },
+      { "id": "project-pilot-review-worker", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-review-worker" }
+    ]
+  }
+}

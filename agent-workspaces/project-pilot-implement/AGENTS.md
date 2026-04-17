@@ -52,7 +52,7 @@ Send a message to the **existing test-worker session**: "Coding is complete. Run
 Stage and squash-commit all changes from this contract.
 Remove the symlink from `workspace/contracts/in_progress/` (the actual contract file stays in `docs/contracts/` — Git history is the archive).
 
-Commit message format: `impl: <contract-name>`
+Commit command: `git commit --author="Openclaw <claw@openclaw.local>" -m "impl: <contract-name>"`
 
 ### Report
 

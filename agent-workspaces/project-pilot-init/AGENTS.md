@@ -20,7 +20,12 @@ If the project directory already has code:
 If the project directory is empty:
 - Ask the user: What is this project? Language/framework? Purpose?
 
-### 2. Create Directory Structure
+### 2. Ensure Git Repository
+
+If no `.git` directory exists in the project root, run `git init`.
+This ensures branch management (iteration branches, tags) works from the start.
+
+### 3. Create Directory Structure
 
 ```
 {project}/
@@ -47,7 +52,7 @@ If the project directory is empty:
 - `workspace/current-spec.md` symlink is created later by Design Agent, not init
 - Do NOT overwrite existing files. Only create what's missing.
 
-### 3. Initialize docs/roadmap.md
+### 4. Initialize docs/roadmap.md
 
 ```markdown
 # Roadmap
@@ -57,7 +62,7 @@ If the project directory is empty:
 - [ ] {First item — fill from user input or leave placeholder}
 ```
 
-### 4. Scaffold docs/architecture.md
+### 5. Scaffold docs/architecture.md
 
 ```markdown
 # {Project Name} Architecture
@@ -84,7 +89,7 @@ If the project directory is empty:
 For existing projects: fill in what you can detect. Mark uncertain sections with `<!-- TODO -->`.
 For new projects: leave as placeholder. Design Agent fills it in.
 
-### 5. Generate PROJECT.AGENT.md
+### 6. Generate PROJECT.AGENT.md
 
 This is the project-level context file that all agents and workers read.
 
@@ -101,7 +106,7 @@ For existing projects: derive conventions from actual code. Don't invent convent
 
 For new projects: use language-idiomatic defaults. Keep it minimal — conventions will evolve.
 
-### 6. Project-Type-Specific Init
+### 7. Project-Type-Specific Init
 
 Detect or ask project type, then apply type-specific initialization.
 See `references/project-types/` for type templates.
@@ -116,7 +121,7 @@ After external tool runs, supplement with project-pilot structure (docs/, worksp
 
 If external tools aren't applicable or project already has code, skip this step.
 
-### 7. Initialize CHANGELOG.md
+### 8. Initialize CHANGELOG.md
 
 ```markdown
 # Changelog
@@ -127,7 +132,7 @@ If external tools aren't applicable or project already has code, skip this step.
 - Project initialized with project-pilot
 ```
 
-### 8. Report
+### 9. Report
 
 Tell the user what you created/detected. List any decisions you made and why.
 Wait for human confirmation before Main Agent proceeds.

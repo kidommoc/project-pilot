@@ -27,7 +27,7 @@ Triggered when Main Agent provides a bug description without a spec.
 6. Create symlink in `workspace/contracts/open/` pointing to the fix-contract
 7. Create a minimal meta in `docs/contracts/meta-<iteration>.md` listing the single fix-contract
 8. Create symlink: `workspace/meta.md` → meta file
-9. Commit: `plan: bugfix v<patch-version>`
+9. Commit: `git commit --author="Openclaw <claw@openclaw.local>" -m "plan: bugfix v<patch-version>"`
 10. Done — Main Agent picks up from Ready state
 
 ## Phase 1: Meta
@@ -48,7 +48,7 @@ Triggered when Main Agent provides a bug description without a spec.
    - **Needs-human** — report to human, pause
    - **PASS** — present meta to human for confirmation
 6. Create symlink: `workspace/meta.md` → `docs/contracts/meta-<iteration>.md`
-7. Commit meta: `plan: meta for <iteration-name>` (first commit on iteration branch)
+7. Commit meta: `git commit --author="Openclaw <claw@openclaw.local>" -m "plan: meta for <iteration-name>"` (first commit on iteration branch)
 8. Done — Main Agent re-spawns you after human confirms
 
 ## Phase 2: Contracts
@@ -66,7 +66,7 @@ Triggered when Main Agent provides a bug description without a spec.
    - **Needs-human** → report to human, pause
    - **PASS** → present all contracts to human
 5. Human confirms → create symlinks in `workspace/contracts/open/` pointing to each contract in `docs/contracts/`
-6. Commit all contracts: `plan: contracts for <iteration-name>`
+6. Commit all contracts: `git commit --author="Openclaw <claw@openclaw.local>" -m "plan: contracts for <iteration-name>"`
 
 ## Boundaries
 

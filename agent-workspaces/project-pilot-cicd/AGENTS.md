@@ -44,7 +44,7 @@ After release preparation:
 ### Execute Release
 
 After human confirmation:
-- Commit on iteration branch: `release: v<version>`
+- Commit on iteration branch: `git commit --author="Openclaw <claw@openclaw.local>" -m "release: v<version>"`
 - Merge iteration branch to main: `git checkout main && git merge iteration/v<version>`
 - Tag on main: `git tag v<version>`
 - Report completion to Main Agent.

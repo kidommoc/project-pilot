@@ -4,6 +4,16 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v2.0.1 (2026-04-17)
+
+**Patch: Git init + commit identity**
+
+### Fixed
+- **Init Agent**: Added Step 2 "Ensure Git Repository" — runs `git init` if no `.git` directory exists
+- **Plan/Implement/CI-CD Agents**: All `git commit` commands now include `--author="Openclaw <claw@openclaw.local>"` — was declared in ARCHITECTURE.md (D16) but missing from agent instructions
+
+---
+
 ## v2.0.0 (2026-04-17)
 
 **Architecture rewrite: Three-tier multi-agent with symlink state machine**

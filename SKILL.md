@@ -42,7 +42,7 @@ State is derived purely from the filesystem. Check in order:
 | # | Condition | Stage | Action |
 |---|-----------|-------|--------|
 | 1 | No `PROJECT.AGENT.md` | Init | Spawn `project-pilot-init` |
-| 2 | No `workspace/current-spec.md` | Idle | Await Design trigger or Bugfix trigger from human |
+| 2 | No `workspace/current-spec.md` | Idle | Await Design trigger → spawn `project-pilot-design` (session, thread-bound); or Bugfix trigger from human |
 | 3 | `workspace/current-spec.md` exists, no `workspace/meta.md` | Plan (meta) | Spawn `project-pilot-plan` |
 | 4 | `workspace/meta.md` exists, `workspace/contracts/open/` empty | Plan (contracts) | Spawn `project-pilot-plan` (Phase 2) |
 | 5 | `workspace/contracts/in_progress/` has symlink | Implementing | Do NOT spawn — Implement Agent is running |
@@ -58,34 +58,45 @@ State is derived purely from the filesystem. Check in order:
 
 ## Agent Registry
 
-| agentId | Role | When to Spawn |
-|---------|------|---------------|
-| `project-pilot-init` | Initializes project structure + PROJECT.AGENT.md | No PROJECT.AGENT.md found |
-| `project-pilot-design` | Discusses design with human, writes specs | Main agent detects design stage |
-| `project-pilot-plan` | Reads specs, produces contracts | Main agent after specs confirmed |
-| `project-pilot-implement` | Executes a single contract (session mode) | Main agent for each open contract |
-| `project-pilot-interface-worker` | Defines interfaces (code + docs) | Spawned by implement agent |
-| `project-pilot-test-worker` | Writes tests (RED) + verifies (GREEN), session mode | Spawned by implement agent |
-| `project-pilot-coding-worker` | Implements interfaces to pass tests | Spawned by implement agent |
-| `project-pilot-review-worker` | Reviews work output (multiple skills) | Spawned by design/plan/implement agents |
+| agentId | Mode | Role | When to Spawn |
+|---------|------|------|---------------|
+| `project-pilot-init` | run | Initializes project structure + PROJECT.AGENT.md | No PROJECT.AGENT.md found |
+| `project-pilot-design` | session, thread-bound | Discusses design with human, writes specs | Human triggers design from Idle state |
+| `project-pilot-plan` | run | Reads specs, produces contracts | Main agent after specs confirmed |
+| `project-pilot-implement` | session | Executes a single contract | Main agent for each open contract |
+| `project-pilot-interface-worker` | run | Defines interfaces (code + docs) | Spawned by implement agent |
+| `project-pilot-test-worker` | session | Writes tests (RED) + verifies (GREEN) | Spawned by implement agent |
+| `project-pilot-coding-worker` | run | Implements interfaces to pass tests | Spawned by implement agent |
+| `project-pilot-review-worker` | run | Reviews work output (multiple skills) | Spawned by design/plan/implement agents |
 
-## Spawn Example
+## Spawn Examples
 
 ```
+// One-shot agent (e.g. init, plan, cicd)
 sessions_spawn({
-  task: "Manage project iteration: [user intent and project context]",
+  task: "Initialize project: [project context]",
   runtime: "subagent",
   mode: "run",
-  agentId: "project-pilot-iteration"
+  agentId: "project-pilot-init"
+})
+
+// Session agent with thread binding (e.g. design)
+sessions_spawn({
+  task: "Design feature: [user intent and project context]",
+  runtime: "subagent",
+  mode: "session",
+  thread: true,
+  agentId: "project-pilot-design"
 })
 ```
 
 ## Design Stage
 
-Design stage is handled by main agent directly (no spawn):
-- Human-machine discussion of requirements and architecture
-- After discussion, write conclusions to specs file in project directory
-- Then spawn iteration agent to enter formal workflow
+When user triggers design from Idle state, spawn `project-pilot-design` in session mode (thread-bound):
+- Design Agent discusses requirements and architecture with the human
+- Writes specs to `docs/specs/`, spawns review-worker for validation
+- After review passes, commits specs + creates `workspace/current-spec.md` symlink
+- Main Agent then detects state #3 (Plan) and continues the workflow
 
 ## Bugfix Mode
 
@@ -115,5 +126,5 @@ Project state is visible through `workspace/contracts/` symlinks and `docs/` fil
 
 Before use, configure agents in `openclaw.json`, see project's `openclaw.json` for reference.
 
-**Version**: 2.0.1
-**Release**: v2.0.1
+**Version**: 2.0.2
+**Release**: v2.0.2

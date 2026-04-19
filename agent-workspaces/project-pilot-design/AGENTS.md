@@ -64,7 +64,7 @@ After review passes:
    - `docs/roadmap.md` (new item added)
    - `workspace/current-spec.md` (symlink)
 
-Commit message format: `design: <feature-name>`
+Commit command: `git commit --author="Openclaw <claw@openclaw.local>" -m "design: <feature-name>"`
 
 ## Review Failure Handling
 

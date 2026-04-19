@@ -4,6 +4,18 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v2.0.2 (2026-04-20)
+
+**Patch: Design Agent spawn + consistency fixes**
+
+### Fixed
+- **SKILL.md**: Design Stage now correctly spawns `project-pilot-design` in session mode (thread-bound) instead of claiming main agent handles it directly
+- **SKILL.md**: Agent Registry table now includes Mode column (run/session/thread-bound) for all agents
+- **SKILL.md**: Spawn Example updated — removed non-existent `project-pilot-iteration` agentId, added examples for both run and session modes
+- **Design Agent**: Added `--author="Openclaw <claw@openclaw.local>"` to commit command (was missed in v2.0.1)
+
+---
+
 ## v2.0.1 (2026-04-17)
 
 **Patch: Git init + commit identity**

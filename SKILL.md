@@ -81,6 +81,7 @@ sessions_spawn({
 })
 
 // Session agent with thread binding (e.g. design)
+// After spawn, report the returned session key to the user
 sessions_spawn({
   task: "Design feature: [user intent and project context]",
   runtime: "subagent",
@@ -88,15 +89,21 @@ sessions_spawn({
   thread: true,
   agentId: "project-pilot-design"
 })
+// → Tell user: "Design session started, session key: <key>"
 ```
 
 ## Design Stage
 
-When user triggers design from Idle state, spawn `project-pilot-design` in session mode (thread-bound):
-- Design Agent discusses requirements and architecture with the human
-- Writes specs to `docs/specs/`, spawns review-worker for validation
-- After review passes, commits specs + creates `workspace/current-spec.md` symlink
-- Main Agent then detects state #3 (Plan) and continues the workflow
+When user triggers design from Idle state:
+
+1. Spawn `project-pilot-design` in session mode (thread-bound), with `streamTo: "parent"` disabled (no announce)
+2. Report the session key to the user so they can focus into the design session
+3. Design Agent discusses requirements and architecture with the human directly
+4. After discussion converges, Design Agent writes specs, spawns review-worker for validation
+5. After review passes, commits specs + creates `workspace/current-spec.md` symlink
+6. Main Agent then detects state #3 (Plan) and continues the workflow
+
+**Important**: Main Agent does NOT relay messages for Design Agent. The human interacts with Design Agent directly via the session.
 
 ## Bugfix Mode
 

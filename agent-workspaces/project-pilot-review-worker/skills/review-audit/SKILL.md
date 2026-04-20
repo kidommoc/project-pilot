@@ -21,8 +21,8 @@ Comprehensive audit of a completed iteration before release.
 - All acceptance criteria are checked off
 
 ### Commit History
-- Commits follow prescribed format ([A]→[B]→[C] per phase)
-- Each contract corresponds to the expected commits
+- Each contract has a single squashed commit with format `impl: <contract-name>` (after Phase E squash)
+- WIP commits (`wip: interface/tests/impl - <name>`) are allowed on iteration branch but should be squashed before merge to main
 - No rogue commits outside contract scope
 
 ### Test Results (Full Regression)

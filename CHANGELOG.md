@@ -4,6 +4,20 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v2.0.4 (2026-04-20)
+
+**Patch: Multi-spec support + contract checkboxes**
+
+### Changed
+- **workspace/current-spec.md** replaced with **workspace/specs/** directory — symlink-per-spec, supports multiple specs per iteration
+- Aligns with `workspace/contracts/` pattern (directory of symlinks = state)
+- Updated: Design, Plan, Init, CI/CD, Review agents + ARCHITECTURE.md + SKILL.md + NOTE.md
+
+### Fixed
+- **Implement Agent**: Must update contract checkboxes (`- [ ]` → `- [x]`) after each phase before committing
+
+---
+
 ## v2.0.3 (2026-04-20)
 
 **Patch: Design flow + Implement commit discipline**

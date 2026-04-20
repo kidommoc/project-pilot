@@ -4,6 +4,18 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v2.0.3 (2026-04-20)
+
+**Patch: Design flow + Implement commit discipline**
+
+### Fixed
+- **Design Agent**: Added `⛔ Do NOT Skip Discussion` constraint — must engage human in discussion before writing specs, even if task includes feature details
+- **SKILL.md**: Design Stage no longer announces to main session; main agent reports session key so user can focus into design session directly
+- **Implement Agent**: Each phase (A/B/C) now commits with `wip:` prefix to protect progress; Phase D squashes all into single `impl: <name>` commit via `git reset --soft`
+- **Implement Agent**: Standardized final commit format — title + bullet body summarizing key changes
+
+---
+
 ## v2.0.2 (2026-04-20)
 
 **Patch: Design Agent spawn + consistency fixes**

@@ -68,10 +68,31 @@ When session mode is NOT supported:
 
 State is derived purely from the filesystem. Check in order:
 
+### Idle State Decision Tree (State #2)
+
+When `workspace/specs/` is empty and user triggers design:
+
+```
+User triggers design
+    ↓
+Check channel/provider
+    ↓
+┌─────────────────────────────────┬─────────────────────────────────┐
+│ Discord/Telegram                │ Other channels (Signal, etc.)   │
+├─────────────────────────────────┼─────────────────────────────────┤
+│ Spawn Design Agent (session)    │ Main Agent handles design       │
+│ → Multi-turn in separate thread │ → Multi-turn in main chat       │
+│ → Design Agent writes spec      │ → Main Agent writes spec        │
+│ → Design Agent spawns review    │ → Main Agent spawns review      │
+│ → Creates workspace symlinks    │ → Creates workspace symlinks    │
+│ → State → #3 (Plan)             │ → State → #3 (Plan)             │
+└─────────────────────────────────┴─────────────────────────────────┘
+```
+
 | # | Condition | Stage | Action |
 |---|-----------|-------|--------|
 | 1 | No `PROJECT.AGENT.md` | Init | Spawn `project-pilot-init` |
-| 2 | `workspace/specs/` empty | Idle | Await Design trigger → spawn `project-pilot-design` (session, thread-bound); or Bugfix trigger from human |
+| 2 | `workspace/specs/` empty | Idle | Await Design trigger → **if Discord/Telegram**: spawn `project-pilot-design` (session); **else**: Main Agent handles design; or Bugfix trigger from human |
 | 3 | `workspace/specs/` has symlinks, no `workspace/meta.md` | Plan (meta) | Spawn `project-pilot-plan` |
 | 4 | `workspace/meta.md` exists, `workspace/contracts/open/` empty | Plan (contracts) | Spawn `project-pilot-plan` (Phase 2) |
 | 5 | `workspace/contracts/in_progress/` has symlink | Implementing | Do NOT spawn — Implement Agent is running |
@@ -83,7 +104,8 @@ State is derived purely from the filesystem. Check in order:
 - **State routing**: Read workspace, determine stage, spawn agent
 - **Contract selection**: Move symlink from `open/` → `in_progress/` before spawning Implement
 - **Human bridge**: Relay agent results to human, relay human decisions to agents
-- **Does NOT**: Write code, create contracts, run reviews, make design decisions
+- **Channel check**: Before spawning Design Agent, check if channel supports session mode
+- **Does NOT**: Write code, create contracts, run reviews, make design decisions *(except on non-session channels where Main Agent handles design)*
 
 ## Agent Registry
 

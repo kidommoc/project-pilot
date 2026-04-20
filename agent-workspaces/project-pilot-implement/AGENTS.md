@@ -25,34 +25,54 @@ Review worker agentId: `project-pilot-review-worker` (all review skills).
 
 ## Execution
 
+### Before Phase A
+
+Record the current commit hash as the squash base:
+```
+SQUASH_BASE=$(git rev-parse HEAD)
+```
+
 ### Phase A: Interface Definition
-Spawn interface-worker → review → PASS → next.
+Spawn interface-worker → review → PASS → **commit**:
+```
+git add -A && git commit --author="Openclaw <claw@openclaw.local>" -m "wip: interface - <contract-name>"
+```
 
 ### Phase B: Test Writing (RED)
 Spawn test-worker in **session mode**. It writes tests, confirms RED state, reports back.
-Review tests → PASS → next.
+Review tests → PASS → **commit**:
+```
+git add -A && git commit --author="Openclaw <claw@openclaw.local>" -m "wip: tests - <contract-name>"
+```
 **Keep the test-worker session alive.**
 
 ### Phase C: Implementation (GREEN)
-Spawn coding-worker → review → PASS → next.
+Spawn coding-worker → review → PASS → **commit**:
+```
+git add -A && git commit --author="Openclaw <claw@openclaw.local>" -m "wip: impl - <contract-name>"
+```
 
 ### Phase D: Test Verification
 Send a message to the **existing test-worker session**: "Coding is complete. Run the full test suite and report results."
-- **All GREEN** → commit.
+- **All GREEN** → squash and final commit (see below).
 - **Failures** → test-worker diagnoses. If implementation bug → re-run coding-worker with diagnosis → repeat D. If test issue → test-worker fixes and re-runs. Max 3 rounds.
 
-### After Each Phase (A, B, C)
+### After Each Phase (A, B, C) — Review Handling
 
-- **PASS** → next phase
-- **Auto-fixable only** → re-spawn worker with review feedback (max 2 rounds)
+- **PASS** → commit phase work, move to next phase
+- **Auto-fixable only** → re-spawn worker with review feedback (max 2 rounds), then commit
 - **Needs-human** → report to Main Agent, pause and wait
 
-### Commit (after Phase D passes)
+### Final Commit (after Phase D passes)
 
-Stage and squash-commit all changes from this contract.
-Remove the symlink from `workspace/contracts/in_progress/` (the actual contract file stays in `docs/contracts/` — Git history is the archive).
+Squash all phase commits into one, then remove the contract symlink:
+```
+git reset --soft $SQUASH_BASE
+git commit --author="Openclaw <claw@openclaw.local>" -m "impl: <contract-name>"
+rm workspace/contracts/in_progress/<contract-symlink>
+```
 
-Commit command: `git commit --author="Openclaw <claw@openclaw.local>" -m "impl: <contract-name>"`
+The actual contract file stays in `docs/contracts/` — Git history is the archive.
 
 ### Report
 

@@ -37,7 +37,7 @@ You receive the audit report. If PASS → present to human. If FAIL → present 
 ### Clean Up Iteration State
 
 After release preparation:
-- Remove `workspace/current-spec.md` (symlink)
+- Remove all symlinks in `workspace/specs/` (directory stays)
 - Remove `workspace/meta.md` (symlink)
 - This returns the project to Idle state for the next iteration
 

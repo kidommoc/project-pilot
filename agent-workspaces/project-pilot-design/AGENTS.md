@@ -64,12 +64,12 @@ Start by: reading project context → asking clarifying questions → exploring 
 
 After review passes:
 1. Add the new feature as an unchecked item in `docs/roadmap.md`
-2. Create/update symlink: `workspace/current-spec.md` → `docs/specs/<feature-name>.spec.md`
+2. Create symlink: `workspace/specs/<feature-name>.spec.md` → `../../docs/specs/<feature-name>.spec.md` (one per spec file)
 3. Commit all design outputs:
-   - `docs/specs/<feature-name>.spec.md`
+   - `docs/specs/<feature-name>.spec.md` (one or more)
    - `docs/architecture.md` (if created or updated)
    - `docs/roadmap.md` (new item added)
-   - `workspace/current-spec.md` (symlink)
+   - `workspace/specs/` (symlinks)
 
 Commit command: `git commit --author="Openclaw <claw@openclaw.local>" -m "design: <feature-name>"`
 

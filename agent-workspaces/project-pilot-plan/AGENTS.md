@@ -34,7 +34,7 @@ Triggered when Main Agent provides a bug description without a spec.
 
 1. **Create iteration branch**: `git checkout -b iteration/v<version>` from `main`
    - Version number comes from the spec or is determined with human input
-2. Read `workspace/current-spec.md` (symlink to active spec in `docs/specs/`)
+2. Read all symlinks in `workspace/specs/` (each points to a spec in `docs/specs/`)
 3. Draft meta contract to `docs/contracts/meta-<iteration>.md` using template `references/meta-contract.md`
    - Use markdown links to reference the source spec: `[spec-name](../specs/xxx.spec.md)`
    - One contract = one coherent unit of work → one squashed commit
@@ -76,6 +76,6 @@ Triggered when Main Agent provides a bug description without a spec.
 
 ## Key Paths
 
-- **Input**: `workspace/current-spec.md` (symlink) → `docs/specs/`
+- **Input**: `workspace/specs/` (symlinks) → `docs/specs/`
 - **Output**: `docs/contracts/meta-*.md` + `docs/contracts/{feature,fix}/` (actual files)
 - **State**: `workspace/meta.md` (symlink to meta contract) + `workspace/contracts/open/` (symlinks to individual contracts)

@@ -78,9 +78,9 @@ Create ADR when:
 
 ### Session Recovery
 ```
-1. Check workspace/current-spec.md
-   ├─ Missing → Idle (no active iteration)
-   └─ Exists → Continue:
+1. Check workspace/specs/
+   ├─ Empty → Idle (no active iteration)
+   └─ Has symlinks → Continue:
 2. Check workspace/meta.md
    ├─ Missing → Plan phase (meta needed)
    └─ Exists → Continue:

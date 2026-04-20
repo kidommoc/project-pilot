@@ -38,6 +38,7 @@ This ensures branch management (iteration branches, tags) works from the start.
 │   │   └── fix/                # Patch fix contracts
 │   └── interfaces/             # Interface documentation
 ├── workspace/                  # Working state (symlinks only)
+│   ├── specs/                  # Symlinks to active specs (Design Agent creates)
 │   └── contracts/
 │       ├── open/               # Symlinks to pending contracts
 │       └── in_progress/        # Symlink to active contract (exactly 1)
@@ -49,7 +50,7 @@ This ensures branch management (iteration branches, tags) works from the start.
 **Key rules:**
 - `docs/contracts/` holds the actual files — permanent, never deleted
 - `workspace/contracts/` holds symlinks only — state changes = move/delete symlinks
-- `workspace/current-spec.md` symlink is created later by Design Agent, not init
+- `workspace/specs/` holds symlinks to active specs — created by Design Agent, cleaned by CI/CD Agent
 - Do NOT overwrite existing files. Only create what's missing.
 
 ### 4. Initialize docs/roadmap.md

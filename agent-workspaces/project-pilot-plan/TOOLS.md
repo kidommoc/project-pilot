@@ -16,6 +16,6 @@ All references use markdown relative links:
 
 ## Key Directories
 
-- **Input**: `workspace/current-spec.md` (symlink → `docs/specs/`)
+- **Input**: `workspace/specs/` (symlinks → `docs/specs/`)
 - **Output**: `docs/contracts/meta-*.md` + `docs/contracts/{feature,fix}/`
 - **State**: `workspace/meta.md` (symlink → meta contract) + `workspace/contracts/open/` (symlinks → individual contracts)

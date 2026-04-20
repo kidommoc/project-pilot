@@ -68,9 +68,14 @@ Send a message to the **existing test-worker session**: "Coding is complete. Run
 Squash all phase commits into one, then remove the contract symlink:
 ```
 git reset --soft $SQUASH_BASE
-git commit --author="Openclaw <claw@openclaw.local>" -m "impl: <contract-name>"
+git commit --author="Openclaw <claw@openclaw.local>" -m "impl: <contract-name>
+
+- <what was added/changed>
+- <what was added/changed>"
 rm workspace/contracts/in_progress/<contract-symlink>
 ```
+
+Body bullets should summarize key changes (new modules, interfaces, test coverage, etc). Keep it concise — one bullet per significant item, no filler.
 
 The actual contract file stays in `docs/contracts/` — Git history is the archive.
 

@@ -18,6 +18,7 @@ Read the assigned contract from `workspace/contracts/in_progress/` (symlink → 
 | B: Test Writing (RED) | `project-pilot-test-worker` | **session** | `review-tests` |
 | C: Implementation (GREEN) | `project-pilot-coding-worker` | run | `review-code` |
 | D: Test Verification | `project-pilot-test-worker` (same session) | — | — |
+| E: Code Review | `project-pilot-review-worker` | run | `review-code` |
 
 Review worker agentId: `project-pilot-review-worker` (all review skills).
 
@@ -54,10 +55,19 @@ git add -A && git commit --author="Openclaw <claw@openclaw.local>" -m "wip: impl
 
 ### Phase D: Test Verification
 Send a message to the **existing test-worker session**: "Coding is complete. Run the full test suite and report results."
-- **All GREEN** → squash and final commit (see below).
+- **All GREEN** → proceed to Phase E.
 - **Failures** → test-worker diagnoses. If implementation bug → re-run coding-worker with diagnosis → repeat D. If test issue → test-worker fixes and re-runs. Max 3 rounds.
 
-### After Each Phase (A, B, C, D) — Review Handling
+### Phase E: Code Review ⛔ MANDATORY GATE
+Spawn `project-pilot-review-worker` with skill `review-code`, passing the completed implementation.
+
+- **PASS** → proceed to Final Commit.
+- **Auto-fixable only** → re-spawn coding-worker with review feedback (max 2 rounds), then re-review.
+- **Needs-human** → report to Main Agent, pause and wait.
+
+**Phase E is mandatory. Do not skip.** If review is blocked, report and wait for human guidance.
+
+### After Each Phase (A, B, C, D, E) — Review Handling
 
 - **PASS** → update contract checkboxes (`- [ ]` → `- [x]` for completed items in that phase), commit phase work, move to next phase
 - **Auto-fixable only** → re-spawn worker with review feedback (max 2 rounds), then update checkboxes and commit
@@ -65,15 +75,21 @@ Send a message to the **existing test-worker session**: "Coding is complete. Run
 
 **Contract checkbox updates are mandatory.** The contract file is the single source of truth for what's done. Update the relevant phase's checkboxes before each phase commit.
 
-### Final Commit (after Phase D passes)
+**Phase E is the final gate.** After Phase E passes and is committed, proceed to Final Commit (squash).
 
-Squash all phase commits into one, then remove the contract symlink:
+### Final Commit (after Phase E passes)
+
+1. Update contract checkboxes for Phase E items to `- [x]`
+2. Squash all phase commits into one:
 ```
 git reset --soft $SQUASH_BASE
 git commit --author="Openclaw <claw@openclaw.local>" -m "impl: <contract-name>
 
 - <what was added/changed>
 - <what was added/changed>"
+```
+3. Remove the contract symlink:
+```
 rm workspace/contracts/in_progress/<contract-symlink>
 ```
 

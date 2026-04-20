@@ -57,11 +57,13 @@ Send a message to the **existing test-worker session**: "Coding is complete. Run
 - **All GREEN** → squash and final commit (see below).
 - **Failures** → test-worker diagnoses. If implementation bug → re-run coding-worker with diagnosis → repeat D. If test issue → test-worker fixes and re-runs. Max 3 rounds.
 
-### After Each Phase (A, B, C) — Review Handling
+### After Each Phase (A, B, C, D) — Review Handling
 
-- **PASS** → commit phase work, move to next phase
-- **Auto-fixable only** → re-spawn worker with review feedback (max 2 rounds), then commit
+- **PASS** → update contract checkboxes (`- [ ]` → `- [x]` for completed items in that phase), commit phase work, move to next phase
+- **Auto-fixable only** → re-spawn worker with review feedback (max 2 rounds), then update checkboxes and commit
 - **Needs-human** → report to Main Agent, pause and wait
+
+**Contract checkbox updates are mandatory.** The contract file is the single source of truth for what's done. Update the relevant phase's checkboxes before each phase commit.
 
 ### Final Commit (after Phase D passes)
 

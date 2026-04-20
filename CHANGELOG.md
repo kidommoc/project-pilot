@@ -4,6 +4,17 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v2.0.5 (2026-04-20)
+
+**Patch: Squash merge to main, preserve iteration history**
+
+### Changed
+- **CI/CD Agent**: Uses `git merge --squash` when merging iteration branch to main
+- Iteration branches are preserved (not deleted) — development history stays accessible
+- Main branch stays clean (one commit per release), iteration branches hold wip/phase commits
+
+---
+
 ## v2.0.4 (2026-04-20)
 
 **Patch: Multi-spec support + contract checkboxes**

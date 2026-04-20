@@ -52,25 +52,17 @@ Before spawning a session agent, check the inbound metadata:
 
 ```javascript
 const sessionSupported = ['discord', 'telegram'].includes(channel || provider);
-const mode = sessionSupported ? 'session' : 'run';
-const thread = sessionSupported && shouldUseThread;  // thread only for Discord/Telegram
 ```
 
 ### Fallback Behavior
 
 When session mode is NOT supported:
 
-1. **Design Agent**: Spawn with `mode: "run"` instead of `mode: "session"`. The design discussion happens in the main chat, and the final spec is committed in one turn.
+1. **Design Agent**: **DO NOT spawn**. Main Agent handles design discussions directly in the main chat (multi-turn). After discussion converges, Main Agent writes the spec and creates symlinks.
 2. **Implement Agent**: Spawn with `mode: "run"` instead of `mode: "session"`. The entire contract execution (Phase A→E) happens in one turn.
-3. **Test Worker**: Always spawned by Implement Agent with `mode: "session"` — but if Implement Agent is already in `run` mode, Test Worker should also be `run` mode (single-turn test writing + verification).
+3. **Test Worker**: Inherits mode from parent. If Implement Agent is `run` mode, Test Worker is also `run` mode.
 
-**Note**: Session mode enables multi-turn conversations and stateful workflows. Run mode requires the agent to complete all work in a single turn.
-
-### Implementation Notes
-
-- Check `channel` first, fall back to `provider` if `channel` is not available
-- Log a warning when downgrading: "Session mode not supported on {channel}, using run mode"
-- Main Agent should inform the user: "Note: {channel} doesn't support session mode, so this will run in single-turn mode"
+**Note**: Design requires multi-turn discussion. On unsupported channels, Main Agent takes over this role. Run mode for Implement Agent is acceptable because the contract is already defined — it's execution, not discussion.
 
 ## Lifecycle Detection
 
@@ -98,13 +90,13 @@ State is derived purely from the filesystem. Check in order:
 | agentId | Mode | Role | When to Spawn |
 |---------|------|------|---------------|
 | `project-pilot-init` | run | Initializes project structure + PROJECT.AGENT.md | No PROJECT.AGENT.md found |
-| `project-pilot-design` | session (Discord/Telegram) or run (fallback) | Discusses design with human, writes specs | Human triggers design from Idle state |
+| `project-pilot-design` | session (Discord/Telegram only) | Discusses design with human, writes specs | Human triggers design from Idle state **on Discord/Telegram** |
 | `project-pilot-plan` | run | Reads specs, produces contracts | Main agent after specs confirmed |
 | `project-pilot-implement` | session (Discord/Telegram) or run (fallback) | Executes a single contract | Main agent for each open contract |
 | `project-pilot-interface-worker` | run | Defines interfaces (code + docs) | Spawned by implement agent |
 | `project-pilot-test-worker` | session (if parent is session) or run | Writes tests (RED) + verifies (GREEN) | Spawned by implement agent |
 | `project-pilot-coding-worker` | run | Implements interfaces to pass tests | Spawned by implement agent |
-| `project-pilot-review-worker` | run | Reviews work output (multiple skills) | Spawned by design/plan/implement agents |
+| `project-pilot-review-worker` | run | Reviews work output (multiple skills) | Spawned by design/plan/implement/Main agents |
 
 ## Spawn Examples
 
@@ -120,8 +112,7 @@ sessions_spawn({
   agentId: "project-pilot-init"
 })
 
-// Session agent with thread binding (e.g. design)
-// Only use session mode on Discord/Telegram
+// Design Agent — ONLY on Discord/Telegram
 if (sessionSupported) {
   const result = await sessions_spawn({
     task: "Design feature: [user intent and project context]",
@@ -133,34 +124,44 @@ if (sessionSupported) {
   // Report the session key to the user
   // → Tell user: "Design session started, session key: <key>"
 } else {
-  // Fallback to run mode
-  await sessions_spawn({
-    task: "Design feature: [user intent and project context] (Note: single-turn mode on {channel})",
-    runtime: "subagent",
-    mode: "run",
-    agentId: "project-pilot-design"
-  })
+  // DO NOT spawn Design Agent — Main Agent handles design directly
+  // See "Design Stage" section for Main Agent workflow on unsupported channels
 }
+
+// Implement Agent — session on Discord/Telegram, run on others
+await sessions_spawn({
+  task: "Implement contract: [contract path]",
+  runtime: "subagent",
+  mode: sessionSupported ? 'session' : 'run',
+  agentId: "project-pilot-implement"
+})
 ```
 
 ## Design Stage
 
 When user triggers design from Idle state:
 
-1. **Check channel support**: `const sessionSupported = ['discord', 'telegram'].includes(channel || provider)`
-2. Spawn `project-pilot-design`:
-   - If session supported: `mode: "session"`, `thread: true`, `streamTo: "parent"` disabled (no announce)
-   - If NOT supported: `mode: "run"` (single-turn design)
-3. If session mode:
-   - Report the session key to the user so they can focus into the design session
-   - Design Agent discusses requirements and architecture with the human directly
-4. If run mode:
-   - Design Agent completes discussion + spec writing in a single turn
-   - Main Agent relays the result to the user
-5. After spec is written and reviewed, commits specs + creates symlinks in `workspace/specs/`
+### On Discord/Telegram (session supported)
+
+1. Spawn `project-pilot-design` with `mode: "session"`, `thread: true`, `streamTo: "parent"` disabled (no announce)
+2. Report the session key to the user so they can focus into the design session
+3. Design Agent discusses requirements and architecture with the human directly
+4. After discussion converges, Design Agent writes specs, spawns review-worker for validation
+5. After review passes, commits specs + creates symlinks in `workspace/specs/`
 6. Main Agent then detects state #3 (Plan) and continues the workflow
 
-**Important**: Main Agent does NOT relay messages for Design Agent in session mode. The human interacts with Design Agent directly via the session. In run mode, Main Agent relays all communication.
+**Important**: Main Agent does NOT relay messages for Design Agent. The human interacts with Design Agent directly via the session.
+
+### On Other Channels (session NOT supported)
+
+1. **Main Agent handles design directly** — do NOT spawn Design Agent
+2. Main Agent discusses requirements and architecture with the human in the main chat (multi-turn)
+3. After discussion converges, Main Agent writes the spec to `docs/specs/`
+4. Main Agent spawns `project-pilot-review-worker` with skill `review-specs` for validation
+5. After review passes, Main Agent creates symlinks in `workspace/specs/`
+6. Main Agent then detects state #3 (Plan) and spawns Plan Agent
+
+**Why**: Design requires multi-turn discussion. Run mode would force single-turn completion, which defeats the purpose. Main Agent takes over this role on unsupported channels.
 
 ## Bugfix Mode
 

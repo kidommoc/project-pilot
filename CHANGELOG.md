@@ -10,14 +10,14 @@ All notable changes to project-pilot are documented in this file.
 
 ### Changed
 - **Main Agent (SKILL.md)**: Session mode agents now check channel/provider before spawning
-- **Supported channels**: Discord and Telegram use `mode: "session"`; all others fall back to `mode: "run"`
-- **Design Agent**: Multi-turn discussion on Discord/Telegram; single-turn on other channels
-- **Implement Agent**: Session-based contract execution on Discord/Telegram; single-turn on other channels
+- **Supported channels**: Discord and Telegram use `mode: "session"`; all others fall back
+- **Design Agent**: Spawns on Discord/Telegram only; on other channels Main Agent handles design discussions directly
+- **Implement Agent**: Session-based contract execution on Discord/Telegram; single-turn (`run` mode) on other channels
 - **Test Worker**: Inherits mode from parent Implement Agent
 
 ### Added
 - Session compatibility check logic in SKILL.md
-- User-facing warning when downgrading to run mode
+- Main Agent takes over Design role on unsupported channels (multi-turn in main chat)
 
 ---
 

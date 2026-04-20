@@ -44,10 +44,16 @@ After release preparation:
 ### Execute Release
 
 After human confirmation:
-- Commit on iteration branch: `git commit --author="Openclaw <claw@openclaw.local>" -m "release: v<version>"`
-- Merge iteration branch to main: `git checkout main && git merge iteration/v<version>`
-- Tag on main: `git tag v<version>`
-- Report completion to Main Agent.
+1. Commit on iteration branch: `git commit --author="Openclaw <claw@openclaw.local>" -m "release: v<version>"`
+2. Squash merge to main (preserves iteration branch):
+   ```
+   git checkout main
+   git merge --squash iteration/v<version>
+   git commit --author="Openclaw <claw@openclaw.local>" -m "release: v<version>"
+   ```
+3. Tag on main: `git tag v<version>`
+4. **Do NOT delete iteration branch** — it preserves the development history (wip/phase commits)
+5. Report completion to Main Agent.
 
 ## Boundaries
 

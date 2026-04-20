@@ -65,27 +65,7 @@ This ensures branch management (iteration branches, tags) works from the start.
 
 ### 5. Scaffold docs/architecture.md
 
-```markdown
-# {Project Name} Architecture
-
-## System Overview
-
-{2-3 sentences: what the system does, its primary constraints.}
-
-## Layers / Domains
-
-<!-- Design Agent will fill this in during the first design phase -->
-
-## Design Constraints
-
-<!-- Cross-cutting rules that apply system-wide -->
-
-## History
-
-| Date | Change | Source |
-|------|--------|--------|
-| {today} | Initial scaffold | Init Worker |
-```
+Use `references/architecture-scaffold.md` as the template.
 
 For existing projects: fill in what you can detect. Mark uncertain sections with `<!-- TODO -->`.
 For new projects: leave as placeholder. Design Agent fills it in.

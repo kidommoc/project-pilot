@@ -44,26 +44,6 @@ As a {role}, I want {capability}, so that {benefit}.
 |------------|------|--------|
 | {Module/Service} | Internal/External | ✅ Done / 🟡 In Progress / ❌ Blocked |
 
-## Impact Analysis
-
-**Run before starting implementation**:
-
-```bash
-# Find files impacted by changes
-python scripts/extract-doc-deps.py --src . --output .doc-graph.json
-python scripts/query-doc-deps.py --graph .doc-graph.json --impact {modified_file.md}
-```
-
-**Referenced by**:
-- {List files that reference the modified files}
-
-**Requires update**:
-- [ ] project-types/*.md (if project-init.md or SKILL.md changed)
-- [ ] Templates (if core workflow changed)
-- [ ] Guides (if referenced)
-
----
-
 ## Contract
 
 > Each item is an acceptance criterion. Phase completion requires ALL items to pass.
@@ -133,7 +113,7 @@ Response: {schema}
 - [ ] Document interface decisions and constraints (trade-offs if any)
 
 **Gate A Complete**:
-- [ ] Interface docs committed (commit marker `[A] docs: interface for {contract-name}`)
+- [ ] Interface docs committed (commit: `wip: interface - {contract-name}`)
 
 ---
 
@@ -153,7 +133,7 @@ Response: {schema}
 - [ ] Run tests, confirm Red status (failing)
 
 **Gate B Complete**:
-- [ ] Test files committed (commit marker `[B] test: red tests for {contract-name}`)
+- [ ] Test files committed (commit: `wip: tests - {contract-name}`)
 - [ ] All Contract items have corresponding tests
 - [ ] Tests show Red (screenshot or log)
 
@@ -167,7 +147,7 @@ Response: {schema}
 - [ ] Verify interface docs match actual code
 
 **Gate C Complete**:
-- [ ] Implementation committed (commit marker `[C] feat: implement {contract-name}`)
+- [ ] Implementation committed (commit: `wip: impl - {contract-name}`)
 - [ ] All tests passing
 
 ---
@@ -223,13 +203,8 @@ Test Worker (still running from Phase B) verifies implementation:
 - [ ] Interface docs updated (if interfaces changed)
 - [ ] Human confirmed
 
-**Next Session** (for reference):
-- **Suggested**: {Phase N+1 or specific task}
-- **First Contract**: {suggested topic}
-- **Context**: {ADRs or docs to read}
-
-**Archive**: Remove symlink from `workspace/contracts/in_progress/`. Actual file stays in `docs/contracts/` (Git history is the archive).
+**Archive**: Remove symlink from `workspace/contracts/in_progress/`. Actual file stays in `docs/contracts/`.
 
 ---
 
-> **Downgrade path**: If this Contract has ≤ 5 items, no dependency graph, and single-module scope, consider using a Mini-Contract instead (see [mini-contract.md](mini-contract.md)).
+> **Downgrade**: ≤ 5 items, no dependency graph, single-module scope → use [mini-contract.md](mini-contract.md) instead.

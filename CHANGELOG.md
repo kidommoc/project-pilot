@@ -4,6 +4,25 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v2.2.0 (2026-04-20)
+
+**Minor: Agent-facing documentation audit and slimming**
+
+### Changed
+- **SKILL.md**: Merged 3x redundant Design routing logic into single Session Compatibility table; removed JS pseudocode and JSON schema examples
+- **contract.md**: Removed Impact Analysis (referenced non-existent scripts), "Next Session" in Close Contract; fixed commit format `[A]/[B]/[C]` → `wip:`
+- **mini-contract.md**: Same cleanup as contract.md
+- **project-types/*.md**: Slimmed from ~887 lines to ~130 lines total — kept directory structures and init commands, removed code examples and explanation sections
+- **write-specs/SKILL.md**: Removed "After Writing" section (duplicated Design AGENTS.md lifecycle); simplified spec template
+- **review-specs/SKILL.md**: Removed duplicate report format (uses Review Worker AGENTS.md base format)
+- **Init AGENTS.md**: Replaced inline architecture scaffold with reference to `references/architecture-scaffold.md`
+- **Design AGENTS.md**: Added reference to `references/architecture-doc-format.md` for architecture updates
+
+### Removed
+- `review-worker/references/rules-reference.md` — orphan file, no agent referenced it, content was outdated (old phase names)
+
+---
+
 ## v2.1.0 (2026-04-20)
 
 **Minor: Session agent fallback for non-Discord/Telegram channels**

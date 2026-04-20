@@ -27,37 +27,6 @@
 - **Does NOT touch**: {explicitly excluded scope — prevents scope creep}
 - **Depends on**: {preconditions or external deps, "none" if none}
 
-## Impact Analysis
-
-**Run before starting implementation**:
-
-```bash
-# Find files impacted by changes
-python scripts/extract-doc-deps.py --src . --output .doc-graph.json
-python scripts/query-doc-deps.py --graph .doc-graph.json --impact {modified_file.md}
-```
-
-**Referenced by**:
-- {List files that reference the modified files}
-
-**Requires update**:
-- [ ] project-types/*.md (if project-init.md or SKILL.md changed)
-- [ ] Templates (if core workflow changed)
-- [ ] Guides (if referenced)
-
-## Interface Contract
-
-> **MUST**: If this change modifies module interfaces, document the interface contract below.
-
-**Modified Interfaces**:
-- `file.py:function()` → parameter/return type changes
-
-**Callers**:
-- List modules that call this interface
-
-**Invariants**:
-- Semantic constraints the interface must satisfy
-
 ## Contract
 
 > Each item below is an acceptance criterion. On Phase completion, verify each one. All must pass.
@@ -72,16 +41,16 @@ python scripts/query-doc-deps.py --graph .doc-graph.json --impact {modified_file
 
 **Phase A: Interface Definition** ⛔
 - [ ] Define interfaces, update `docs/interfaces/{module}.md`
-- [ ] Commit: `[A] docs: interface for {contract-name}`
+- [ ] Commit: `wip: interface - {contract-name}`
 
 **Phase B: Test First** ⛔
 - [ ] Write tests (should fail first)
 - [ ] Verify all Contract items have test coverage
-- [ ] Commit: `[B] test: red tests for {contract-name}`
+- [ ] Commit: `wip: tests - {contract-name}`
 
 **Phase C: Implementation** ⛜
 - [ ] Write implementation to pass tests
-- [ ] Commit: `[C] feat: implement {contract-name}`
+- [ ] Commit: `wip: impl - {contract-name}`
 - [ ] Run tests to verify all pass
 
 **Phase D: Test Verification** (by Test Worker session)
@@ -105,13 +74,8 @@ python scripts/query-doc-deps.py --graph .doc-graph.json --impact {modified_file
 - [ ] Interface docs updated (if interfaces changed)
 - [ ] Human confirmed
 
-**Next Session** (for reference):
-- **Suggested**: {Phase N+1 or specific task}
-- **First Contract**: {suggested topic}
-- **Context**: {ADRs or docs to read}
-
-**Archive**: Remove symlink from `workspace/contracts/in_progress/`. Actual file stays in `docs/contracts/` (Git history is the archive).
+**Archive**: Remove symlink from `workspace/contracts/in_progress/`. Actual file stays in `docs/contracts/`.
 
 ---
 
-> **Upgrade path**: If Contract items exceed 8, or changes span multiple modules with architectural impact, upgrade to a full Contract (see [contract.md](contract.md)) + ADR.
+> **Upgrade**: >8 items, multi-module, or architectural impact → use [contract.md](contract.md) instead.

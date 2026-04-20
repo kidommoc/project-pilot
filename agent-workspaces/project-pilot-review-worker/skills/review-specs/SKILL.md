@@ -47,31 +47,9 @@ Unlike other reviews (MISS/EXTRA/ERROR), spec review uses:
 - No implicit assumptions that should be explicit
 - Edge cases and error handling are addressed (or explicitly deferred)
 
-## Review Report Format
-
-```markdown
-# Spec Review: <spec-name>
-
-**Target**: docs/specs/<module>.spec.md
-**Date**: YYYY-MM-DDTHH:MM
-**Verdict**: PASS | NEEDS-REVISION
-
-## Issues
-
-- [INCOMPLETE] <section> — <what's missing or too vague>
-- [AMBIGUOUS] <section> — <what's unclear and why it matters>
-- [INCONSISTENT] <section A> vs <section B> — <the contradiction>
-
-## Suggestions (optional, non-blocking)
-
-- <improvements that would help but aren't required>
-```
-
-### Verdict Rules
+## Verdict Rules
 
 - **PASS**: No INCOMPLETE, AMBIGUOUS, or INCONSISTENT issues
 - **NEEDS-REVISION**: Any issues found → Design Agent should revise
 
-## Output
-
-Write review report to the location specified in the task.
+Use standard review report format from AGENTS.md, replacing MISS/EXTRA/ERROR with the taxonomy above.

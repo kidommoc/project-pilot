@@ -51,7 +51,6 @@ Why this feature exists. What problem it solves. What triggered the design.
 Key decisions made during design discussion, with rationale:
 
 1. **Decision**: <what was decided>
-   - **Alternatives considered**: <what else was on the table>
    - **Rationale**: <why this choice>
 
 ## Architecture
@@ -99,9 +98,4 @@ How we'll know this feature is correctly implemented (high-level, not test cases
 5. **One spec per coherent unit** — don't cram unrelated features into one file
 6. **Include context** — future agents reading this spec have zero conversation history
 
-## After Writing
 
-Tell the human:
-- What spec file(s) you created
-- Any gaps you noticed (Open Questions section)
-- That the spec is ready for the Plan Agent to pick up

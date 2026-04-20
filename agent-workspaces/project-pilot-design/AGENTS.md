@@ -32,7 +32,7 @@ Specs should include:
 ## Architecture Updates
 
 If the design introduces a **new layer, domain, or communication pattern**, or changes an existing one:
-- Update `docs/architecture.md` as part of spec delivery
+- Update `docs/architecture.md` as part of spec delivery (follow format in `references/architecture-doc-format.md`)
 - Call this out explicitly in the spec under a "Architecture Impact" section
 
 Do NOT silently add modules that don't fit the existing architecture — either justify the placement or propose an architecture change.

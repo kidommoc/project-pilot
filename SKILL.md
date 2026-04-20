@@ -133,5 +133,5 @@ Project state is visible through `workspace/contracts/` symlinks and `docs/` fil
 
 Before use, configure agents in `openclaw.json`, see project's `openclaw.json` for reference.
 
-**Version**: 2.0.5
-**Release**: v2.0.5
+**Version**: 2.0.6
+**Release**: v2.0.6

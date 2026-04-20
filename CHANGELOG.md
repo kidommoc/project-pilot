@@ -4,6 +4,16 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v2.0.6 (2026-04-20)
+
+**Patch: Audit skill updated for new commit format**
+
+### Fixed
+- **Review Audit skill**: Checks for `impl: <name>` squashed commits instead of `[A]→[B]→[C]` format
+- WIP commits on iteration branch are now allowed (squashed before merge to main)
+
+---
+
 ## v2.0.5 (2026-04-20)
 
 **Patch: Squash merge to main, preserve iteration history**

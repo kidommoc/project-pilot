@@ -4,6 +4,23 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
+## v2.1.0 (2026-04-20)
+
+**Minor: Session agent fallback for non-Discord/Telegram channels**
+
+### Changed
+- **Main Agent (SKILL.md)**: Session mode agents now check channel/provider before spawning
+- **Supported channels**: Discord and Telegram use `mode: "session"`; all others fall back to `mode: "run"`
+- **Design Agent**: Multi-turn discussion on Discord/Telegram; single-turn on other channels
+- **Implement Agent**: Session-based contract execution on Discord/Telegram; single-turn on other channels
+- **Test Worker**: Inherits mode from parent Implement Agent
+
+### Added
+- Session compatibility check logic in SKILL.md
+- User-facing warning when downgrading to run mode
+
+---
+
 ## v2.0.6 (2026-04-20)
 
 **Patch: Audit skill updated for new commit format**

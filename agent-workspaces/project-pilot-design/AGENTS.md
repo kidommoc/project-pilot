@@ -80,7 +80,8 @@ Commit command: `git commit --author="Openclaw <claw@openclaw.local>" -m "design
 | **INCOMPLETE** | Auto-fix: fill in missing sections, re-review (max 2 rounds) |
 | **AMBIGUOUS** | Escalate to human — agent can't resolve what the human didn't clarify |
 | **INCONSISTENT** | Escalate to human — may indicate a design-level contradiction |
+| **CONFLICT** | Escalate to human — cross-spec contradiction requires design decision |
 
 If only INCOMPLETE issues → revise and re-submit for review.
-If any AMBIGUOUS or INCONSISTENT → stop, show the review report to human, wait for guidance.
+If any AMBIGUOUS, INCONSISTENT, or CONFLICT → stop, show the review report to human, wait for guidance.
 After 2 auto-fix rounds still failing → escalate regardless.

@@ -62,16 +62,22 @@ Start by: reading project context → asking clarifying questions → exploring 
 
 ## Commit
 
-After review passes:
-1. Add the new feature as an unchecked item in `docs/roadmap.md`
-2. Create symlink: `workspace/specs/<feature-name>.spec.md` → `../../docs/specs/<feature-name>.spec.md` (one per spec file)
-3. Commit all design outputs:
-   - `docs/specs/<feature-name>.spec.md` (one or more)
-   - `docs/architecture.md` (if created or updated)
-   - `docs/roadmap.md` (new item added)
-   - `workspace/specs/` (symlinks)
+After each spec passes review:
+1. Add the feature as an unchecked item in `docs/roadmap.md`
+2. Create symlink: `workspace/specs/<feature-name>.spec.md` → `../../docs/specs/<feature-name>.spec.md`
+3. Commit with: `git commit --author="Openclaw <claw@openclaw.local>" -m "wip: spec - <feature-name>"`
 
-Commit command: `git commit --author="Openclaw <claw@openclaw.local>" -m "design: <feature-name>"`
+After **all specs** are committed:
+1. Squash all `wip: spec -` commits into one:
+   ```
+   git reset --soft <commit-before-first-wip>
+   git commit --author="Openclaw <claw@openclaw.local>" -m "design: <iteration-name>"
+   ```
+2. The final commit should contain:
+   - `docs/specs/<feature-name>.spec.md` (all specs)
+   - `docs/architecture.md` (if created or updated)
+   - `docs/roadmap.md` (all new items added)
+   - `workspace/specs/` (all symlinks)
 
 ## Review Failure Handling
 

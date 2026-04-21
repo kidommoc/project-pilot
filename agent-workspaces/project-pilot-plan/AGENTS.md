@@ -24,9 +24,9 @@ Triggered when Main Agent provides a bug description without a spec.
    - Bug description from Main Agent becomes the Bug/Expected sections
 4. Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-contracts`) to validate
 5. Handle review result (same as Phase 2)
-6. Create symlink in `workspace/contracts/open/` pointing to the fix-contract
+6. Create symlink: `cd workspace/contracts/open && ln -s ../../../docs/contracts/fix/<contract>.md <contract>.md`
 7. Create a minimal meta in `docs/contracts/meta-<iteration>.md` listing the single fix-contract
-8. Create symlink: `workspace/meta.md` → meta file
+8. Create symlink: `cd workspace && ln -s ../docs/contracts/meta-<iteration>.md meta.md`
 9. Commit: `git commit --author="Openclaw <claw@openclaw.local>" -m "plan: bugfix v<patch-version>"`
 10. Done — Main Agent picks up from Ready state
 
@@ -47,7 +47,7 @@ Triggered when Main Agent provides a bug description without a spec.
    - **Auto-fixable** — revise meta, re-review (max 2 rounds)
    - **Needs-human** — report to human, pause
    - **PASS** — present meta to human for confirmation
-6. Create symlink: `workspace/meta.md` → `docs/contracts/meta-<iteration>.md`
+6. Create symlink: `cd workspace && ln -s ../docs/contracts/meta-<iteration>.md meta.md`
 7. Commit meta: `git commit --author="Openclaw <claw@openclaw.local>" -m "plan: meta for <iteration-name>"` (first commit on iteration branch)
 8. Done — Main Agent re-spawns you after human confirms
 
@@ -65,7 +65,7 @@ Triggered when Main Agent provides a bug description without a spec.
    - **Auto-fixable** → revise affected contracts with feedback (max 2 rounds)
    - **Needs-human** → report to human, pause
    - **PASS** → present all contracts to human
-5. Human confirms → create symlinks in `workspace/contracts/open/` pointing to each contract in `docs/contracts/`
+5. Human confirms → create symlinks: `cd workspace/contracts/open && ln -s ../../../docs/contracts/{feature,fix}/<contract>.md <contract>.md`
 6. Commit all contracts: `git commit --author="Openclaw <claw@openclaw.local>" -m "plan: contracts for <iteration-name>"`
 
 ## Boundaries

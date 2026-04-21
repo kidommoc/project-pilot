@@ -33,7 +33,7 @@ Check `channel` or `provider` in inbound metadata. Fallback:
 
 | Agent | Session supported | Not supported |
 |-------|------------------|---------------|
-| Design | Spawn `project-pilot-design` (session, thread) | **Do NOT spawn** — Main Agent handles design directly (see "Design on non‑session channels" below) |
+| Design | Spawn `project-pilot-design` (session, thread) — report session key to user | **Do NOT spawn** — Main Agent handles design directly (see "Design on non‑session channels" below) |
 | Implement | Spawn session | Spawn `mode: "run"` (Phase A→E in one turn) |
 | Test Worker | Inherits parent mode | Inherits parent mode |
 

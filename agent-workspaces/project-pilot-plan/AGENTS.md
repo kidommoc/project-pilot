@@ -22,7 +22,7 @@ Triggered when Main Agent provides a bug description without a spec.
 3. Write a single fix-contract to `docs/contracts/fix/` using template `references/fix-contract.md`
    - No spec reference needed
    - Bug description from Main Agent becomes the Bug/Expected sections
-4. Spawn `project-pilot-review-worker` (skill: `review-contracts`) to validate
+4. Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-contracts`) to validate
 5. Handle review result (same as Phase 2)
 6. Create symlink in `workspace/contracts/open/` pointing to the fix-contract
 7. Create a minimal meta in `docs/contracts/meta-<iteration>.md` listing the single fix-contract
@@ -42,7 +42,7 @@ Triggered when Main Agent provides a bug description without a spec.
    - Not too granular (avoid 1-file), not too large (avoid >1 day of work)
    - Every contract traces back to its source spec
    - Spec has gaps → note in meta, flag to human
-4. Spawn `project-pilot-review-worker` (skill: `review-meta`) to validate the meta
+4. Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-meta`) to validate the meta
 5. Handle review result:
    - **Auto-fixable** — revise meta, re-review (max 2 rounds)
    - **Needs-human** — report to human, pause
@@ -60,7 +60,7 @@ Triggered when Main Agent provides a bug description without a spec.
    - One contract per file
    - Parallel when contracts have no dependencies
    - Write fails → retry once, then report to human
-3. Spawn `project-pilot-review-worker` (skill: `review-contracts`) to validate all contracts
+3. Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-contracts`) to validate all contracts
 4. Handle review result:
    - **Auto-fixable** → revise affected contracts with feedback (max 2 rounds)
    - **Needs-human** → report to human, pause

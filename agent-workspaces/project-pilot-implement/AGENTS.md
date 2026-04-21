@@ -34,13 +34,13 @@ SQUASH_BASE=$(git rev-parse HEAD)
 ```
 
 ### Phase A: Interface Definition
-Spawn interface-worker → review → PASS → **commit**:
+Spawn `project-pilot-interface-worker` (`runtime: "subagent"`, `mode: "run"`) → review → PASS → **commit**:
 ```
 git add -A && git commit --author="Openclaw <claw@openclaw.local>" -m "wip: interface - <contract-name>"
 ```
 
 ### Phase B: Test Writing (RED)
-Spawn test-worker in **session mode**. It writes tests, confirms RED state, reports back.
+Spawn `project-pilot-test-worker` (`runtime: "subagent"`, `mode: "session"`). It writes tests, confirms RED state, reports back.
 Review tests → PASS → **commit**:
 ```
 git add -A && git commit --author="Openclaw <claw@openclaw.local>" -m "wip: tests - <contract-name>"
@@ -48,7 +48,7 @@ git add -A && git commit --author="Openclaw <claw@openclaw.local>" -m "wip: test
 **Keep the test-worker session alive.**
 
 ### Phase C: Implementation (GREEN)
-Spawn coding-worker → review → PASS → **commit**:
+Spawn `project-pilot-coding-worker` (`runtime: "subagent"`, `mode: "run"`) → review → PASS → **commit**:
 ```
 git add -A && git commit --author="Openclaw <claw@openclaw.local>" -m "wip: impl - <contract-name>"
 ```
@@ -59,7 +59,7 @@ Send a message to the **existing test-worker session**: "Coding is complete. Run
 - **Failures** → test-worker diagnoses. If implementation bug → re-run coding-worker with diagnosis → repeat D. If test issue → test-worker fixes and re-runs. Max 3 rounds.
 
 ### Phase E: Code Review ⛔ MANDATORY GATE
-Spawn `project-pilot-review-worker` with skill `review-code`, passing the completed implementation.
+Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-code`), passing the completed implementation.
 
 - **PASS** → proceed to Final Commit.
 - **Auto-fixable only** → re-spawn coding-worker with review feedback (max 2 rounds), then re-review.

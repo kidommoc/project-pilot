@@ -14,7 +14,7 @@ Audit (via Review Worker) → Human confirms → Prepare release → Human confi
 ### Audit
 
 1. Read `workspace/meta.md` (symlink) to get the contract list for this iteration
-2. Spawn `project-pilot-review-worker` with skill `review-audit`, passing the meta
+2. Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-audit`), passing the meta
 
 Review Worker handles all verification:
 - Contract completion (all contracts listed in meta are done)

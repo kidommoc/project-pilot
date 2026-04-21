@@ -56,7 +56,7 @@ Start by: reading project context → asking clarifying questions → exploring 
 2. Read existing interface docs and architecture context from target project
 3. Discuss — explore, challenge, converge
 4. When ready, write specs via `write_specs` skill
-5. Spawn `project-pilot-review-worker` (skill: `review-specs`) to validate
+5. Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-specs`) to validate
 6. PASS → commit specs + architecture changes, then report to Main Agent
 7. NEEDS-REVISION → handle by defect type (see below)
 

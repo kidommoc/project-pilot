@@ -4,24 +4,18 @@ All notable changes to project-pilot are documented in this file.
 
 ---
 
-## v2.2.0 (2026-04-20)
+## v2.2.1 (2026-04-21)
 
-**Minor: Agent-facing documentation audit and slimming**
+**Patch: Prevent Main Agent from reading sub‑agent docs on session‑supported channels**
 
-### Changed
-- **SKILL.md**: Merged 3x redundant Design routing logic into single Session Compatibility table; removed JS pseudocode and JSON schema examples
-- **contract.md**: Removed Impact Analysis (referenced non-existent scripts), "Next Session" in Close Contract; fixed commit format `[A]/[B]/[C]` → `wip:`
-- **mini-contract.md**: Same cleanup as contract.md
-- **project-types/*.md**: Slimmed from ~887 lines to ~130 lines total — kept directory structures and init commands, removed code examples and explanation sections
-- **write-specs/SKILL.md**: Removed "After Writing" section (duplicated Design AGENTS.md lifecycle); simplified spec template
-- **review-specs/SKILL.md**: Removed duplicate report format (uses Review Worker AGENTS.md base format)
-- **Init AGENTS.md**: Replaced inline architecture scaffold with reference to `references/architecture-scaffold.md`
-- **Design AGENTS.md**: Added reference to `references/architecture-doc-format.md` for architecture updates
-
-### Removed
-- `review-worker/references/rules-reference.md` — orphan file, no agent referenced it, content was outdated (old phase names)
+### Fixed
+- **SKILL.md**: Clarified Session Compatibility table — split "Design on non‑session channels" into separate subsection to avoid LLM misreading
+- **SKILL.md**: Added explicit constraint "Do NOT read sub‑agent AGENTS.md — you route to them, you don't become them" with exception for non‑session design
+- Prevents Main Agent from reading Design Agent's docs on Discord/Telegram and accidentally becoming the Design Agent
 
 ---
+
+## v2.2.0 (2026-04-20)
 
 ## v2.1.0 (2026-04-20)
 

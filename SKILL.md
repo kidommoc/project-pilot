@@ -33,9 +33,18 @@ Check `channel` or `provider` in inbound metadata. Fallback:
 
 | Agent | Session supported | Not supported |
 |-------|------------------|---------------|
-| Design | Spawn `project-pilot-design` (session, thread) | **Do NOT spawn** — Main Agent handles design directly (read `agent-workspaces/project-pilot-design/AGENTS.md` + `skills/write-specs/SKILL.md`, follow same lifecycle) |
+| Design | Spawn `project-pilot-design` (session, thread) | **Do NOT spawn** — Main Agent handles design directly (see "Design on non‑session channels" below) |
 | Implement | Spawn session | Spawn `mode: "run"` (Phase A→E in one turn) |
 | Test Worker | Inherits parent mode | Inherits parent mode |
+
+### Design on non‑session channels
+
+When channel is NOT Discord/Telegram, Main Agent handles design directly:
+1. Read `agent-workspaces/project-pilot-design/AGENTS.md` + `skills/write-specs/SKILL.md`
+2. Follow the same lifecycle (discuss → write spec → spawn review → commit → symlinks)
+3. After spec approved, continue to Plan stage
+
+**On Discord/Telegram**: Do NOT read Design Agent's docs — spawn the agent instead.
 
 ## Lifecycle Detection
 
@@ -86,7 +95,9 @@ When user reports a bug from Idle state (no active spec/iteration):
 
 ## Key Constraints
 
-- ⛔ Main agent only routes — does not write code, create contracts, or run reviews *(except design on non-session channels)*
+- ⛔ **Do NOT read sub‑agent AGENTS.md** — you route to them, you don't become them
+  - Exception: On non‑session channels, Main Agent reads Design Agent's docs to handle design directly
+- ⛔ Main agent only routes — does not write code, create contracts, or run reviews *(except design on non‑session channels)*
 - ⛔ Phase transitions require human confirmation
 - ⛔ State is in files (`workspace/` symlinks + `docs/`), not conversation history
 
@@ -94,4 +105,4 @@ When user reports a bug from Idle state (no active spec/iteration):
 
 Configure agents in `openclaw.json`, see project's `openclaw.json` for reference.
 
-**Version**: 2.2.0
+**Version**: 2.2.1

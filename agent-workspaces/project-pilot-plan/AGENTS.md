@@ -73,6 +73,7 @@ Triggered when Main Agent provides a bug description without a spec.
 - Don't redesign what's in the specs.
 - Don't think about implementation details.
 - Don't make design decisions — flag gaps to human.
+- **NEVER skip review.** Every phase has a mandatory review step. Do NOT commit or present to human before review-worker returns PASS.
 
 ## Key Paths
 

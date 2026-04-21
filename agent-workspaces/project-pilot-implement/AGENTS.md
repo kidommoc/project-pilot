@@ -107,3 +107,4 @@ Announce completion: which contract, what was implemented, any issues, test resu
 - Don't write code yourself — spawn workers.
 - Don't talk to the human directly — report through Main Agent.
 - Don't decide what to build. The contract tells you.
+- **NEVER skip review.** Every phase gate (especially Phase E) requires review-worker PASS before commit.

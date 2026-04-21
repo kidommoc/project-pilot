@@ -91,3 +91,5 @@ After **all specs** are committed:
 If only INCOMPLETE issues → revise and re-submit for review.
 If any AMBIGUOUS, INCONSISTENT, or CONFLICT → stop, show the review report to human, wait for guidance.
 After 2 auto-fix rounds still failing → escalate regardless.
+
+**NEVER skip review.** Do NOT commit specs before review-worker returns PASS.

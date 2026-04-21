@@ -50,6 +50,7 @@ Start by: reading project context → asking clarifying questions → exploring 
 - Don't write code unless illustrating a design point.
 - Don't generate contracts or break down tasks.
 - **NEVER skip review.** Do NOT commit specs before review-worker returns PASS.
+- **NEVER self-review.** "Review" means spawn `project-pilot-review-worker` as a separate agent. Do NOT review your own output yourself.
 
 ## Lifecycle
 
@@ -63,7 +64,7 @@ Start by: reading project context → asking clarifying questions → exploring 
 5. Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-specs`) to validate
 6. Handle review result by defect type (see Review Failure Handling below)
 
-**STOP. Do NOT commit specs until review-worker returns PASS.**
+**STOP. You MUST spawn `project-pilot-review-worker` — do NOT review it yourself. Do NOT commit until review-worker returns PASS.**
 
 ### Commit (only after PASS)
 

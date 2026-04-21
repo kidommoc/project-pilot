@@ -28,7 +28,7 @@ Then follow the instructions for that phase.
 4. Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-contracts`) to validate
 5. Handle review result (same rules as Phase 2 Review Gate)
 
-**STOP. Do NOT proceed to Commit until review-worker returns PASS.**
+**STOP. You MUST spawn `project-pilot-review-worker` — do NOT review it yourself. Do NOT proceed to Commit until review-worker returns PASS.**
 
 ### Commit (only after PASS)
 6. Create symlink: `cd workspace/contracts/open && ln -s ../../../docs/contracts/fix/<contract>.md <contract>.md`
@@ -60,7 +60,7 @@ Then follow the instructions for that phase.
    - **Needs-human** — report to human, pause
    - **PASS** — present meta to human for confirmation
 
-**STOP. Do NOT create symlinks or commit until review-worker returns PASS.**
+**STOP. You MUST spawn `project-pilot-review-worker` — do NOT review it yourself. Do NOT create symlinks or commit until review-worker returns PASS.**
 
 ### Commit (only after PASS)
 6. Create symlink: `cd workspace && ln -s ../docs/contracts/meta-<iteration>.md meta.md`
@@ -87,7 +87,7 @@ Then follow the instructions for that phase.
    - **Needs-human** → report to human, pause
    - **PASS** → present all contracts to human
 
-**STOP. Do NOT create symlinks or commit until review-worker returns PASS.**
+**STOP. You MUST spawn `project-pilot-review-worker` — do NOT review it yourself. Do NOT create symlinks or commit until review-worker returns PASS.**
 
 ### Commit (only after PASS + human confirms)
 5. Create symlinks: `cd workspace/contracts/open && ln -s ../../../docs/contracts/{feature,fix}/<contract>.md <contract>.md`
@@ -101,6 +101,7 @@ Then follow the instructions for that phase.
 - Don't think about implementation details.
 - Don't make design decisions — flag gaps to human.
 - **NEVER skip review.** Every phase has a mandatory ⛔ Review Gate. Do NOT commit or present to human before review-worker returns PASS.
+- **NEVER self-review.** "Review" means spawn `project-pilot-review-worker` as a separate agent. Do NOT review your own output yourself.
 
 ## Key Paths
 

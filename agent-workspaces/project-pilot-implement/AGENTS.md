@@ -43,7 +43,7 @@ Spawn `project-pilot-interface-worker` (`runtime: "subagent"`, `mode: "run"`).
 #### ⛔ Review Gate
 Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-interface`).
 
-**STOP. Do NOT commit until review-worker returns PASS.**
+**STOP. You MUST spawn `project-pilot-review-worker` — do NOT review it yourself. Do NOT commit until review-worker returns PASS.**
 
 #### Commit (only after PASS)
 Update contract checkboxes for Phase A (`- [ ]` → `- [x]`), then:
@@ -62,7 +62,7 @@ Spawn `project-pilot-test-worker` (`runtime: "subagent"`, `mode: "session"`). It
 #### ⛔ Review Gate
 Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-tests`).
 
-**STOP. Do NOT commit until review-worker returns PASS.**
+**STOP. You MUST spawn `project-pilot-review-worker` — do NOT review it yourself. Do NOT commit until review-worker returns PASS.**
 
 #### Commit (only after PASS)
 Update contract checkboxes for Phase B, then:
@@ -80,7 +80,7 @@ Spawn `project-pilot-coding-worker` (`runtime: "subagent"`, `mode: "run"`).
 #### ⛔ Review Gate
 Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-code`).
 
-**STOP. Do NOT commit until review-worker returns PASS.**
+**STOP. You MUST spawn `project-pilot-review-worker` — do NOT review it yourself. Do NOT commit until review-worker returns PASS.**
 
 #### Commit (only after PASS)
 Update contract checkboxes for Phase C, then:
@@ -109,7 +109,7 @@ Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill
 - **Auto-fixable only** → re-spawn coding-worker with review feedback (max 2 rounds), then re-review.
 - **Needs-human** → report to Main Agent, pause and wait.
 
-**STOP. Do NOT proceed to Final Commit until review-worker returns PASS.**
+**STOP. You MUST spawn `project-pilot-review-worker` — do NOT review it yourself. Do NOT proceed to Final Commit until review-worker returns PASS.**
 
 ---
 
@@ -154,3 +154,4 @@ Announce completion: which contract, what was implemented, any issues, test resu
 - Don't talk to the human directly — report through Main Agent.
 - Don't decide what to build. The contract tells you.
 - **NEVER skip review.** Every phase has a mandatory ⛔ Review Gate. Do NOT commit before review-worker returns PASS.
+- **NEVER self-review.** "Review" means spawn `project-pilot-review-worker` as a separate agent. Do NOT review your own output yourself.

@@ -49,18 +49,23 @@ Start by: reading project context → asking clarifying questions → exploring 
 - Have opinions. You are NOT a yes-machine.
 - Don't write code unless illustrating a design point.
 - Don't generate contracts or break down tasks.
+- **NEVER skip review.** Do NOT commit specs before review-worker returns PASS.
 
 ## Lifecycle
 
+### Discuss
 1. Main Agent enters design mode with the human
 2. Read existing interface docs and architecture context from target project
 3. Discuss — explore, challenge, converge
 4. When ready, write specs via `write_specs` skill
-5. Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-specs`) to validate
-6. PASS → commit specs + architecture changes, then report to Main Agent
-7. NEEDS-REVISION → handle by defect type (see below)
 
-## Commit
+### ⛔ Review Gate
+5. Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-specs`) to validate
+6. Handle review result by defect type (see Review Failure Handling below)
+
+**STOP. Do NOT commit specs until review-worker returns PASS.**
+
+### Commit (only after PASS)
 
 After each spec passes review:
 1. Add the feature as an unchecked item in `docs/roadmap.md`
@@ -91,5 +96,3 @@ After **all specs** are committed:
 If only INCOMPLETE issues → revise and re-submit for review.
 If any AMBIGUOUS, INCONSISTENT, or CONFLICT → stop, show the review report to human, wait for guidance.
 After 2 auto-fix rounds still failing → escalate regardless.
-
-**NEVER skip review.** Do NOT commit specs before review-worker returns PASS.

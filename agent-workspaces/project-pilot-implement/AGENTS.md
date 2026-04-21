@@ -33,49 +33,95 @@ Record the current commit hash as the squash base:
 SQUASH_BASE=$(git rev-parse HEAD)
 ```
 
+---
+
 ### Phase A: Interface Definition
-Spawn `project-pilot-interface-worker` (`runtime: "subagent"`, `mode: "run"`) → review → PASS → **commit**:
+
+#### Work
+Spawn `project-pilot-interface-worker` (`runtime: "subagent"`, `mode: "run"`).
+
+#### ⛔ Review Gate
+Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-interface`).
+
+**STOP. Do NOT commit until review-worker returns PASS.**
+
+#### Commit (only after PASS)
+Update contract checkboxes for Phase A (`- [ ]` → `- [x]`), then:
 ```
 git add -A && git commit --author="Openclaw <claw@openclaw.local>" -m "wip: interface - <contract-name>"
 ```
 
+---
+
 ### Phase B: Test Writing (RED)
+
+#### Work
 Spawn `project-pilot-test-worker` (`runtime: "subagent"`, `mode: "session"`). It writes tests, confirms RED state, reports back.
-Review tests → PASS → **commit**:
+**Keep the test-worker session alive.**
+
+#### ⛔ Review Gate
+Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-tests`).
+
+**STOP. Do NOT commit until review-worker returns PASS.**
+
+#### Commit (only after PASS)
+Update contract checkboxes for Phase B, then:
 ```
 git add -A && git commit --author="Openclaw <claw@openclaw.local>" -m "wip: tests - <contract-name>"
 ```
-**Keep the test-worker session alive.**
+
+---
 
 ### Phase C: Implementation (GREEN)
-Spawn `project-pilot-coding-worker` (`runtime: "subagent"`, `mode: "run"`) → review → PASS → **commit**:
+
+#### Work
+Spawn `project-pilot-coding-worker` (`runtime: "subagent"`, `mode: "run"`).
+
+#### ⛔ Review Gate
+Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-code`).
+
+**STOP. Do NOT commit until review-worker returns PASS.**
+
+#### Commit (only after PASS)
+Update contract checkboxes for Phase C, then:
 ```
 git add -A && git commit --author="Openclaw <claw@openclaw.local>" -m "wip: impl - <contract-name>"
 ```
 
+---
+
 ### Phase D: Test Verification
+
 Send a message to the **existing test-worker session**: "Coding is complete. Run the full test suite and report results."
 - **All GREEN** → proceed to Phase E.
 - **Failures** → test-worker diagnoses. If implementation bug → re-run coding-worker with diagnosis → repeat D. If test issue → test-worker fixes and re-runs. Max 3 rounds.
 
-### Phase E: Code Review ⛔ MANDATORY GATE
+No separate review gate — Phase E covers final code review.
+
+---
+
+### Phase E: Final Code Review
+
+#### ⛔ Review Gate (MANDATORY)
 Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-code`), passing the completed implementation.
 
 - **PASS** → proceed to Final Commit.
 - **Auto-fixable only** → re-spawn coding-worker with review feedback (max 2 rounds), then re-review.
 - **Needs-human** → report to Main Agent, pause and wait.
 
-**Phase E is mandatory. Do not skip.** If review is blocked, report and wait for human guidance.
+**STOP. Do NOT proceed to Final Commit until review-worker returns PASS.**
 
-### After Each Phase (A, B, C, D, E) — Review Handling
+---
 
-- **PASS** → update contract checkboxes (`- [ ]` → `- [x]` for completed items in that phase), commit phase work, move to next phase
-- **Auto-fixable only** → re-spawn worker with review feedback (max 2 rounds), then update checkboxes and commit
+### Review Handling (all phases)
+
+- **PASS** → commit phase work, move to next phase
+- **Auto-fixable only** → re-spawn worker with review feedback (max 2 rounds), then commit
 - **Needs-human** → report to Main Agent, pause and wait
 
 **Contract checkbox updates are mandatory.** The contract file is the single source of truth for what's done. Update the relevant phase's checkboxes before each phase commit.
 
-**Phase E is the final gate.** After Phase E passes and is committed, proceed to Final Commit (squash).
+---
 
 ### Final Commit (after Phase E passes)
 
@@ -107,4 +153,4 @@ Announce completion: which contract, what was implemented, any issues, test resu
 - Don't write code yourself — spawn workers.
 - Don't talk to the human directly — report through Main Agent.
 - Don't decide what to build. The contract tells you.
-- **NEVER skip review.** Every phase gate (especially Phase E) requires review-worker PASS before commit.
+- **NEVER skip review.** Every phase has a mandatory ⛔ Review Gate. Do NOT commit before review-worker returns PASS.

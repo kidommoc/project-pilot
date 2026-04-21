@@ -13,25 +13,35 @@ You are spawned as one-shot (`mode: "run"`). On startup, determine your phase:
 
 Then follow the instructions for that phase.
 
+---
+
 ## Phase 0: Bugfix
 
-Triggered when Main Agent provides a bug description without a spec.
-
+### Write
 1. Determine patch version (bump PATCH from latest tag, or ask human)
 2. **Create iteration branch**: `git checkout -b iteration/v<patch-version>` from `main`
 3. Write a single fix-contract to `docs/contracts/fix/` using template `references/fix-contract.md`
    - No spec reference needed
    - Bug description from Main Agent becomes the Bug/Expected sections
+
+### ⛔ Review Gate
 4. Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-contracts`) to validate
-5. Handle review result (same as Phase 2)
+5. Handle review result (same rules as Phase 2 Review Gate)
+
+**STOP. Do NOT proceed to Commit until review-worker returns PASS.**
+
+### Commit (only after PASS)
 6. Create symlink: `cd workspace/contracts/open && ln -s ../../../docs/contracts/fix/<contract>.md <contract>.md`
 7. Create a minimal meta in `docs/contracts/meta-<iteration>.md` listing the single fix-contract
 8. Create symlink: `cd workspace && ln -s ../docs/contracts/meta-<iteration>.md meta.md`
 9. Commit: `git commit --author="Openclaw <claw@openclaw.local>" -m "plan: bugfix v<patch-version>"`
 10. Done — Main Agent picks up from Ready state
 
+---
+
 ## Phase 1: Meta
 
+### Write
 1. **Create iteration branch**: `git checkout -b iteration/v<version>` from `main`
    - Version number comes from the spec or is determined with human input
 2. Read all symlinks in `workspace/specs/` (each points to a spec in `docs/specs/`)
@@ -42,17 +52,26 @@ Triggered when Main Agent provides a bug description without a spec.
    - Not too granular (avoid 1-file), not too large (avoid >1 day of work)
    - Every contract traces back to its source spec
    - Spec has gaps → note in meta, flag to human
+
+### ⛔ Review Gate
 4. Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-meta`) to validate the meta
 5. Handle review result:
    - **Auto-fixable** — revise meta, re-review (max 2 rounds)
    - **Needs-human** — report to human, pause
    - **PASS** — present meta to human for confirmation
+
+**STOP. Do NOT create symlinks or commit until review-worker returns PASS.**
+
+### Commit (only after PASS)
 6. Create symlink: `cd workspace && ln -s ../docs/contracts/meta-<iteration>.md meta.md`
 7. Commit meta: `git commit --author="Openclaw <claw@openclaw.local>" -m "plan: meta for <iteration-name>"` (first commit on iteration branch)
 8. Done — Main Agent re-spawns you after human confirms
 
+---
+
 ## Phase 2: Contracts
 
+### Write
 1. Read confirmed meta contract
 2. Write each contract to `docs/contracts/feature/` or `docs/contracts/fix/` (based on type)
    - File name MUST match the meta table's markdown link target
@@ -60,20 +79,28 @@ Triggered when Main Agent provides a bug description without a spec.
    - One contract per file
    - Parallel when contracts have no dependencies
    - Write fails → retry once, then report to human
+
+### ⛔ Review Gate
 3. Spawn `project-pilot-review-worker` (`runtime: "subagent"`, `mode: "run"`, skill: `review-contracts`) to validate all contracts
 4. Handle review result:
    - **Auto-fixable** → revise affected contracts with feedback (max 2 rounds)
    - **Needs-human** → report to human, pause
    - **PASS** → present all contracts to human
-5. Human confirms → create symlinks: `cd workspace/contracts/open && ln -s ../../../docs/contracts/{feature,fix}/<contract>.md <contract>.md`
+
+**STOP. Do NOT create symlinks or commit until review-worker returns PASS.**
+
+### Commit (only after PASS + human confirms)
+5. Create symlinks: `cd workspace/contracts/open && ln -s ../../../docs/contracts/{feature,fix}/<contract>.md <contract>.md`
 6. Commit all contracts: `git commit --author="Openclaw <claw@openclaw.local>" -m "plan: contracts for <iteration-name>"`
+
+---
 
 ## Boundaries
 
 - Don't redesign what's in the specs.
 - Don't think about implementation details.
 - Don't make design decisions — flag gaps to human.
-- **NEVER skip review.** Every phase has a mandatory review step. Do NOT commit or present to human before review-worker returns PASS.
+- **NEVER skip review.** Every phase has a mandatory ⛔ Review Gate. Do NOT commit or present to human before review-worker returns PASS.
 
 ## Key Paths
 

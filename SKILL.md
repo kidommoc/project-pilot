@@ -52,13 +52,13 @@ State is derived purely from the filesystem. Check in order:
 
 | # | Condition | Stage | Action |
 |---|-----------|-------|--------|
-| 1 | No `PROJECT.AGENT.md` | Init | Spawn `project-pilot-init` |
+| 1 | No `PROJECT.AGENT.md` | Init | Spawn `project-pilot-init` (`runtime: "subagent"`, `mode: "run"`) |
 | 2 | `workspace/specs/` empty | Idle | Await Design trigger (see Session Compatibility for routing) or Bugfix trigger |
-| 3 | `workspace/specs/` has symlinks, no `workspace/meta.md` | Plan (meta) | Spawn `project-pilot-plan` |
-| 4 | `workspace/meta.md` exists, `workspace/contracts/open/` empty | Plan (contracts) | Spawn `project-pilot-plan` (Phase 2) |
+| 3 | `workspace/specs/` has symlinks, no `workspace/meta.md` | Plan (meta) | Spawn `project-pilot-plan` (`runtime: "subagent"`, `mode: "run"`) |
+| 4 | `workspace/meta.md` exists, `workspace/contracts/open/` empty | Plan (contracts) | Spawn `project-pilot-plan` (`runtime: "subagent"`, `mode: "run"`) |
 | 5 | `workspace/contracts/in_progress/` has symlink | Implementing | Do NOT spawn — Implement Agent is running |
-| 6 | `workspace/contracts/open/` has symlinks, `in_progress/` empty | Ready | Pick next contract (by priority/deps or ask human), `mv` symlink from `open/` to `in_progress/`, spawn `project-pilot-implement` |
-| 7 | `workspace/specs/` has symlinks, `open/` and `in_progress/` both empty | Done | Spawn `project-pilot-cicd` |
+| 6 | `workspace/contracts/open/` has symlinks, `in_progress/` empty | Ready | Pick next contract (by priority/deps or ask human), `mv` symlink from `open/` to `in_progress/`, spawn `project-pilot-implement` (`runtime: "subagent"`, mode per Session Compatibility) |
+| 7 | `workspace/specs/` has symlinks, `open/` and `in_progress/` both empty | Done | Spawn `project-pilot-cicd` (`runtime: "subagent"`, `mode: "run"`) |
 
 ### L0 Responsibilities
 

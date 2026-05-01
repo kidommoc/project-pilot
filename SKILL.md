@@ -33,8 +33,8 @@ Check `channel` or `provider` in inbound metadata. Fallback:
 
 | Agent | Session supported | Not supported |
 |-------|------------------|---------------|
-| Design | Spawn `project-pilot-design` (session, thread) — report session key to user | **Do NOT spawn** — Main Agent handles design directly (see "Design on non‑session channels" below) |
-| Implement | Spawn session | Spawn `mode: "run"` (Phase A→E in one turn) |
+| Design | Discord/Telegram: spawn `project-pilot-design` (`runtime: "subagent"`, `mode: "run"`) — one-shot, re-spawn for feedback | **Do NOT spawn** — Main Agent handles design directly (see "Design on non‑session channels" below) |
+| Implement | Spawn session (`runtime: "subagent"`, `mode: "session"`) | Spawn `mode: "run"` (Phase A→E in one turn) |
 | Test Worker | Inherits parent mode | Inherits parent mode |
 
 ### Design on non‑session channels
@@ -100,6 +100,20 @@ When user reports a bug from Idle state (no active spec/iteration):
 - ⛔ Main agent only routes — does not write code, create contracts, or run reviews *(except design on non‑session channels)*
 - ⛔ Phase transitions require human confirmation
 - ⛔ State is in files (`workspace/` symlinks + `docs/`), not conversation history
+
+## Spawn Instructions
+
+When spawning any agent, use `sessions_spawn` with these parameters:
+
+```yaml
+runtime: "subagent"    # Always use subagent, NOT acp (Discord doesn't support thread-bound ACP)
+mode: "run" | "session"  # See Session Compatibility table above
+agentId: "<agent-id>"   # From Agent Registry
+cwd: "~/.openclaw/projects/project-pilot"
+task: "<task description>"
+```
+
+**Critical**: Do NOT use `runtime: "acp"` — Discord channel does not support thread-bound ACP sessions.
 
 ## Configuration
 

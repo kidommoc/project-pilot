@@ -89,18 +89,25 @@ For new projects: use language-idiomatic defaults. Keep it minimal — conventio
 
 ### 7. Project-Type-Specific Init
 
-Detect or ask project type, then apply type-specific initialization.
-See `references/project-types/` for type templates.
+**Step 1: Detect type** from filesystem or ask user.
 
-**Prefer external tooling when available:**
-- Node.js/Web → `npm create vite@latest`, `npx create-next-app`, etc.
-- Python → `poetry new`, `uv init`
-- Rust → `cargo init`
-- Go → `go mod init`
+**Step 2: Read the corresponding template file** from `references/project-types/`:
 
-After external tool runs, supplement with project-pilot structure (docs/, workspace/, etc.).
+| Type | Template File | External Tool |
+|------|---------------|---------------|
+| OpenClaw Plugin | `references/project-types/openclaw-plugin.md` | Manual |
+| CLI Tool | `references/project-types/cli-tool.md` | Manual |
+| Python Package | `references/project-types/python-package.md` | `poetry new`, `uv init` |
+| Web App | `references/project-types/web-app.md` | `npm create vite@latest`, etc. |
 
-If external tools aren't applicable or project already has code, skip this step.
+**Step 3: Follow the template exactly.** The template defines:
+- Directory structure to create
+- Special files (e.g., `openclaw.plugin.json` for plugins)
+- Deployment steps
+
+**Do NOT improvise the structure.** Read the template file and follow it precisely.
+
+If the type is not in the table, use the generic structure from Step 3 and skip this step.
 
 ### 8. Initialize CHANGELOG.md
 

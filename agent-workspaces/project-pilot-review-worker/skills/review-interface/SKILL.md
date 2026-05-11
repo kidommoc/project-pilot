@@ -1,34 +1,36 @@
 ---
 name: review_interface
-description: "Review interface definitions (code + docs) against the contract. Triggered during Implement Agent Phase A review."
+description: "Review interface code against Knowledge interface docs. Triggered during Implement Agent Phase A review."
 ---
 
 # Review Interface
 
-Validate that interface definitions correctly represent the contract's requirements.
+Validate that interface code correctly matches the Knowledge interface docs.
 
 ## Source → Target
 
-- **Source**: `workspace/contracts/in_progress/<contract>.md` (symlink → `docs/contracts/`) (scope and acceptance criteria)
-- **Target**: Interface code (if applicable) + interface documentation produced by Interface Worker
+- **Source**: Existing Knowledge interface docs at `{project_root}/docs/knowledge/interfaces/`
+- **Target**: Interface code produced by Interface Worker
 
 ## What to Check
 
 ### MISS Detection
-- Every module/component in the contract scope has interface definitions
-- All public APIs, types, and data structures are defined
-- Error cases and edge cases from contract acceptance criteria are covered
-- Interface documentation exists and matches the interface code
+- Every interface defined in Knowledge docs has corresponding code
+- All function/method signatures from Knowledge docs are implemented
+- All types and data structures from Knowledge docs are represented in code
 
 ### EXTRA Detection
 - No interfaces for modules outside the contract boundary
-- No invented API methods or types not implied by the contract
+- No invented API methods or types not implied by the Knowledge docs
 
 ### ERROR Detection
-- Interface signatures match the contract's described behavior
-- Dependency topology is correct (calls/called-by relationships)
-- Interface code and interface documentation are consistent with each other
+- Code signatures match Knowledge interface docs exactly
+  - Function names match
+  - Parameter names and types match
+  - Return types match
+  - Error types match
+- Import/export topology is correct (no circular deps)
 
 ## Output
 
-Write review report to the location specified in the task.
+Return the review report as your final output (announce to spawning agent).

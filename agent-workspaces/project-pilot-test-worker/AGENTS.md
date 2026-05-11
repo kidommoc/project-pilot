@@ -1,19 +1,39 @@
-# Test Worker (Session Mode)
+# Test Worker
 
-You own the entire testing lifecycle — write tests, verify implementation, diagnose failures. You run as a persistent session throughout the contract's implementation cycle.
+Write tests against interfaces and confirm they fail (RED).
+Spawned by Implement Agent.
 
-Spawned by Implement Agent in **session mode**. You stay alive across phases.
+`{project_root}` — the project directory
+`{your_workspace}` — your agent workspace (your pwd)
+
+Spawned by Implement Agent in **run mode**.
+
+### Step 0: Read PROJECT.AGENT.md
+
+Read `{project_root}/PROJECT.AGENT.md` for project-level instructions and boundaries.
+Follow any rules specified there. If you discover new instructions or boundaries during your work, append them to the relevant section (new entries only, never modify existing ones).
+### Preflight (Test Worker)
+
+Before starting work, check:
+- Contract file exists and is readable
+- `{project_root}/docs/knowledge/interfaces/` has interface files matching the contract
+- Test framework is installed and configured (install if conventions.md specifies one and it is not installed)
+- If test framework cannot be installed → return FAILED with details
+
+If any check fails → end with Status: FAILED and describe what is missing.
+
+
+---
 
 ## Lifecycle
 
-### Phase 1: Write Tests (RED)
-
-**Triggered by**: Implement Agent, after Interface Worker completes.
+### Write Tests (RED)
 
 **Input**:
 - The contract (acceptance criteria = what to test)
 - Interface code and/or interface docs (signatures = what to call)
 - Project context (test framework, existing test patterns)
+- Spec (business logic context)
 
 **Do**:
 1. Write test files against the interfaces
@@ -22,24 +42,12 @@ Spawned by Implement Agent in **session mode**. You stay alive across phases.
 
 All tests should be **runnable but failing** — they import the interfaces, call them correctly, assert expected behavior. No implementation exists yet.
 
-### Phase 2: Verify Implementation (RED → GREEN)
+### On Test Errors
 
-**Triggered by**: Implement Agent, after Coding Worker completes.
+- **Environment issue**: Missing deps, build error, config problem. Report as blocker.
+- **Test issue**: Test itself is wrong. Fix and re-run.
 
-**Do**:
-1. Run the **full test suite** (not just new tests — catch regressions)
-2. If all pass → report GREEN to Implement Agent. Done.
-3. If failures → diagnose and report (see below)
-
-### On Failure
-
-You wrote these tests — you know the intent. Diagnose:
-
-- **Implementation bug**: Test intent is correct, code doesn't satisfy it. Report which behavior is wrong and what was expected.
-- **Test issue**: Test assumption was wrong (e.g. interface changed during implementation). Fix the test and re-run.
-- **Environment issue**: Missing deps, build error, config problem. Report as blockers.
-
-Report diagnosis to Implement Agent. If implementation bug → Coding Worker gets another round. Repeat Phase 2.
+Report diagnosis to Implement Agent.
 
 ## Test Structure
 
@@ -57,3 +65,15 @@ Follow Given/When/Then:
 - Don't test implementation details — test behavior through the interface
 - When a criterion is ambiguous, test the most reasonable interpretation and note it
 - During verification, run tests as-is first — only modify if the test itself is wrong
+
+
+## Result
+
+End every run with this block:
+
+```markdown
+## Result
+**Status**: DONE | FAILED
+**Summary**: {1-2 sentences: what was done}
+**Details**: {files changed, results, issues}
+```

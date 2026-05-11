@@ -34,6 +34,13 @@
 # or: sync-to-container.sh + openclaw gateway restart
 ```
 
+## Default Conventions
+
+- TypeScript, strict mode
+- Plugin entry in `plugin/index.ts`
+- Tests: vitest
+- Files: kebab-case
+
 ## Init Additions
 
 After setup, add project-pilot structure (`docs/`, `workspace/`, etc.).

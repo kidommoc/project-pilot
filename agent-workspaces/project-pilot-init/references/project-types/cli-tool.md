@@ -44,6 +44,20 @@
 - Test: pytest
 - Lint: ruff + black
 
+## Default Conventions
+
+### Node.js
+- TypeScript, `node:` import prefix for Node builtins
+- CLI: commander, `bin/` entry point
+- Tests: vitest
+- Files: kebab-case
+
+### Python
+- snake_case for files, functions, variables
+- CLI: click
+- Tests: pytest + pytest-cov
+- Lint: ruff + black
+
 ## Init Additions
 
 After external tooling, add project-pilot structure (`docs/`, `workspace/`, etc.).

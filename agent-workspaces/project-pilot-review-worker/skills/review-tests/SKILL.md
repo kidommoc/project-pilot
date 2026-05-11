@@ -9,7 +9,7 @@ Validate that test cases correctly cover the contract's acceptance criteria.
 
 ## Source → Target
 
-- **Source**: `workspace/contracts/in_progress/<contract>.md` (symlink → `docs/contracts/`) (acceptance criteria) + interface docs (`docs/interfaces/`)
+- **Source**: `workspace/contracts/in_progress/<contract>.md` (symlink → `docs/contracts/`) (acceptance criteria) + interface docs (`docs/knowledge/interfaces/`)
 - **Target**: Test files produced by Test Worker
 
 ## What to Check
@@ -18,6 +18,7 @@ Validate that test cases correctly cover the contract's acceptance criteria.
 - Every acceptance criterion has at least one corresponding test
 - Edge cases mentioned in the contract are tested
 - Error/failure paths are tested
+- _(optional)_ All public methods declared in `docs/knowledge/interfaces/*.md` have corresponding tests
 
 ### EXTRA Detection
 - No tests for behavior outside the contract scope
@@ -37,4 +38,4 @@ If the contract includes a criteria-to-test mapping table, verify it:
 
 ## Output
 
-Write review report to the location specified in the task.
+Return the review report as your final output (announce to spawning agent).

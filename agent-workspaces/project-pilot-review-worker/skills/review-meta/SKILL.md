@@ -9,7 +9,7 @@ Validate that the meta contract correctly decomposes specs into contracts.
 
 ## Source → Target
 
-- **Source**: `docs/specs/*.spec.md`
+- **Source**: `docs/specs/*.md` + `docs/knowledge/architecture.md` + `docs/knowledge/journey-map.md` + `docs/knowledge/conventions.md`
 - **Target**: Meta contract (produced by Plan Agent)
 
 ## What to Check
@@ -38,6 +38,23 @@ Validate that the meta contract correctly decomposes specs into contracts.
 - No overlaps — no two contracts claim the same scope
 - No orphans — every contract maps to at least one spec
 
+### Architecture Integrity (via architecture.md)
+- No single contract spans modules that architecture.md defines as independent
+- Contract boundaries respect module ownership per architecture
+- Dependency order between contracts is consistent with architecture's module dependency graph
+
+### Journey Coverage (via journey-map.md)
+- All key journeys in journey-map are covered by at least one contract
+- Critical paths (marked as priority in journey-map) have corresponding contracts
+
+### Convention Compliance (via conventions.md)
+- Contract structure follows conventions.md format
+- Naming conventions from project conventions are followed in contract names
+
+### Knowledge Ref Accuracy
+- If contracts reference Knowledge documents in Boundary Reads, verify those paths exist in `docs/knowledge/`
+- Catch stale or renamed Knowledge references early
+
 ## Output
 
-Write review report to the location specified in the task.
+Return the review report as your final output (announce to spawning agent).

@@ -49,6 +49,14 @@
 | Fullstack | Next.js App Router + Prisma |
 | Dashboard | React + TanStack Query + shadcn/ui |
 
+## Default Conventions
+
+- TypeScript throughout
+- React components: PascalCase (`UserProfile.tsx`)
+- Hooks: `useXxx` (`useAuth.ts`)
+- Files: kebab-case (`login-form.tsx`)
+- Tests: vitest, colocated or `tests/`
+
 ## Init Additions
 
 After external tooling, add project-pilot structure (`docs/`, `workspace/`, etc.).

@@ -1,6 +1,6 @@
 ---
 name: review_audit
-description: "Full iteration audit for CI/CD phase. Validates all contracts were correctly completed."
+description: "Full iteration audit for CI/CD phase. Validates all contracts were correctly completed and Knowledge is consistent with code."
 ---
 
 # Review Audit
@@ -21,7 +21,7 @@ Comprehensive audit of a completed iteration before release.
 - All acceptance criteria are checked off
 
 ### Commit History
-- Each contract has a single squashed commit with format `impl: <contract-name>` (after Phase E squash)
+- Each contract has a single squashed commit with format `impl: <contract-name>`
 - WIP commits (`wip: interface/tests/impl - <name>`) are allowed on iteration branch but should be squashed before merge to main
 - No rogue commits outside contract scope
 
@@ -43,6 +43,12 @@ Comprehensive audit of a completed iteration before release.
 - Every spec requirement is traceable to a completed contract
 - No spec requirements were dropped without documentation
 
+### Knowledge Consistency (NEW)
+- Run: `git diff -- docs/knowledge/` to check if Knowledge docs were modified during implementation
+- If diff is non-empty: report which Knowledge files changed and why. Flag to human for review if changes were made without corresponding Design phase update.
+- If diff is empty: note that Knowledge is stable (no divergence between design and implementation)
+
 ## Output
 
-Write audit report to the location specified in the task (typically used by CI/CD Agent).
+Return the audit report as your final output (announce to spawning agent).
+Include Knowledge consistency status as a dedicated section.

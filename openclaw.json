@@ -11,7 +11,9 @@
           "project-pilot-interface-worker",
           "project-pilot-test-worker",
           "project-pilot-coding-worker",
-          "project-pilot-review-worker"
+          "project-pilot-review-worker",
+          "project-pilot-contract-writer",
+          "project-pilot-knowledge-maintainer"
         ],
         "maxSpawnDepth": 2,
         "maxChildrenPerAgent": 6
@@ -19,15 +21,17 @@
       "skipBootstrap": true
     },
     "list": [
-      { "id": "project-pilot-init", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-init" },
-      { "id": "project-pilot-design", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-design" },
-      { "id": "project-pilot-plan", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-plan" },
-      { "id": "project-pilot-implement", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-implement" },
-      { "id": "project-pilot-cicd", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-cicd" },
-      { "id": "project-pilot-interface-worker", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-interface-worker" },
-      { "id": "project-pilot-test-worker", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-test-worker" },
-      { "id": "project-pilot-coding-worker", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-coding-worker" },
-      { "id": "project-pilot-review-worker", "workspace": "~/.openclaw/projects/project-pilot/agent-workspaces/project-pilot-review-worker" }
+      { "id": "project-pilot-init", "workspace": "~/.openclaw/skills/project-pilot/agent-workspaces/project-pilot-init" },
+      { "id": "project-pilot-design", "workspace": "~/.openclaw/skills/project-pilot/agent-workspaces/project-pilot-design" },
+      { "id": "project-pilot-plan", "workspace": "~/.openclaw/skills/project-pilot/agent-workspaces/project-pilot-plan" },
+      { "id": "project-pilot-implement", "workspace": "~/.openclaw/skills/project-pilot/agent-workspaces/project-pilot-implement" },
+      { "id": "project-pilot-cicd", "workspace": "~/.openclaw/skills/project-pilot/agent-workspaces/project-pilot-cicd" },
+      { "id": "project-pilot-interface-worker", "workspace": "~/.openclaw/skills/project-pilot/agent-workspaces/project-pilot-interface-worker" },
+      { "id": "project-pilot-test-worker", "workspace": "~/.openclaw/skills/project-pilot/agent-workspaces/project-pilot-test-worker" },
+      { "id": "project-pilot-coding-worker", "workspace": "~/.openclaw/skills/project-pilot/agent-workspaces/project-pilot-coding-worker" },
+      { "id": "project-pilot-review-worker", "workspace": "~/.openclaw/skills/project-pilot/agent-workspaces/project-pilot-review-worker" },
+      { "id": "project-pilot-contract-writer", "workspace": "~/.openclaw/skills/project-pilot/agent-workspaces/project-pilot-contract-writer" },
+      { "id": "project-pilot-knowledge-maintainer", "workspace": "~/.openclaw/skills/project-pilot/agent-workspaces/project-pilot-knowledge-maintainer" }
     ]
   }
 }

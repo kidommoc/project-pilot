@@ -1,50 +1,29 @@
-# PROJECT.AGENT.md Template
-
-```markdown
 # {Project Name}
 
 > {One-sentence description}
 
-## Tech Stack
+## Instructions
 
-- **Language**: {language} {version}
-- **Framework**: {framework} (if applicable)
-- **Key Dependencies**: {list}
-- **Package Manager**: {npm/pip/go mod/etc.}
+{Instructions for how to build, test, run, and write code. Positive commands.}
 
-## Conventions
+- `{command}` — {description}
+- {naming convention}
+- {coding standard}
 
-### Naming
-- **Files**: {kebab-case / snake_case / camelCase}
-- **Functions/Methods**: {camelCase / snake_case}
-- **Types/Classes**: {PascalCase}
-- **Constants**: {UPPER_SNAKE_CASE}
+## Boundaries
 
-### Directory Structure
+{Constraints and anti-patterns. Negative rules.}
+
+- Do not {action}
+- Do not {action}
+
+## Contribution
+
+Any agent may **append** new entries to Instructions or Boundaries — never modify or delete existing ones. Always add after the last existing entry. Sign each addition with your agentId:
+
 ```
-src/           ← source code
-tests/         ← test files
-docs/          ← documentation
-scripts/       ← helper scripts
+<!-- agentId YYYY-MM-DD -->
+- {rule}
 ```
 
-### Patterns
-- {e.g. "Services are classes with dependency injection"}
-- {e.g. "All async functions return Promises, no callbacks"}
-
-## Testing
-
-- **Framework**: {jest / pytest / go test / etc.}
-- **File Pattern**: `{*.test.ts / test_*.py / *_test.go}`
-- **Run**: `{npm test / pytest / go test ./...}`
-
-## Build & Run
-
-- **Build**: `{command}`
-- **Run**: `{command}`
-- **Deploy**: `{command or "see scripts/deploy.sh"}`
-
-## Notes
-
-{Anything else workers should know about this project}
-```
+Human consolidates duplicates and promotes common patterns periodically.

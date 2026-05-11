@@ -1,0 +1,73 @@
+flowchart TD
+    subgraph L0["L0 — 路由层"]
+        FS["读取 workspace/ 文件系统状态"]
+        DECIDE{"确定当前阶段"}
+        SPAWN["spawn 对应 L1 agent"]
+    end
+
+    FS --> DECIDE
+    DECIDE --> SPAWN
+
+    subgraph L1_Design["L1 — Design Agent"]
+        D1["讨论需求"]
+        D2["写 spec"]
+        D3["更新知识库"]
+        D4{{"🤝 你确认 spec?"}}
+        D1 --> D2 --> D3 --> D4
+        D4 --"✅ 是"--> DONE_D
+        D4 --"❌ 否, 讨论修改"--> D1
+    end
+
+    subgraph L1_Plan["L1 — Plan Agent"]
+        P1["写 meta（总规划）"]
+        P2["拆合同（任务清单）"]
+        P3{{"🤝 你确认合同?"}}
+        P1 --> P2 --> P3
+        P3 --"✅ 是"--> DONE_P
+        P3 --"❌ 否, 调整"--> P1
+    end
+
+    subgraph L1_Implement["L1 — Implement Agent"]
+        direction TB
+        I1["Phase A: 写接口代码"]
+        I2["Phase B: 测试 RED"]
+        I3["Phase C: 实现 GREEN"]
+        I4["Phase D: 意图 Review"]
+        I5{{"🤝 你确认结果?"}}
+        I1 --> I2 --> I3 --> I4 --> I5
+        I5 --"✅ 是"--> DONE_I
+        I5 --"❌ 否, 重做"--> I1
+    end
+
+    subgraph L1_CICD["L1 — CI/CD Agent"]
+        C1["审计（含测试）"]
+        C2["合并分支"]
+        C3["标记版本"]
+        C4{{"🤝 你确认发布?"}}
+        C1 --> C2 --> C3 --> C4
+        C4 --"✅ 是"--> DONE_C
+        C4 --"❌ 否, 暂停"--> C1
+    end
+
+    subgraph L2["L2 — Worker / 劳动力"]
+        W1["Knowledge Maintainer"]
+        W2["Contract Writer"]
+        W3["Interface Worker"]
+        W4["Test Worker"]
+        W5["Coding Worker"]
+        W6["Review Worker"]
+    end
+
+    SPAWN --"设计阶段"--> L1_Design
+    SPAWN --"规划阶段"--> L1_Plan
+    SPAWN --"实现阶段"--> L1_Implement
+    SPAWN --"发布阶段"--> L1_CICD
+
+    L1_Design -.->|spawn| W1
+    L1_Plan -.->|spawn| W2
+    L1_Implement -.->|spawn| W3 & W4 & W5 & W6
+
+    DONE_D -->|"→ L0 循环"| FS
+    DONE_P -->|"→ L0 循环"| FS
+    DONE_I -->|"→ L0 循环"| FS
+    DONE_C -->|"→ 🎉 迭代完成"| FS

@@ -40,6 +40,14 @@
 
 Use `mcp.server.fastmcp.FastMCP` for server entry.
 
+## Default Conventions
+
+- snake_case for files, functions, variables
+- Python ^3.10
+- Tests: pytest + pytest-cov
+- Lint: ruff + black
+- Types: mypy (strict recommended)
+
 ## Init Additions
 
 After external tooling, add project-pilot structure (`docs/`, `workspace/`, etc.).
